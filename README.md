@@ -1,4 +1,4 @@
-# Data_Warehouse
+# Data
 
 Written as part of a 4<sup>th</sup> semester project in spring of 2022 for software engineering at [VIA university college](https://via.dk), campus Horsens, DK.  
 The project idea is a climate monitoring system for pharmaceutical storage from afar.
@@ -29,7 +29,7 @@ The semester project group consisted of 12 people, listed below by subgroups:
 - [Maxim Zavidei](https://github.com/Maxim-Zavidei)
 - [Reimantas Lukas Tiuninas](https://github.com/SkyKalazar)
 - [Stefan Ivov Georgiev](https://github.com/NoHop3)
-- [Yoana Kostadinova Miteva]()
+- [Yoana Kostadinova Miteva](https://github.com/YoyoMy)
 
 
 ### Author Reference
