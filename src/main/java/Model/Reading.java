@@ -18,6 +18,31 @@ public class Reading
 		this.timeStamp = timeStamp;
 	}
 	
+	public int getId()
+	{
+		return id;
+	}
+	
+	public int getRoom()
+	{
+		return room;
+	}
+	
+	public String getSensorTypeString()
+	{
+		return sensor.name();
+	}
+	
+	public int getValue()
+	{
+		return value;
+	}
+	
+	public LocalDateTime getTimeStamp()
+	{
+		return timeStamp;
+	}
+	
 	protected enum SensorType
 	{
 		Humidity, CO2, Light, Temperature
