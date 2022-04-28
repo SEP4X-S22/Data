@@ -1,4 +1,4 @@
-package Model;
+package com.Apharma.sep4.Model;
 
 import java.time.LocalDateTime;
 
