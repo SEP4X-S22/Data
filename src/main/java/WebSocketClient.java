@@ -4,6 +4,7 @@ import java.net.http.WebSocket;
 import java.nio.ByteBuffer;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
+import org.json.JSONObject;
 
 public class WebSocketClient implements WebSocket.Listener
 {
