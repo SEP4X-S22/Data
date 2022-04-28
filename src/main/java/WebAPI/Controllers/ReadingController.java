@@ -13,6 +13,7 @@ public class ReadingController
 {
   private final ReadingRepo readingRepo;
 
+
   public ReadingController(ReadingRepo readingRepo){
     this.readingRepo = readingRepo;
   }
@@ -22,8 +23,8 @@ public class ReadingController
     return readingRepo.findAll();
   }
 
-  @GetMapping("/{room}/{sensortype}")
+  @GetMapping("/{room}/{sensorType}")
   private Reading getSensorReading(@PathVariable int room, @PathVariable Reading.SensorType sensorType){
-    return readingRepo.getById(room);
+    return readingRepo.findBySensorType(sensorType).get();
   }
 }
