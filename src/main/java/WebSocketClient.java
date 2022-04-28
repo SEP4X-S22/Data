@@ -1,3 +1,6 @@
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.WebSocket;
@@ -69,7 +72,15 @@ public class WebSocketClient implements WebSocket.Listener
 	
 	public CompletionStage<?> onText(WebSocket webSocket, CharSequence data, boolean last)
 	{
-		String indented = (new JSONObject(data.toString())).toString(4);
+		String indented = null;
+		try
+		{
+			indented = (new JSONObject(data.toString())).toString(4);
+		}
+		catch (JSONException e)
+		{
+			e.printStackTrace();
+		}
 		System.out.println(indented);
 		webSocket.request(1);
 		return CompletableFuture.completedFuture("onText() completed.").thenAccept(System.out::println);
