@@ -11,20 +11,22 @@ import java.util.List;
 @RestController
 public class ReadingController
 {
-  private final ReadingRepo readingRepo;
-
-
-  public ReadingController(ReadingRepo readingRepo){
-    this.readingRepo = readingRepo;
-  }
-
-  @GetMapping("/room/reading")
-  private List<Reading> getAll(){
-    return readingRepo.findAll();
-  }
-
-  @GetMapping("/{room}/{sensorType}")
-  private Reading getSensorReading(@PathVariable int room, @PathVariable Reading.SensorType sensorType){
-    return readingRepo.findBySensorType(sensorType).get();
-  }
+	private final ReadingRepo readingRepo;
+	
+	public ReadingController(ReadingRepo readingRepo)
+	{
+		this.readingRepo = readingRepo;
+	}
+	
+	@GetMapping("/room/reading")
+	private List<Reading> getAll()
+	{
+		return readingRepo.findAll();
+	}
+	
+	@GetMapping("/{room}/{sensorType}")
+	private List<Reading> getSensorReading(@PathVariable int room, @PathVariable Reading.SensorType sensorType)
+	{
+		return readingRepo.findByRoom(room).stream().filter((reading) -> reading.getSensorType() == sensorType).toList();
+	}
 }

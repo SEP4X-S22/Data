@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface ReadingRepo extends JpaRepository<Reading, Integer>
 {
-  List<Reading> findBySensorType(Reading.SensorType senseMe);
+  List<Reading> findByRoom(int room);
 }

@@ -42,9 +42,9 @@ public class Reading
 		return room;
 	}
 	
-	public String getSensorTypeString()
+	public SensorType getSensorType()
 	{
-		return sensor.name();
+		return sensor;
 	}
 	
 	public int getValue()
