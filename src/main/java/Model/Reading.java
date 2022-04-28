@@ -1,15 +1,23 @@
 package Model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.time.LocalDateTime;
 
+@Entity
 public class Reading
 {
-	private int id;
+	private @Id @GeneratedValue int id;
 	private int room;
 	private SensorType sensor;
 	private int value;
 	private LocalDateTime timeStamp;
-	
+
+	public Reading()
+	{
+	}
+
 	public Reading(int room, SensorType sensor, int value, LocalDateTime timeStamp)
 	{
 		this.room = room;
@@ -17,7 +25,13 @@ public class Reading
 		this.value = value;
 		this.timeStamp = timeStamp;
 	}
-	
+
+	public Reading(int room, SensorType sensorType)
+	{
+		this.room = room;
+		this.sensor = sensorType;
+	}
+
 	public int getId()
 	{
 		return id;
@@ -43,7 +57,7 @@ public class Reading
 		return timeStamp;
 	}
 	
-	protected enum SensorType
+	public enum SensorType
 	{
 		Humidity, CO2, Light, Temperature
 	}

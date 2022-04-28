@@ -1,18 +1,27 @@
 package Model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class User
 {
-	private int id;
+	private @Id @GeneratedValue int id;
 	private String name;
 	private boolean admin;
-	
+
+	public User()
+	{
+	}
+
 	public User(int id, String name, boolean admin)
 	{
 		this.id = id;
 		setName(name);
 		this.admin = admin;
 	}
-	
+
 	public int getId()
 	{
 		return id;
