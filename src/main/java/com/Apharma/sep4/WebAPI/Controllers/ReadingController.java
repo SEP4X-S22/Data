@@ -22,10 +22,10 @@ public class ReadingController
 		this.readingRepo = readingRepo;
 	}
 
-	@GetMapping("/room")
-	private List<Reading> getAll()
+	@GetMapping("/{room}")
+	private List<Reading> getAll(@PathVariable int room)
 	{
-		return readingRepo.findAll();
+		return readingRepo.findByRoom(room);
 	}
 
 	@GetMapping("/{room}/{sensorType}")

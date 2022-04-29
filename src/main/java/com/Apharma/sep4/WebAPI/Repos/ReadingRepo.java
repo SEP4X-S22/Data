@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface ReadingRepo extends JpaRepository<Reading, Integer>
 {
+  List<Reading> findByRoom(int room);
   List<Reading> findByRoomAndSensor(int room, Reading.SensorType sensorType);
   List<Reading> findByRoomAndSensorAndTimeStampBefore(int room, Reading.SensorType sensorType, Date timeStamp);
 }
