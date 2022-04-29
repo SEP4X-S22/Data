@@ -15,8 +15,6 @@
 	<description>Semester 4 project</description>
 	<properties>
 		<java.version>11</java.version>
-		<maven.compiler.source>16</maven.compiler.source>
-		<maven.compiler.target>16</maven.compiler.target>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -44,9 +42,18 @@
 			<artifactId>android-json</artifactId>
 			<version>0.0.20131108.vaadin1</version>
 		</dependency>
+
+
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
 	</dependencies>
 
 	<build>
+		<finalName>Data Web API</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

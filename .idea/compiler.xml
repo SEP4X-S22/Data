@@ -10,8 +10,8 @@
         <module name="sep4" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="sep4" target="16" />
+    <bytecodeTargetLevel target="11">
+      <module name="sep4" target="11" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

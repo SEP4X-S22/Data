@@ -22,6 +22,12 @@ public class ReadingController
 		this.readingRepo = readingRepo;
 	}
 
+	@GetMapping("/")
+	private String getAll()
+	{
+		return "Hello from Data Team!";
+	}
+
 	@GetMapping("/{room}")
 	private List<Reading> getAll(@PathVariable int room)
 	{

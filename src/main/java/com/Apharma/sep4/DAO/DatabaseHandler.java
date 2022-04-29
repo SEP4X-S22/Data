@@ -29,22 +29,26 @@ public class DatabaseHandler
 
     return args -> {
       //dummy data
-      for (int i = 0; i < 1000; i++)
+      int room = 1;
+      for (int i = 0; i < 2000; i++)
       {
+        if(i==1000){
+          room++;
+        }
         log.info("Preloading " + readingRepo.save(
-            new Reading(1, Reading.SensorType.CO2,
+            new Reading(room, Reading.SensorType.CO2,
                 (int) (Math.random() * (50 - 1 + 1) + 1),
                 new Date(now + i * delay))));
         log.info("Preloading " + readingRepo.save(
-            new Reading(1, Reading.SensorType.Humidity,
+            new Reading(room, Reading.SensorType.Humidity,
                 (int) (Math.random() * (50 - 1 + 1) + 1),
                 new Date(now + i * delay))));
         log.info("Preloading " + readingRepo.save(
-            new Reading(1, Reading.SensorType.Light,
+            new Reading(room, Reading.SensorType.Light,
                 (int) (Math.random() * (50 - 1 + 1) + 1),
                 new Date(now + i * delay))));
         log.info("Preloading " + readingRepo.save(
-            new Reading(1, Reading.SensorType.Temperature,
+            new Reading(room, Reading.SensorType.Temperature,
                 (int) (Math.random() * (50 - 1 + 1) + 1),
                 new Date(now + i * delay))));
       }
