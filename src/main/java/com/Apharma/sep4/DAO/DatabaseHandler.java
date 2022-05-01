@@ -23,7 +23,6 @@ public class DatabaseHandler
 
   @Bean CommandLineRunner initDatabase(ReadingRepo readingRepo, UserRepo userRepo)
   {
-
     long now = new Date().getTime();
     long delay = 5 * 60 * 1000;
 
