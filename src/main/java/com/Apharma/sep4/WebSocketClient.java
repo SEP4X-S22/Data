@@ -1,18 +1,25 @@
 package com.Apharma.sep4;
 
+import com.Apharma.sep4.DAO.DatabaseHandler;
+import com.Apharma.sep4.Model.Reading;
+import com.Apharma.sep4.WebAPI.Repos.ReadingRepo;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.WebSocket;
 import java.nio.ByteBuffer;
+import java.util.Date;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
 public class WebSocketClient implements WebSocket.Listener
 {
 	private WebSocket server = null;
+	private DatabaseHandler db;
 	
 	// Send down-link message to device
 	// Must be in Json format according to https://github.com/ihavn/IoT_Semester_project/blob/master/LORA_NETWORK_SERVER.md
@@ -28,6 +35,7 @@ public class WebSocketClient implements WebSocket.Listener
 	{
 		HttpClient client = HttpClient.newHttpClient();
 		CompletableFuture<WebSocket> socket = client.newWebSocketBuilder().buildAsync(URI.create(url), this);
+		
 		
 		server = socket.join();
 	}
@@ -84,6 +92,9 @@ public class WebSocketClient implements WebSocket.Listener
 		}
 		System.out.println(indented);
 		webSocket.request(1);
+		
 		return CompletableFuture.completedFuture("onText() completed.").thenAccept(System.out::println);
 	}
+	
+	//TODO decide where to decode payload, call db to save
 }
