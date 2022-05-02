@@ -5,12 +5,10 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
-@Table(name = "SENSOR_READING")
+@Table(name = "READINGS")
 public class Reading
 {
 	private @Id @GeneratedValue int id;
-	private int room;
-	private SensorType sensor;
 	private int readingValue; //"value" is restricted in database, so I changed it
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date timeStamp; //changed to Date because it can help us filter readings by date/time/timestamp much easier
@@ -19,23 +17,10 @@ public class Reading
 	{
 	}
 
-	public Reading(int room, SensorType sensor, int readingValue, Date timeStamp)
+	public Reading(int readingValue, Date timeStamp)
 	{
-		this.room = room;
-		this.sensor = sensor;
 		this.readingValue = readingValue;
 		this.timeStamp = timeStamp;
-	}
-
-	public Reading(int room, SensorType sensorType)
-	{
-		this.room = room;
-		this.sensor = sensorType;
-	}
-
-	public void setId(int id)
-	{
-		this.id = id;
 	}
 
 	public int getId()
@@ -43,24 +28,19 @@ public class Reading
 		return id;
 	}
 
-	public void setRoom(int room)
+	public int getReadingValue()
 	{
-		this.room = room;
+		return readingValue;
 	}
 
-	public int getRoom()
+	public Date getTimeStamp()
 	{
-		return room;
+		return timeStamp;
 	}
 
-	public void setSensor(SensorType sensor)
+	public void setId(int id)
 	{
-		this.sensor = sensor;
-	}
-
-	public SensorType getSensorType()
-	{
-		return sensor;
+		this.id = id;
 	}
 
 	public void setReadingValue(int readingValue)
@@ -68,29 +48,13 @@ public class Reading
 		this.readingValue = readingValue;
 	}
 
-	public int getReadingValue()
-	{
-		return readingValue;
-	}
-
 	public void setTimeStamp(Date timeStamp)
 	{
 		this.timeStamp = timeStamp;
 	}
 
-	public Date getTimeStamp()
-	{
-		return timeStamp;
-	}
-	
-	public enum SensorType
-	{
-		Humidity, CO2, Light, Temperature
-	}
-
 	@Override public String toString()
 	{
-		return "Reading{" + "id=" + id + ", room=" + room + ", sensor=" + sensor
-				+ ", readingValue=" + readingValue + ", timeStamp=" + timeStamp + '}';
+		return "{readingId = "+ id +", readingValue = " + readingValue + ", timeStamp = " + timeStamp + '}';
 	}
 }
