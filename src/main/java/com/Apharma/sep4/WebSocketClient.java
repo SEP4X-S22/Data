@@ -96,5 +96,5 @@ public class WebSocketClient implements WebSocket.Listener
 		return CompletableFuture.completedFuture("onText() completed.").thenAccept(System.out::println);
 	}
 	
-	//TODO decide where to decode payload, call db to save
+	//TODO decide where to decode payload, create class for decoding & calling db
 }
