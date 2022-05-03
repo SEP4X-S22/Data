@@ -1,6 +1,10 @@
 package com.Apharma.sep4.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.LazyGroup;
+import org.hibernate.annotations.LazyToOne;
+import org.hibernate.annotations.LazyToOneOption;
+import org.springframework.context.annotation.Lazy;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -69,7 +73,9 @@ public class Reading
   @Temporal(TemporalType.TIMESTAMP)
   private Date timeStamp; //changed to Date because it can help us filter readings by date/time/timestamp much easier
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
+  @LazyToOne(LazyToOneOption.NO_PROXY)
+  @LazyGroup("sensor")
   @JsonIgnore
   @JoinColumn(name = "sensor_id")
   private Sensor sensor;

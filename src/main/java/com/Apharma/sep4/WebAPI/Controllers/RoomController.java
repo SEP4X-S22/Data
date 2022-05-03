@@ -45,8 +45,8 @@ public class RoomController
 
   @GetMapping("/room/sensors/{roomId}") private List<Sensor> getRoomSensors(@PathVariable int roomId)
   {
+    //return roomRepo.findById(roomId).getSensorsList();
     return roomRepo.findById(roomId).getSensorsList();
-
   }
 
   @GetMapping("/room/sensor/{roomId}/{sensor}") private List<Reading> getSensorReading(@PathVariable int roomId, @PathVariable int sensor)

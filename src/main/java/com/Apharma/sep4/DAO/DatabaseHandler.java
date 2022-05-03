@@ -109,7 +109,6 @@ public class DatabaseHandler
     Room room = new Room();
 		Room room2 = new Room();
 
-
     return args -> {
       temp.addReading(new Reading((int) (Math.random() * (50 - 1 + 1) + 1), new Date(now + delay)));
       co2.addReading(new Reading((int) (Math.random() * (50 - 1 + 1) + 1), new Date(now + delay)));
@@ -121,9 +120,6 @@ public class DatabaseHandler
   }
 
 }
-
-
-
 
       //int room = 1;
       //Room room = new Room();

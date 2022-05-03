@@ -100,6 +100,9 @@ package com.Apharma.sep4.Model;
 //	}
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.LazyGroup;
+import org.hibernate.annotations.LazyToOne;
+import org.hibernate.annotations.LazyToOneOption;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -113,11 +116,12 @@ public class Sensor
   private int id;
   private SensorType sensor;
 
-
-  @OneToMany(mappedBy = "sensor", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "sensor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   private List<Reading> readings = new ArrayList<>();
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
+  @LazyToOne(LazyToOneOption.NO_PROXY)
+  @LazyGroup("room")
   @JsonIgnore
   @JoinColumn(name = "room_id")
   private Room room;
