@@ -30,8 +30,7 @@ public class WebSocketClient implements WebSocket.Listener
 	{
 		HttpClient client = HttpClient.newHttpClient();
 		CompletableFuture<WebSocket> socket = client.newWebSocketBuilder().buildAsync(URI.create(url), this);
-		
-		
+
 		server = socket.join();
 	}
 	
