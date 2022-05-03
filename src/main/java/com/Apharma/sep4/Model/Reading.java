@@ -73,23 +73,6 @@ public class Reading
   @Temporal(TemporalType.TIMESTAMP)
   private Date timeStamp; //changed to Date because it can help us filter readings by date/time/timestamp much easier
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @LazyToOne(LazyToOneOption.NO_PROXY)
-  @LazyGroup("sensor")
-  @JsonIgnore
-  @JoinColumn(name = "sensor_id")
-  private Sensor sensor;
-
-  public void setSensor(Sensor sensor)
-  {
-    this.sensor = sensor;
-  }
-
-  public Sensor getSensor()
-  {
-    return sensor;
-  }
-
   public Reading()
   {
   }
@@ -102,12 +85,7 @@ public class Reading
       return false;
     Reading reading = (Reading) o;
     return id == reading.id && readingValue == reading.readingValue
-        && timeStamp.equals(reading.timeStamp) && sensor.equals(reading.sensor);
-  }
-
-  @Override public int hashCode()
-  {
-    return Objects.hash(id, readingValue, timeStamp, sensor);
+        && timeStamp.equals(reading.timeStamp);
   }
 
   public Reading(int readingValue, Date timeStamp)

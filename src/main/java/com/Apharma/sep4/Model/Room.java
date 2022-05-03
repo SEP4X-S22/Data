@@ -78,7 +78,8 @@ public class Room
   @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
 
-  @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @OneToMany(targetEntity = Sensor.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @JoinColumn(name= "room_sensor_fk", referencedColumnName = "id")
   private List<Sensor> sensors = new ArrayList<>();
 
   @Override public String toString()
@@ -88,15 +89,6 @@ public class Room
 
   public Room()
   {
-  }
-  public void addSensor(Sensor sensor){
-    sensors.add(sensor);
-    sensor.setRoom(this);
-  }
-
-  public void removeSensor(Sensor sensor){
-    sensors.remove(sensor);
-    sensor.setRoom(null);
   }
 
   public Room(List<Sensor> sensors){

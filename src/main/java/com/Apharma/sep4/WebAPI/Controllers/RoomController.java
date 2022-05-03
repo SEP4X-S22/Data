@@ -1,5 +1,8 @@
 package com.Apharma.sep4.WebAPI.Controllers;
 
+import com.Apharma.sep4.DTO.ReadingDTO;
+import com.Apharma.sep4.DTO.RoomDTO;
+import com.Apharma.sep4.DTO.SensorDTO;
 import com.Apharma.sep4.Model.Reading;
 import com.Apharma.sep4.Model.Room;
 import com.Apharma.sep4.Model.Sensor;
@@ -33,24 +36,18 @@ public class RoomController
     return "Hello from Data Team!";
   }
 
-  @GetMapping("/rooms") private List<Room> getAllRooms()
+  @GetMapping("/rooms") private List<RoomDTO> getAllRooms()
   {
-    return roomRepo.findAll();
+    return roomRepo.getAllRooms();
   }
 
-  @GetMapping("/rooms/{roomId}") private Room getRoomById(@PathVariable int roomId)
+  @GetMapping("/rooms/{roomId}/sensors") private List<SensorDTO> getRoomSensors(@PathVariable int roomId)
   {
-    return roomRepo.findById(roomId);
+    return sensorRepo.getRoomSensors(roomId);
   }
 
-  @GetMapping("/room/sensors/{roomId}") private List<Sensor> getRoomSensors(@PathVariable int roomId)
+  @GetMapping("/rooms/{roomId}/sensors/{sensor}") private List<ReadingDTO> getSensorReading(@PathVariable int roomId, @PathVariable Sensor.SensorType sensor)
   {
-    //return roomRepo.findById(roomId).getSensorsList();
-    return roomRepo.findById(roomId).getSensorsList();
-  }
-
-  @GetMapping("/room/sensor/{roomId}/{sensor}") private List<Reading> getSensorReading(@PathVariable int roomId, @PathVariable int sensor)
-  {
-    return roomRepo.findById(roomId).getSensorsList().get(sensor).getReadings();
+    return readingRepo.getReadingsForRoomIdAndSensorType(roomId, sensor);
   }
 }

@@ -116,15 +116,9 @@ public class Sensor
   private int id;
   private SensorType sensor;
 
-  @OneToMany(mappedBy = "sensor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @OneToMany(targetEntity = Reading.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @JoinColumn(name= "sensor_reading_fk", referencedColumnName = "id")
   private List<Reading> readings = new ArrayList<>();
-
-  @ManyToOne(fetch = FetchType.LAZY)
-  @LazyToOne(LazyToOneOption.NO_PROXY)
-  @LazyGroup("room")
-  @JsonIgnore
-  @JoinColumn(name = "room_id")
-  private Room room;
 
   @Override public boolean equals(Object o)
   {
@@ -134,27 +128,12 @@ public class Sensor
       return false;
     Sensor sensor1 = (Sensor) o;
     return id == sensor1.id && sensor == sensor1.sensor && readings.equals(
-        sensor1.readings) && room.equals(sensor1.room);
+        sensor1.readings);
   }
 
   @Override public int hashCode()
   {
-    return Objects.hash(id, sensor, readings, room);
-  }
-
-  public void addReading(Reading reading){
-    readings.add(reading);
-    reading.setSensor(this);
-  }
-
-  public void removeReading(Reading reading){
-    readings.remove(reading);
-    reading.setSensor(null);
-  }
-
-  public Room getRoom()
-  {
-    return room;
+    return Objects.hash(id, sensor, readings);
   }
 
   @Override public String toString()
@@ -163,20 +142,13 @@ public class Sensor
         + readings + '}';
   }
 
-  public void setRoom(Room room)
-  {
-    this.room = room;
-  }
-
   public Sensor(SensorType sensor, List<Reading> readings, Room room)
   {
     this.readings = readings;
     this.sensor = sensor;
-    this.room = room;
   }
 
   public Sensor(){
-
   }
 
   public int getId()
