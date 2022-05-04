@@ -30,23 +30,27 @@ public class RoomController
     this.readingRepo = readingRepo;
     this.entityManager = entityManager;
   }
-
-  @GetMapping("/") private String getAll()
+  
+  @GetMapping("/")
+  private String getAll()
   {
     return "Hello from Data Team!";
   }
-
-  @GetMapping("/rooms") private List<RoomDTO> getAllRooms()
+  
+  @GetMapping("/rooms")
+  private List<RoomDTO> getAllRooms()
   {
     return roomRepo.getAllRooms();
   }
-
-  @GetMapping("/rooms/{roomId}/sensors") private List<SensorDTO> getRoomSensors(@PathVariable int roomId)
+  
+  @GetMapping("/rooms/{roomId}/sensors")
+  private List<SensorDTO> getRoomSensors(@PathVariable int roomId)
   {
     return sensorRepo.getRoomSensors(roomId);
   }
-
-  @GetMapping("/rooms/{roomId}/sensors/{sensor}") private List<ReadingDTO> getSensorReading(@PathVariable int roomId, @PathVariable Sensor.SensorType sensor)
+  
+  @GetMapping("/rooms/{roomId}/sensors/{sensor}")
+  private List<ReadingDTO> getSensorReading(@PathVariable int roomId, @PathVariable Sensor.SensorType sensor)
   {
     return readingRepo.getReadingsForRoomIdAndSensorType(roomId, sensor);
   }
