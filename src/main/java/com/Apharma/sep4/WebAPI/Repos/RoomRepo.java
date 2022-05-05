@@ -20,5 +20,4 @@ public interface RoomRepo extends JpaRepository<Room, Integer>
 {
   @Query("SELECT new com.Apharma.sep4.DTO.RoomDTO(id) FROM Room")
   List<RoomDTO> getAllRooms();
-
 }

@@ -1,0 +1,78 @@
+package com.Apharma.sep4.MiddlePoint;
+
+import com.Apharma.sep4.DAO.DatabaseHandler;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+
+public class MiddlePointDecoder
+{
+  private JSONObject receivedPayload; // JSONObject so we can extract the data more easily?
+  private DatabaseHandler db; // something about Configuration and Bean is fishy. Research if we have to use it like this
+
+  public MiddlePointDecoder()
+  {
+    String payload = "{\n" + "    \"rssi\": -109,\n" + "    \"seqno\": 172,\n"
+        + "    \"data\": \"4802a3041a\",\n" + "    \"toa\": 0,\n"
+        + "    \"freq\": 868500000,\n" + "    \"ack\": false,\n"
+        + "    \"fcnt\": 0,\n" + "    \"dr\": \"SF12 BW125 4\\/5\",\n"
+        + "    \"offline\": false,\n" + "    \"bat\": 255,\n"
+        + "    \"port\": 1,\n" + "    \"snr\": 6,\n"
+        + "    \"EUI\": \"0004A30B00E7E072\",\n" + "    \"cmd\": \"rx\",\n"
+        + "    \"ts\": 1651695612174\n" + "}";
+    setReceivedPayload(payload);
+    decode(receivedPayload);
+  }
+
+  public JSONObject getReceivedPayload()
+  {
+    return receivedPayload;
+  }
+
+  public void setReceivedPayload(String receivedPayload)
+  {
+    try
+    {
+      this.receivedPayload = new JSONObject(receivedPayload);
+    }
+    catch (JSONException e)
+    {
+      e.printStackTrace();
+    }
+  }
+
+  public void decode(JSONObject receivedPayload)
+  {
+    try
+    {
+      String data = receivedPayload.getString("data");
+      int hum = Integer.parseInt(data,0,2,16); // radix describes the base we want our number in. 16 - hex, so on
+      int temp = Integer.parseInt(data,3,6,16);
+      float tempFinal = temp/10f;
+      int co2 = Integer.parseInt(data,7,10,16);
+
+      long ts = receivedPayload.getLong("ts");
+//      DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+//      String formattedDate = dateFormat.format(new Date(ts));
+      Date timestamp = new Date(ts);
+
+      String deviceID = receivedPayload.getString("EUI");
+
+      System.out.println(hum + "\n" +
+          tempFinal + "\n" +
+          co2 + "\n" +
+          timestamp + "\n" +
+          deviceID + "\n");
+    }
+    catch (JSONException e)
+    {
+      e.printStackTrace();
+    }
+  }
+}
