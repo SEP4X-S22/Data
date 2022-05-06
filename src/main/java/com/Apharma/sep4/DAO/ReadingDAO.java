@@ -29,19 +29,13 @@ public class ReadingDAO implements Dao<Reading>
   {
   }
 
-  public void storeNewEntry(int hum, int temp, int co2, Date timestamp, int roomId)
+  public void storeNewEntry(int hum, int temp, int co2, Date timestamp, String roomId)
   {
-
-
     Room room = new Room();
-    room.setId(4);
+    room.setId(roomId);
 
     //TODO: JPA add to reading without getting all children
-
-
    // Room room = roomRepo.getById(roomId);
-
-
     List<SensorDTO> sensors = sensorRepo.getRoomSensors(roomId);
 
     Reading humidity = new Reading(hum, timestamp);
@@ -49,7 +43,7 @@ public class ReadingDAO implements Dao<Reading>
     Reading co2Reading = new Reading(co2, timestamp);
 
     System.out.println("here" + sensors);
-    for (int i = 1; i < sensors.size()+1; i++)
+    for (int i = 0; i < sensors.size(); i++)
     {
       switch (sensors.get(i).getSensorType())
       {
@@ -58,15 +52,16 @@ public class ReadingDAO implements Dao<Reading>
           System.out.println(sensors.get(i).getSensorType());
           Sensor temper = new Sensor();
           temper.setId(sensors.get(i).getId());
+          temper.setSensorType(sensors.get(i).getSensorType());
           temperature.setSensor(temper);
           temper.setRoom(room);
         }
         break;
         case CO2:
         {
-          System.out.println(sensors.get(i).getSensorType());
           Sensor cotwo = new Sensor();
           cotwo.setId(sensors.get(i).getId());
+          cotwo.setSensorType(sensors.get(i).getSensorType());
           co2Reading.setSensor(cotwo);
           cotwo.setRoom(room);
         }
@@ -76,6 +71,7 @@ public class ReadingDAO implements Dao<Reading>
           System.out.println(sensors.get(i).getSensorType());
           Sensor humi = new Sensor();
           humi.setId(sensors.get(i).getId());
+          humi.setSensorType(sensors.get(i).getSensorType());
           humidity.setSensor(humi);
           humi.setRoom(room);
         }

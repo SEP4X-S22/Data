@@ -18,7 +18,7 @@ import java.util.Date;
 import java.util.List;
 
 @Repository
-public interface RoomRepo extends JpaRepository<Room, Integer>
+public interface RoomRepo extends JpaRepository<Room, String>
 {
   @Query("SELECT new com.Apharma.sep4.DTO.RoomDTO(id) FROM Room")
   List<RoomDTO> getAllRooms();

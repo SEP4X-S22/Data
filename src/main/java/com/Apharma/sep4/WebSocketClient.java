@@ -18,7 +18,9 @@ public class WebSocketClient implements WebSocket.Listener
 {
 	private WebSocket server = null;
 
+	@Autowired
 	private MiddlePointDecoder decoder;
+
 	private DatabaseHandler db; //maybe we should call the DB handler from the decoder class
 	
 	// Send down-link message to device

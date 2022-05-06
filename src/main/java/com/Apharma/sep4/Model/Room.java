@@ -76,8 +76,9 @@ import java.util.List;
 @Table(name = "Rooms")
 public class Room{
 
-  @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private int id;
+  //@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Id
+  private String id;
 
 //  @OneToMany(targetEntity = Sensor.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 //  @JoinColumn(name= "room_sensor_fk", referencedColumnName = "id")
@@ -96,12 +97,12 @@ public class Room{
     sensors = new ArrayList<>();
   }
 
-  public int getId()
+  public String getId()
   {
     return id;
   }
 
-  public void setId(int id)
+  public void setId(String id)
   {
     this.id = id;
   }

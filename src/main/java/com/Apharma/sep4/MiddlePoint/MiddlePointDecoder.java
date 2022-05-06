@@ -72,16 +72,15 @@ public class MiddlePointDecoder
 //      String formattedDate = dateFormat.format(new Date(ts));
       Date timestamp = new Date(ts);
 
-      String deviceID = receivedPayload.getString("EUI");
-      int roomID = 1;
+      String roomId = receivedPayload.getString("EUI");
 
-      readingDAO.storeNewEntry(hum, temp,co2,timestamp,roomID);
+      readingDAO.storeNewEntry(hum, temp,co2,timestamp,roomId);
 
       System.out.println(hum + "\n" +
           tempFinal + "\n" +
           co2 + "\n" +
           timestamp + "\n" +
-          deviceID + "\n");
+          roomId + "\n");
     }
     catch (JSONException e)
     {

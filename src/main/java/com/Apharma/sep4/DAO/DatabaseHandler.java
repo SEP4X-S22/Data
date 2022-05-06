@@ -93,10 +93,15 @@ public class DatabaseHandler
             Sensor hum;
             Sensor co2;
 
-            Room room;
+            Room room = new Room();
+            room.setId("0004A30B00E7E072");
             for (int i = 0; i < 2; i++)
             {
-              room = new Room();
+              if (i == 1)
+              {
+                room = new Room();
+                room.setId("5000A30B00E7E072");
+              }
 
               temp = new Sensor();
               temp.setSensorType(Sensor.SensorType.Temperature);

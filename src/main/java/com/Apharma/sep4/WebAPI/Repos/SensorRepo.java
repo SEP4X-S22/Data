@@ -12,5 +12,5 @@ import java.util.List;
 public interface SensorRepo extends JpaRepository<Sensor, Integer>
 {
  @Query("SELECT new com.Apharma.sep4.DTO.SensorDTO(s.id, s.sensorType) FROM Sensor s WHERE room_id = ?1 ")
- List<SensorDTO> getRoomSensors(int roomId);
+ List<SensorDTO> getRoomSensors(String roomId);
 }

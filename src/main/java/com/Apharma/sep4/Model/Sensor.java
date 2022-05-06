@@ -136,8 +136,6 @@ public class Sensor
     this.readings = readings;
   }
 
-
-
   public Room getRoom()
   {
     return room;
@@ -196,5 +194,4 @@ public class Sensor
   {
     Humidity, CO2, Light, Temperature
   }
-
 }
