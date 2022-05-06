@@ -4,6 +4,7 @@ import com.Apharma.sep4.DAO.DatabaseHandler;
 import com.Apharma.sep4.MiddlePoint.MiddlePointDecoder;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -12,10 +13,12 @@ import java.nio.ByteBuffer;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
+
 public class WebSocketClient implements WebSocket.Listener
 {
 	private WebSocket server = null;
-	private MiddlePointDecoder decoder = new MiddlePointDecoder();
+
+	private MiddlePointDecoder decoder;
 	private DatabaseHandler db; //maybe we should call the DB handler from the decoder class
 	
 	// Send down-link message to device

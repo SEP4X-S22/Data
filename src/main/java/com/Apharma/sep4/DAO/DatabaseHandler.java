@@ -1,5 +1,4 @@
 package com.Apharma.sep4.DAO;
-import com.Apharma.sep4.MiddlePoint.MiddlePointDecoder;
 import com.Apharma.sep4.Model.Reading;
 import com.Apharma.sep4.Model.Room;
 import com.Apharma.sep4.Model.Sensor;
@@ -8,13 +7,21 @@ import com.Apharma.sep4.WebAPI.Repos.ReadingRepo;
 import com.Apharma.sep4.WebAPI.Repos.SensorRepo;
 import com.Apharma.sep4.WebAPI.Repos.UserRepo;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+
 import java.util.Date;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Configuration
+@EnableAutoConfiguration
+@ComponentScan(basePackages = {"com/Apharma/sep4/DAO",
+    "com/Apharma/sep4/MiddlePoint",
+    "com/Apharma/sep4/WebAPI/Repos"})
 public class DatabaseHandler
 {
 
@@ -73,49 +80,66 @@ public class DatabaseHandler
 //	}
 
   private static final Logger log = LoggerFactory.getLogger(DatabaseHandler.class);
+  private RoomRepo roomRepo;
+  private SensorRepo sensorRepo;
 
   @Bean CommandLineRunner initDatabase(RoomRepo roomRepo, SensorRepo sensorRepo, UserRepo userRepo, ReadingRepo readingRepo)
-  {
-    long now = new Date().getTime();
-    long delay = 5 * 60 * 1000;
+    {
+      this.sensorRepo = sensorRepo;
 
-    return args -> {
-      Sensor temp;
-      Sensor light;
-      Sensor hum;
-      Sensor co2;
+          long now = new Date().getTime();
+          long delay = 5 * 60 * 1000;
 
-      Room room;
-      for (int i = 0; i < 2; i++)
-      {
-        room = new Room();
+          return args -> {
+            Sensor temp;
+            Sensor light;
+            Sensor hum;
+            Sensor co2;
 
-        temp = new Sensor();
-        temp.setSensor(Sensor.SensorType.Temperature);
-        light = new Sensor();
-        light.setSensor(Sensor.SensorType.Light);
-        hum = new Sensor();
-        hum.setSensor(Sensor.SensorType.Humidity);
-        co2 = new Sensor();
-        co2.setSensor(Sensor.SensorType.CO2);
+            Room room;
+            for (int i = 0; i < 2; i++)
+            {
+              room = new Room();
 
-      for (int j = 0; j < 1000; j++)
-      {
-        temp.getReadings().add(new Reading((int) (Math.random() * (50 - 1 + 1) + 1), new Date(now + j * delay)));
-        co2.getReadings().add(new Reading((int) (Math.random() * (50 - 1 + 1) + 1), new Date(now + j * delay)));
-        light.getReadings().add(new Reading((int) (Math.random() * (50 - 1 + 1) + 1), new Date(now +j * delay)));
-        hum.getReadings().add(new Reading((int) (Math.random() * (50 - 1 + 1) + 1), new Date(now + j *delay)));
-      }
-      room.getSensorsList().add(co2);
-      room.getSensorsList().add(temp);
-      room.getSensorsList().add(hum);
-      room.getSensorsList().add(light);
-      roomRepo.save(room);
-      }
+              temp = new Sensor();
+              temp.setSensorType(Sensor.SensorType.Temperature);
+              light = new Sensor();
+              light.setSensorType(Sensor.SensorType.Light);
+              hum = new Sensor();
+              hum.setSensorType(Sensor.SensorType.Humidity);
+              co2 = new Sensor();
+              co2.setSensorType(Sensor.SensorType.CO2);
+
+            for (int j = 0; j < 50; j++)
+            {
+              Reading temp1 = new Reading((int) (Math.random() * (50 - 1 + 1) + 1), new Date(now + j * delay));
+              temp1.setSensor(temp);
+              Reading temp2 = new Reading((int) (Math.random() * (50 - 1 + 1) + 1), new Date(now + j * delay));
+              temp2.setSensor(light);
+              Reading temp3 = new Reading((int) (Math.random() * (50 - 1 + 1) + 1), new Date(now +j * delay));
+              temp3.setSensor(co2);
+              Reading temp4 = new Reading((int) (Math.random() * (50 - 1 + 1) + 1), new Date(now + j *delay));
+              temp4.setSensor(hum);
+            }
+            co2.setRoom(room);
+            temp.setRoom(room);
+            hum.setRoom(room);
+            light.setRoom(room);
+
+//            room.getSensors().add(co2);
+//            room.getSensors().add(temp);
+//            room.getSensors().add(hum);
+//            room.getSensors().add(light);
+
+            roomRepo.save(room);
+            }
     };
+    //return null;
   }
 
-  private void storeNewEntry(){
-
+  @Bean
+  public ReadingDAO getReadingDAO(){
+    return new ReadingDAO();
   }
+
 }

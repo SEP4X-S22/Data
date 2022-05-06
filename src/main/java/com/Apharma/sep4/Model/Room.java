@@ -73,26 +73,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Room
-{
+@Table(name = "Rooms")
+public class Room{
+
   @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
 
-  @OneToMany(targetEntity = Sensor.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  @JoinColumn(name= "room_sensor_fk", referencedColumnName = "id")
-  private List<Sensor> sensors = new ArrayList<>();
+//  @OneToMany(targetEntity = Sensor.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//  @JoinColumn(name= "room_sensor_fk", referencedColumnName = "id")
+//  private List<Sensor> sensors = new ArrayList<>();
+
+  @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  private List<Sensor> sensors;
 
   @Override public String toString()
   {
-    return "Room{" + "id=" + id + ", sensors=" + sensors + '}';
+    return "Room{" + "id=" + id + '}';
   }
 
   public Room()
   {
-  }
-
-  public Room(List<Sensor> sensors){
-    sensors = sensors;
+    sensors = new ArrayList<>();
   }
 
   public int getId()
@@ -105,12 +106,13 @@ public class Room
     this.id = id;
   }
 
-  public List<Sensor> getSensorsList(){
+  public List<Sensor> getSensors()
+  {
     return sensors;
   }
 
-  public void setSensorsList(ArrayList<Sensor> sensorsList)
+  public void setSensors(List<Sensor> sensors)
   {
-    this.sensors = sensorsList;
+    this.sensors = sensors;
   }
 }
