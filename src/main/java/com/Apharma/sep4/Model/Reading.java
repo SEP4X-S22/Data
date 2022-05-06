@@ -1,7 +1,6 @@
 package com.Apharma.sep4.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
 import org.hibernate.annotations.LazyGroup;
 import org.hibernate.annotations.LazyToOne;
 import org.hibernate.annotations.LazyToOneOption;
@@ -66,7 +65,6 @@ import java.util.Objects;
 //	}
 //=======
 @Entity
-@Table(name = "Readings")
 public class Reading
 {
   @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -74,28 +72,6 @@ public class Reading
   private int readingValue; //"value" is restricted in database, so I changed it
   @Temporal(TemporalType.TIMESTAMP)
   private Date timeStamp; //changed to Date because it can help us filter readings by date/time/timestamp much easier
-
-  @ManyToOne
-  @JoinColumn(name = "sensor_id")
-  private Sensor sensor;
-
-  public Reading(int readingValue, Date timeStamp, Sensor sensor)
-  {
-    this.readingValue = readingValue;
-    this.timeStamp = timeStamp;
-    this.sensor = sensor;
-  }
-
-  public void setSensor(Sensor sensor)
-  {
-    this.sensor = sensor;
-    sensor.getReadings().add(this);
-  }
-
-  public Sensor getSensor()
-  {
-    return sensor;
-  }
 
   public Reading()
   {

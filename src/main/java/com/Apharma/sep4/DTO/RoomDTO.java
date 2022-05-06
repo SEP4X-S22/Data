@@ -2,9 +2,9 @@ package com.Apharma.sep4.DTO;
 
 public class RoomDTO
 {
-  private String id;
+  private int id;
 
-  public RoomDTO(String id)
+  public RoomDTO(int id)
   {
     this.id = id;
   }
@@ -14,12 +14,12 @@ public class RoomDTO
     return "RoomDTO{" + "id=" + id + '}';
   }
 
-  public String getId()
+  public int getId()
   {
     return id;
   }
 
-  public void setId(String id)
+  public void setId(int id)
   {
     this.id = id;
   }

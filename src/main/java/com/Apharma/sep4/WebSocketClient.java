@@ -1,10 +1,8 @@
 package com.Apharma.sep4;
 
 import com.Apharma.sep4.DAO.DatabaseHandler;
-import com.Apharma.sep4.MiddlePoint.MiddlePointDecoder;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -13,15 +11,10 @@ import java.nio.ByteBuffer;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
-
 public class WebSocketClient implements WebSocket.Listener
 {
 	private WebSocket server = null;
-
-	@Autowired
-	private MiddlePointDecoder decoder;
-
-	private DatabaseHandler db; //maybe we should call the DB handler from the decoder class
+	private DatabaseHandler db;
 	
 	// Send down-link message to device
 	// Must be in Json format according to https://github.com/ihavn/IoT_Semester_project/blob/master/LORA_NETWORK_SERVER.md
@@ -86,7 +79,6 @@ public class WebSocketClient implements WebSocket.Listener
 		try
 		{
 			indented = (new JSONObject(data.toString())).toString(4);
-			decoder.setReceivedPayload(indented);
 		}
 		catch (JSONException e)
 		{
