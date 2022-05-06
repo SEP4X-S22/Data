@@ -99,76 +99,31 @@ package com.Apharma.sep4.Model;
 //		Humidity, CO2, Light, Temperature
 //	}
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.LazyGroup;
-import org.hibernate.annotations.LazyToOne;
-import org.hibernate.annotations.LazyToOneOption;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
+@Table(name = "Sensors")
 public class Sensor
 {
   @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
-  private SensorType sensor;
+  private SensorType sensorType;
 
-  @OneToMany(targetEntity = Reading.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  @JoinColumn(name= "sensor_reading_fk", referencedColumnName = "id")
-  private List<Reading> readings = new ArrayList<>();
+//  @OneToMany(targetEntity = Reading.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//  @JoinColumn(name= "sensor_reading_fk", referencedColumnName = "id")
+//  private List<Reading> readings = new ArrayList<>();
+  @OneToMany(mappedBy = "sensor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  private List<Reading> readings;
 
-  @Override public boolean equals(Object o)
-  {
-    if (this == o)
-      return true;
-    if (o == null || getClass() != o.getClass())
-      return false;
-    Sensor sensor1 = (Sensor) o;
-    return id == sensor1.id && sensor == sensor1.sensor && readings.equals(
-        sensor1.readings);
-  }
-
-  @Override public int hashCode()
-  {
-    return Objects.hash(id, sensor, readings);
-  }
-
-  @Override public String toString()
-  {
-    return "Sensor{" + "id=" + id + ", sensor=" + sensor + ", readings="
-        + readings + '}';
-  }
-
-  public Sensor(SensorType sensor, List<Reading> readings, Room room)
-  {
-    this.readings = readings;
-    this.sensor = sensor;
-  }
+  @ManyToOne
+  @JoinColumn(name = "room_id")
+  private Room room;
 
   public Sensor(){
-  }
-
-  public int getId()
-  {
-    return id;
-  }
-
-  public void setId(int id)
-  {
-    this.id = id;
-  }
-
-  public SensorType getSensor()
-  {
-    return sensor;
-  }
-
-  public void setSensor(SensorType sensor)
-  {
-    this.sensor = sensor;
+    readings = new ArrayList<>();
   }
 
   public List<Reading> getReadings()
@@ -181,9 +136,62 @@ public class Sensor
     this.readings = readings;
   }
 
+  public Room getRoom()
+  {
+    return room;
+  }
+
+  public void setRoom(Room room)
+  {
+    this.room = room;
+    room.getSensors().add(this);
+  }
+
+  @Override public boolean equals(Object o)
+  {
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
+    Sensor sensor1 = (Sensor) o;
+    return id == sensor1.id && sensorType == sensor1.sensorType;
+  }
+
+  @Override public int hashCode()
+  {
+    return Objects.hash(id, sensorType);
+  }
+
+  @Override public String toString()
+  {
+    return "Sensor{" + "id=" + id + ", sensor=" + sensorType + ", readings="
+        +'}';
+  }
+
+
+
+  public int getId()
+  {
+    return id;
+  }
+
+  public void setId(int id)
+  {
+    this.id = id;
+  }
+
+  public SensorType getSensorType()
+  {
+    return sensorType;
+  }
+
+  public void setSensorType(SensorType sensorType)
+  {
+    this.sensorType = sensorType;
+  }
+
   public enum SensorType
   {
     Humidity, CO2, Light, Temperature
   }
-
 }

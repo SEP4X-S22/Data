@@ -11,14 +11,15 @@ import com.Apharma.sep4.Model.Sensor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 
 import java.util.List;
 
-public interface RoomRepo extends JpaRepository<Room, Integer>
+@Repository
+public interface RoomRepo extends JpaRepository<Room, String>
 {
   @Query("SELECT new com.Apharma.sep4.DTO.RoomDTO(id) FROM Room")
   List<RoomDTO> getAllRooms();
-
 }

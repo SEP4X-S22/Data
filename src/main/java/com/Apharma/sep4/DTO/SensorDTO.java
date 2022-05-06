@@ -5,12 +5,12 @@ import com.Apharma.sep4.Model.Sensor;
 public class SensorDTO
 {
   private int id;
-  private Sensor.SensorType sensor;
+  private Sensor.SensorType sensorType;
 
   public SensorDTO(int id, Sensor.SensorType sensor)
   {
     this.id = id;
-    this.sensor = sensor;
+    this.sensorType = sensor;
   }
 
   public int getId()
@@ -23,18 +23,18 @@ public class SensorDTO
     this.id = id;
   }
 
-  public Sensor.SensorType getSensor()
+  public Sensor.SensorType getSensorType()
   {
-    return sensor;
+    return sensorType;
   }
 
-  public void setSensor(Sensor.SensorType sensor)
+  public void setSensorType(Sensor.SensorType sensor)
   {
-    this.sensor = sensor;
+    this.sensorType = sensor;
   }
 
   @Override public String toString()
   {
-    return "SensorDTO{" + "id=" + id + ", sensor=" + sensor + '}';
+    return "SensorDTO{" + "id=" + id + ", sensor=" + sensorType + '}';
   }
 }
