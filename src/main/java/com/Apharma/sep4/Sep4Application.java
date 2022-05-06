@@ -13,21 +13,36 @@ import java.net.http.WebSocket;
 import java.util.Scanner;
 
 @SpringBootApplication
-
+@ComponentScan(basePackages = {"com/Apharma/sep4/DAO",
+		"com/Apharma/sep4/MiddlePoint",
+		"com/Apharma/sep4/WebAPI/Repos"})
 public class Sep4Application
 {
 	public static void main(String[] args)
 	{
 		WebSocketClient client = new WebSocketClient("wss://iotnet.teracom.dk/app?token=vnoUcQAAABFpb3RuZXQudGVyYWNvbS5ka-iuwG5H1SHPkGogk2YUH3Y=");
-		SpringApplication.run(Sep4Application.class, args);
+		MiddlePointDecoder middlePointDecoder;
 
-//		MiddlePointDecoder middlePointDecoder;
-//		Scanner keyboard = new Scanner(System.in);
-//		while(true){
-//			System.out.println("Try again? Y/Y?");
-//			if(keyboard.nextLine().equals("y")){
-//				middlePointDecoder.doIt();
-//			}
-//		}
+		ApplicationContext context = SpringApplication.
+				run(Sep4Application.class,args);
+		middlePointDecoder = context.getBean(MiddlePointDecoder.class);
+
+		System.out.println("Contains dao  "+context.
+				containsBeanDefinition("com.Apharma.sep4.DAO.ReadingDAO"));
+		System.out.println("Contains B2  " + context.
+				containsBeanDefinition("demoBeanB2"));
+		System.out.println("Contains C   " + context.
+				containsBeanDefinition("demoBeanC"));
+		System.out.println("Contains D   " + context.
+				containsBeanDefinition("demoBeanD"));
+
+
+		Scanner keyboard = new Scanner(System.in);
+		while(true){
+			System.out.println("Try again? Y/Y?");
+			if(keyboard.nextLine().equals("y")){
+				middlePointDecoder.doIt();
+			}
+		}
 	}
 }

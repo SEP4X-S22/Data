@@ -23,12 +23,12 @@ public class SensorDTO
     this.id = id;
   }
 
-  public Sensor.SensorType getSensor()
+  public Sensor.SensorType getSensorType()
   {
     return sensorType;
   }
 
-  public void setSensor(Sensor.SensorType sensor)
+  public void setSensorType(Sensor.SensorType sensor)
   {
     this.sensorType = sensor;
   }

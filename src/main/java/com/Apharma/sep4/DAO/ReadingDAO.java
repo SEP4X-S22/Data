@@ -7,24 +7,9 @@ import com.Apharma.sep4.Model.Sensor;
 import com.Apharma.sep4.WebAPI.Repos.ReadingRepo;
 import com.Apharma.sep4.WebAPI.Repos.RoomRepo;
 import com.Apharma.sep4.WebAPI.Repos.SensorRepo;
-import com.Apharma.sep4.WebAPI.Repos.UserRepo;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.boot.MetadataSources;
-import org.hibernate.boot.registry.StandardServiceRegistry;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 
@@ -47,8 +32,8 @@ public class ReadingDAO implements Dao<Reading>
   public void storeNewEntry(int hum, int temp, int co2, Date timestamp, int roomId)
   {
 
-    Room room = roomRepo.getById(roomId);
-
+    Room room = new Room();
+    room.setId(4);
     List<SensorDTO> sensors = sensorRepo.getRoomSensors(roomId);
 
     Reading humidity = new Reading(hum, timestamp);
@@ -56,35 +41,39 @@ public class ReadingDAO implements Dao<Reading>
     Reading co2Reading = new Reading(co2, timestamp);
 
     System.out.println("here" + sensors);
-    for (int i = 0; i < sensors.size(); i++)
+    for (int i = 1; i < sensors.size()+1; i++)
     {
-      switch (sensors.get(i).getSensor())
+      switch (sensors.get(i).getSensorType())
       {
         case Temperature:
         {
-          System.out.println(sensors.get(i).getSensor());
-          Sensor temper = sensorRepo.getById(sensors.get(i).getId());
+          System.out.println(sensors.get(i).getSensorType());
+          Sensor temper = new Sensor();
+          temper.setId(sensors.get(i).getId());
           temperature.setSensor(temper);
-          readingRepo.save(temperature);
+          temper.setRoom(room);
         }
         break;
         case CO2:
         {
-          System.out.println(sensors.get(i).getSensor());
-          Sensor cotwo = sensorRepo.getById(sensors.get(i).getId());;
+          System.out.println(sensors.get(i).getSensorType());
+          Sensor cotwo = new Sensor();
+          cotwo.setId(sensors.get(i).getId());
           co2Reading.setSensor(cotwo);
-          readingRepo.save(co2Reading);
+          cotwo.setRoom(room);
         }
         break;
         case Humidity:
         {
-          System.out.println(sensors.get(i).getSensor());
-          Sensor humi = sensorRepo.getById(sensors.get(i).getId());;
+          System.out.println(sensors.get(i).getSensorType());
+          Sensor humi = new Sensor();
+          humi.setId(sensors.get(i).getId());
           humidity.setSensor(humi);
-          readingRepo.save(humidity);
+          humi.setRoom(room);
         }
         break;
       }
     }
+    roomRepo.save(room);
   }
 }

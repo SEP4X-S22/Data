@@ -23,8 +23,6 @@ public class MiddlePointDecoder
   @Autowired
   private ReadingDAO readingDAO;
 
-
-
   //private DatabaseHandler db; // something about Configuration and Bean is fishy. Research if we have to use it like this
 
   public MiddlePointDecoder(){
@@ -81,7 +79,7 @@ public class MiddlePointDecoder
       String deviceID = receivedPayload.getString("EUI");
       int roomID = 1;
 
-      //.storeNewEntry(hum, temp,co2,timestamp,roomID);
+      readingDAO.storeNewEntry(hum, temp,co2,timestamp,roomID);
 
       System.out.println(hum + "\n" +
           tempFinal + "\n" +

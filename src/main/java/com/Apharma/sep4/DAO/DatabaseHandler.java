@@ -6,6 +6,7 @@ import com.Apharma.sep4.WebAPI.Repos.RoomRepo;
 import com.Apharma.sep4.WebAPI.Repos.ReadingRepo;
 import com.Apharma.sep4.WebAPI.Repos.SensorRepo;
 import com.Apharma.sep4.WebAPI.Repos.UserRepo;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -80,13 +81,9 @@ public class DatabaseHandler
 //	}
 
   private static final Logger log = LoggerFactory.getLogger(DatabaseHandler.class);
-  private RoomRepo roomRepo;
-  private SensorRepo sensorRepo;
 
   @Bean CommandLineRunner initDatabase(RoomRepo roomRepo, SensorRepo sensorRepo, UserRepo userRepo, ReadingRepo readingRepo)
     {
-      this.sensorRepo = sensorRepo;
-
           long now = new Date().getTime();
           long delay = 5 * 60 * 1000;
 
@@ -126,20 +123,15 @@ public class DatabaseHandler
             hum.setRoom(room);
             light.setRoom(room);
 
-//            room.getSensors().add(co2);
-//            room.getSensors().add(temp);
-//            room.getSensors().add(hum);
-//            room.getSensors().add(light);
-
             roomRepo.save(room);
             }
     };
     //return null;
   }
 
-  @Bean
-  public ReadingDAO getReadingDAO(){
-    return new ReadingDAO();
-  }
-
+//  @Bean
+//  @Qualifier("dao")
+//  public ReadingDAO getReadingDAO(){
+//    return new ReadingDAO();
+//  }
 }
