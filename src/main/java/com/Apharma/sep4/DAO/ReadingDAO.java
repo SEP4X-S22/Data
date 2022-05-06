@@ -7,24 +7,9 @@ import com.Apharma.sep4.Model.Sensor;
 import com.Apharma.sep4.WebAPI.Repos.ReadingRepo;
 import com.Apharma.sep4.WebAPI.Repos.RoomRepo;
 import com.Apharma.sep4.WebAPI.Repos.SensorRepo;
-import com.Apharma.sep4.WebAPI.Repos.UserRepo;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.boot.MetadataSources;
-import org.hibernate.boot.registry.StandardServiceRegistry;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 
@@ -46,6 +31,9 @@ public class ReadingDAO implements Dao<Reading>
 
   public void storeNewEntry(int hum, int temp, int co2, Date timestamp, int roomId)
   {
+
+    //TODO: JPA add to reading without getting all children
+
 
     Room room = roomRepo.getById(roomId);
 

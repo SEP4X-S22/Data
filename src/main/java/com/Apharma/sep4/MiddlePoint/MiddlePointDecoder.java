@@ -1,18 +1,12 @@
 package com.Apharma.sep4.MiddlePoint;
 
-import com.Apharma.sep4.DAO.Dao;
 import com.Apharma.sep4.DAO.ReadingDAO;
-import com.Apharma.sep4.Model.Reading;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import java.util.Date;
 
 @Component
@@ -50,6 +44,8 @@ public class MiddlePointDecoder
 
   @PostConstruct
   public void doIt(){
+    //TODO: needs to be made obselete
+    
     String payload = "{\n" + "    \"rssi\": -109,\n" + "    \"seqno\": 172,\n"
         + "    \"data\": \"4802a3041a\",\n" + "    \"toa\": 0,\n"
         + "    \"freq\": 868500000,\n" + "    \"ack\": false,\n"
