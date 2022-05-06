@@ -32,8 +32,16 @@ public class ReadingDAO implements Dao<Reading>
   public void storeNewEntry(int hum, int temp, int co2, Date timestamp, int roomId)
   {
 
+
     Room room = new Room();
     room.setId(4);
+
+    //TODO: JPA add to reading without getting all children
+
+
+   // Room room = roomRepo.getById(roomId);
+
+
     List<SensorDTO> sensors = sensorRepo.getRoomSensors(roomId);
 
     Reading humidity = new Reading(hum, timestamp);
