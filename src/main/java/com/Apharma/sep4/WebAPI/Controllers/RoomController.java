@@ -36,9 +36,14 @@ public class RoomController
   {
     return "Hello from Data Team!";
   }
-  
   @GetMapping("/rooms")
-  private List<RoomDTO> getAllRooms()
+  private List<Room> getAllRooms()
+  {
+    return roomRepo.findAll();
+  }
+
+  @GetMapping("/roomsDTO")
+  private List<RoomDTO> getAllRoomsDTO()
   {
     return roomRepo.getAllRooms();
   }
