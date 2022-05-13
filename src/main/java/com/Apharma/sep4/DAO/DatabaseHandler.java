@@ -2,6 +2,7 @@ package com.Apharma.sep4.DAO;
 import com.Apharma.sep4.Model.Reading;
 import com.Apharma.sep4.Model.Room;
 import com.Apharma.sep4.Model.Sensor;
+import com.Apharma.sep4.Run.WebSocketClient;
 import com.Apharma.sep4.WebAPI.Repos.RoomRepo;
 import com.Apharma.sep4.WebAPI.Repos.ReadingRepo;
 import com.Apharma.sep4.WebAPI.Repos.SensorRepo;
@@ -22,7 +23,8 @@ import org.slf4j.LoggerFactory;
 @EnableAutoConfiguration
 @ComponentScan(basePackages = {"com/Apharma/sep4/DAO",
     "com/Apharma/sep4/MiddlePoint",
-    "com/Apharma/sep4/WebAPI/Repos"})
+    "com/Apharma/sep4/WebAPI/Repos",
+    "com/Apharma/sep4/Run"})
 public class DatabaseHandler
 {
 
@@ -133,6 +135,10 @@ public class DatabaseHandler
             }
     };
     //return null;
+  }
+  @Bean
+  public WebSocketClient getWebSocket(){
+    return new WebSocketClient("wss://iotnet.teracom.dk/app?token=vnoUcQAAABFpb3RuZXQudGVyYWNvbS5ka-iuwG5H1SHPkGogk2YUH3Y=");
   }
 
 //  @Bean

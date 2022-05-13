@@ -5,6 +5,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.Date;
@@ -33,6 +34,7 @@ public class MiddlePointDecoder
     try
     {
       this.receivedPayload = new JSONObject(receivedPayload);
+      doIt();
     }
     catch (JSONException e)
     {
@@ -40,19 +42,19 @@ public class MiddlePointDecoder
     }
   }
 
-  @PostConstruct
+  //@PostConstruct
   public void doIt(){
-    //TODO: needs to be made obselete
-    
-    String payload = "{\n" + "    \"rssi\": -109,\n" + "    \"seqno\": 172,\n"
-        + "    \"data\": \"4802a3041a\",\n" + "    \"toa\": 0,\n"
-        + "    \"freq\": 868500000,\n" + "    \"ack\": false,\n"
-        + "    \"fcnt\": 0,\n" + "    \"dr\": \"SF12 BW125 4\\/5\",\n"
-        + "    \"offline\": false,\n" + "    \"bat\": 255,\n"
-        + "    \"port\": 1,\n" + "    \"snr\": 6,\n"
-        + "    \"EUI\": \"0004A30B00E7E072\",\n" + "    \"cmd\": \"rx\",\n"
-        + "    \"ts\": 1651695612174\n" + "}";
-    setReceivedPayload(payload);
+//    //TODO: needs to be made obselete
+//
+//    String payload = "{\n" + "    \"rssi\": -109,\n" + "    \"seqno\": 172,\n"
+//        + "    \"data\": \"4802a3041a\",\n" + "    \"toa\": 0,\n"
+//        + "    \"freq\": 868500000,\n" + "    \"ack\": false,\n"
+//        + "    \"fcnt\": 0,\n" + "    \"dr\": \"SF12 BW125 4\\/5\",\n"
+//        + "    \"offline\": false,\n" + "    \"bat\": 255,\n"
+//        + "    \"port\": 1,\n" + "    \"snr\": 6,\n"
+//        + "    \"EUI\": \"0004A30B00E7E072\",\n" + "    \"cmd\": \"rx\",\n"
+//        + "    \"ts\": 1651695612174\n" + "}";
+//    setReceivedPayload(payload);
     decode(receivedPayload);
   }
 

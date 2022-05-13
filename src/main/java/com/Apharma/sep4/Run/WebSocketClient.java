@@ -1,10 +1,15 @@
-package com.Apharma.sep4;
+package com.Apharma.sep4.Run;
 
 import com.Apharma.sep4.DAO.DatabaseHandler;
 import com.Apharma.sep4.MiddlePoint.MiddlePointDecoder;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -12,7 +17,6 @@ import java.net.http.WebSocket;
 import java.nio.ByteBuffer;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
-
 
 public class WebSocketClient implements WebSocket.Listener
 {
@@ -33,6 +37,8 @@ public class WebSocketClient implements WebSocket.Listener
 	
 	// E.g. url: "wss://iotnet.teracom.dk/app?token=??????????????????????????????????????????????="
 	// Substitute ????????????????? with the token you have been given
+
+
 	public WebSocketClient(String url)
 	{
 		HttpClient client = HttpClient.newHttpClient();
