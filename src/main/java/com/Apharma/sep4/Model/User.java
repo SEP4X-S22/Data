@@ -47,9 +47,9 @@ public class User
 		}
 	}
 
-	public void toggleAdmin()
+	public void setAdmin(boolean admin)
 	{
-		admin = !admin;
+		this.admin = admin;
 	}
 
 	@Override public String toString()

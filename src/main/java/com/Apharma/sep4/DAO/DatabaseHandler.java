@@ -90,13 +90,13 @@ public class DatabaseHandler
         room = new Room();
 
         temp = new Sensor();
-        temp.setSensor(Sensor.SensorType.Temperature);
+        temp.setSensorType(Sensor.SensorType.Temperature);
         light = new Sensor();
-        light.setSensor(Sensor.SensorType.Light);
+        light.setSensorType(Sensor.SensorType.Light);
         hum = new Sensor();
-        hum.setSensor(Sensor.SensorType.Humidity);
+        hum.setSensorType(Sensor.SensorType.Humidity);
         co2 = new Sensor();
-        co2.setSensor(Sensor.SensorType.CO2);
+        co2.setSensorType(Sensor.SensorType.CO2);
 
       for (int j = 0; j < 1000; j++)
       {

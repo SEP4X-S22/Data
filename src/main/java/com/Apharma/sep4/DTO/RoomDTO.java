@@ -8,12 +8,7 @@ public class RoomDTO
   {
     this.id = id;
   }
-
-  @Override public String toString()
-  {
-    return "RoomDTO{" + "id=" + id + '}';
-  }
-
+  
   public int getId()
   {
     return id;
@@ -22,5 +17,10 @@ public class RoomDTO
   public void setId(int id)
   {
     this.id = id;
+  }
+  
+  @Override public String toString()
+  {
+    return "RoomDTO{" + "id=" + id + '}';
   }
 }
