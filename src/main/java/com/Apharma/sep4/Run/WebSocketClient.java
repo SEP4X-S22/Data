@@ -24,8 +24,6 @@ public class WebSocketClient implements WebSocket.Listener
 
 	@Autowired
 	private MiddlePointDecoder decoder;
-
-	private DatabaseHandler db; //maybe we should call the DB handler from the decoder class
 	
 	// Send down-link message to device
 	// Must be in Json format according to https://github.com/ihavn/IoT_Semester_project/blob/master/LORA_NETWORK_SERVER.md

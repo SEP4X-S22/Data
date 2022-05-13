@@ -49,11 +49,12 @@ public class RoomController
     return sensorRepo.getRoomSensors(roomId);
   }
   
-  @GetMapping("/rooms/{roomId}/sensors/{sensor}")
-  private List<ReadingDTO> getSensorReading(@PathVariable String roomId, @PathVariable Sensor.SensorType sensor)
+  @GetMapping("/rooms/{roomId}/sensors/{sensorType}")
+  private List<ReadingDTO> getSensorReading(@PathVariable String roomId, @PathVariable Sensor.SensorType sensorType)
   {
-    return readingRepo.getReadingsForRoomIdAndSensorType(roomId, sensor);
+    return readingRepo.getReadingsForRoomIdAndSensorType(roomId, sensorType);
   }
+
 
   @GetMapping("rooms/{roomId}/current/{sensorType}")
   private ReadingDTO getCurrentReading(@PathVariable String roomId, @PathVariable Sensor.SensorType sensorType){
