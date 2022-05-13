@@ -123,6 +123,7 @@ public class DatabaseHandler
               Reading temp4 = new Reading((int) (Math.random() * (50 - 1 + 1) + 1), new Date(now + j *delay));
               temp4.setSensor(hum);
             }
+
             co2.setRoom(room);
             temp.setRoom(room);
             hum.setRoom(room);
