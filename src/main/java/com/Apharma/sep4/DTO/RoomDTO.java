@@ -12,6 +12,7 @@ public class RoomDTO
     this.sensorsCount = sensorsCount;
   }
 
+
   @Override public String toString()
   {
     return "RoomDTO{" + "id='" + id + '\'' + ", sensorsCount=" + sensorsCount

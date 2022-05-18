@@ -112,6 +112,7 @@ public class Sensor
   private int id;
   private SensorType sensorType;
 
+
 //  @OneToMany(targetEntity = Reading.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 //  @JoinColumn(name= "sensor_reading_fk", referencedColumnName = "id")
 //  private List<Reading> readings = new ArrayList<>();

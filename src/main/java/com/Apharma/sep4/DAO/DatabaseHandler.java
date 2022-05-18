@@ -114,6 +114,7 @@ public class DatabaseHandler
               co2 = new Sensor();
               co2.setSensorType(Sensor.SensorType.CO2);
 
+
             for (int j = 0; j < 50; j++)
             {
               Reading temp1 = new Reading((int) (Math.random() * (50 - 1 + 1) + 1), new Date(now + j * delay));
