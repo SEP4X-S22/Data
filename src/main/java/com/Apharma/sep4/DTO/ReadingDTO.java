@@ -5,9 +5,9 @@ public class ReadingDTO
 {
   private int id;
   private double readingValue;
-  private Date timeStamp;
+  private String timeStamp;
 
-  public ReadingDTO(int id, double readingValue, Date timeStamp)
+  public ReadingDTO(int id, double readingValue, String timeStamp)
   {
     this.id = id;
     this.readingValue = readingValue;
@@ -35,12 +35,12 @@ public class ReadingDTO
     this.readingValue = readingValue;
   }
 
-  public Date getTimeStamp()
+  public String getTimeStamp()
   {
     return timeStamp;
   }
 
-  public void setTimeStamp(Date timeStamp)
+  public void setTimeStamp(String timeStamp)
   {
     this.timeStamp = timeStamp;
   }

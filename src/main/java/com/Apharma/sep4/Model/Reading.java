@@ -73,9 +73,7 @@ public class Reading
   @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
   private double readingValue; //"value" is restricted in database, so I changed it
-  @Temporal(TemporalType.TIMESTAMP)
-  private Date timeStamp; //changed to Date because it can help us filter readings by date/time/timestamp much easier
-
+  private String timeStamp;
   @ManyToOne
   @JoinColumn(name = "sensor_id")
   private Sensor sensor;
@@ -84,13 +82,13 @@ public class Reading
   {
   }
 
-  public Reading(double readingValue, Date timeStamp)
+  public Reading(double readingValue, String timeStamp)
   {
     this.readingValue = readingValue;
     this.timeStamp = timeStamp;
   }
   
-  public Reading(double readingValue, Date timeStamp, Sensor sensor)
+  public Reading(double readingValue, String timeStamp, Sensor sensor)
   {
     this.readingValue = readingValue;
     this.timeStamp = timeStamp;
@@ -128,12 +126,12 @@ public class Reading
     this.readingValue = readingValue;
   }
 
-  public Date getTimeStamp()
+  public String getTimeStamp()
   {
     return timeStamp;
   }
 
-  public void setTimeStamp(Date timeStamp)
+  public void setTimeStamp(String timeStamp)
   {
     this.timeStamp = timeStamp;
   }

@@ -17,11 +17,8 @@ import java.util.Date;
 public class MiddlePointDecoder
 {
   private JSONObject receivedPayload; // JSONObject so we can extract the data more easily?
-
   @Autowired
   private ReadingDAO readingDAO;
-
-  //private DatabaseHandler db; // something about Configuration and Bean is fishy. Research if we have to use it like this
 
   public MiddlePointDecoder(){
 
@@ -63,16 +60,12 @@ public class MiddlePointDecoder
         String roomId = receivedPayload.getString("EUI");
 
         long ts = receivedPayload.getLong("ts");
-        //
         String formattedStringDate = tsToString(ts);
 
         //Date still hardcoded - since we have to change everything else ... :(
-        Date timestamp = new Date((ts + (3600 * 2 * 1000)));
-
-
-
-
-        readingDAO.storeNewEntry(hum, tempFinal, co2, timestamp, roomId);
+        //Date timestamp = new Date((ts + (3600 * 2 * 1000)));
+        
+        readingDAO.storeNewEntry(hum, tempFinal, co2, formattedStringDate, roomId);
       }
     }
     catch (JSONException e)
@@ -88,5 +81,4 @@ public class MiddlePointDecoder
     SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy | HH:mm:ss"); // the format of your date
     return dateFormat.format(date);
   }
-
 }

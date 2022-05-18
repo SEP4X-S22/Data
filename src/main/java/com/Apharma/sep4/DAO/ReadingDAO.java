@@ -29,7 +29,7 @@ public class ReadingDAO implements Dao<Reading>
   {
   }
 
-  public void storeNewEntry(int hum, double temp, int co2, Date timestamp, String roomId)
+  public void storeNewEntry(int hum, double temp, int co2, String timestamp, String roomId)
   {
     Room room = new Room();
     room.setId(roomId);

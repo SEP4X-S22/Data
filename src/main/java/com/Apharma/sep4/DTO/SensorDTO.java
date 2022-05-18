@@ -10,7 +10,6 @@ public class SensorDTO
 
   public SensorDTO(int id, Sensor.SensorType sensorType, double readingValue)
   {
-
     this.id = id;
     this.sensorType = sensorType;
     this.readingValue = readingValue;
@@ -36,12 +35,6 @@ public class SensorDTO
     this.sensorType = sensorType;
   }
 
-  @Override public String toString()
-  {
-    return "SensorDTO{" + "id=" + id + ", sensorType=" + sensorType
-        + ", readingValue=" + readingValue + '}';
-  }
-
   public double getReadingValue()
   {
     return readingValue;
@@ -50,5 +43,11 @@ public class SensorDTO
   public void setReadingValue(double readingValue)
   {
     this.readingValue = readingValue;
+  }
+  
+  @Override public String toString()
+  {
+    return "SensorDTO{" + "id=" + id + ", sensorType=" + sensorType
+                   + ", readingValue=" + readingValue + '}';
   }
 }

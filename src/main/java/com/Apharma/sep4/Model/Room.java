@@ -74,8 +74,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "Rooms")
-public class Room{
-
+public class Room
+{
   //@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Id
   private String id;

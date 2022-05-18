@@ -22,8 +22,7 @@ public class RoomController
   private final ReadingRepo readingRepo;
   private EntityManager entityManager;
 
-  public RoomController(RoomRepo roomRepo, SensorRepo sensorRepo,
-      ReadingRepo readingRepo, EntityManager entityManager)
+  public RoomController(RoomRepo roomRepo, SensorRepo sensorRepo, ReadingRepo readingRepo, EntityManager entityManager)
   {
     this.roomRepo = roomRepo;
     this.sensorRepo = sensorRepo;
@@ -56,7 +55,8 @@ public class RoomController
   }
 
   @GetMapping("rooms/{roomId}/current/{sensorType}")
-  private ReadingDTO getCurrentReading(@PathVariable String roomId, @PathVariable Sensor.SensorType sensorType){
+  private ReadingDTO getCurrentReading(@PathVariable String roomId, @PathVariable Sensor.SensorType sensorType)
+  {
     ReadingDTO current = readingRepo.getCurrentReading(roomId, sensorType);
     System.out.println(current);
     return current;

@@ -12,13 +12,6 @@ public class RoomDTO
     this.sensorsCount = sensorsCount;
   }
 
-
-  @Override public String toString()
-  {
-    return "RoomDTO{" + "id='" + id + '\'' + ", sensorsCount=" + sensorsCount
-        + '}';
-  }
-
   public String getId()
   {
     return id;
@@ -37,5 +30,11 @@ public class RoomDTO
   public void setSensorsCount(long sensorsCount)
   {
     this.sensorsCount = sensorsCount;
+  }
+  
+  @Override public String toString()
+  {
+    return "RoomDTO{" + "id='" + id + '\'' + ", sensorsCount=" + sensorsCount
+                   + '}';
   }
 }
