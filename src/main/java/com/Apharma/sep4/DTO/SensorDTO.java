@@ -8,11 +8,11 @@ public class SensorDTO
   private Sensor.SensorType sensorType;
   private double readingValue;
 
-  public SensorDTO(int id, Sensor.SensorType sensor, double readingValue)
+  public SensorDTO(int id, Sensor.SensorType sensorType, double readingValue)
   {
 
     this.id = id;
-    this.sensorType = sensor;
+    this.sensorType = sensorType;
     this.readingValue = readingValue;
   }
 
@@ -31,9 +31,9 @@ public class SensorDTO
     return sensorType;
   }
 
-  public void setSensorType(Sensor.SensorType sensor)
+  public void setSensorType(Sensor.SensorType sensorType)
   {
-    this.sensorType = sensor;
+    this.sensorType = sensorType;
   }
 
   @Override public String toString()

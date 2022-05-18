@@ -9,7 +9,6 @@ import javax.persistence.Table;
 @Table(name = "users") //User is restricted in database.
 public class User
 {
-
 	private @Id @GeneratedValue int id;
 	private String name;
 	private boolean admin;
