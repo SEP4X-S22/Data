@@ -78,7 +78,6 @@ public class WebSocketClient implements WebSocket.Listener
 		String indented = null;
 		try
 		{
-
 			indented = (new JSONObject(data.toString())).toString(4);
 		}
 		catch (JSONException e)
