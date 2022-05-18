@@ -92,6 +92,7 @@ public class Room{
     return "Room{" + "id=" + id + '}';
   }
 
+
   public Room()
   {
     sensors = new ArrayList<>();

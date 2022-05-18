@@ -65,6 +65,7 @@ public class ReadingDAO implements Dao<Reading>
           co2Reading.setSensor(cotwo);
           cotwo.setRoom(room);
         }
+
         break;
         case Humidity:
         {

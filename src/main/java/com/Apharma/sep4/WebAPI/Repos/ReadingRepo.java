@@ -27,3 +27,4 @@ public interface ReadingRepo extends JpaRepository<Reading, Integer>
       + " WHERE s.sensorType = ?2 AND ro.id = ?1 AND r.id = (SELECT max(r.id) FROM s.readings r)")
   ReadingDTO getCurrentReading(String roomId, Sensor.SensorType sensorType);
 }
+

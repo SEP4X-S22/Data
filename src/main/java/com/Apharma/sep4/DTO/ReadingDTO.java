@@ -14,6 +14,7 @@ public class ReadingDTO
     this.timeStamp = timeStamp;
   }
 
+
   public int getId()
   {
     return id;

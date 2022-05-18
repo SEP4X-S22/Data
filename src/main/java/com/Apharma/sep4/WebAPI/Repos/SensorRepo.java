@@ -17,5 +17,4 @@ public interface SensorRepo extends JpaRepository<Sensor, Integer>
      + " JOIN s.readings r"
      + " WHERE room_id = ?1 AND r.id = (SELECT max(r.id) FROM s.readings r)")
  List<SensorDTO> getRoomSensors(String roomId);
-
 }

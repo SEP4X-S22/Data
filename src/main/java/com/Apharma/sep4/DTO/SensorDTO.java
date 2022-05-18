@@ -10,6 +10,7 @@ public class SensorDTO
 
   public SensorDTO(int id, Sensor.SensorType sensor, double readingValue)
   {
+
     this.id = id;
     this.sensorType = sensor;
     this.readingValue = readingValue;

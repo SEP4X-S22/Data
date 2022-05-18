@@ -10,5 +10,6 @@ public interface Dao<T>
 //  Collection<T> getAll();
 //  int save(T t);
 //void delete(T t);
+
   void storeNewEntry(int hum, int temp, int co2, Date timestamp, String roomId);
 }

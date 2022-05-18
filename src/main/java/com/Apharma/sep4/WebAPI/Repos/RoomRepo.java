@@ -26,3 +26,4 @@ public interface RoomRepo extends JpaRepository<Room, String>
       + " GROUP BY r.id")
   List<RoomDTO> getAllRooms();
 }
+

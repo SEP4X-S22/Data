@@ -56,7 +56,6 @@ public class RoomController
     return readingRepo.getReadingsForRoomIdAndSensorType(roomId, sensorType);
   }
 
-
   @GetMapping("rooms/{roomId}/current/{sensorType}")
   private ReadingDTO getCurrentReading(@PathVariable String roomId, @PathVariable Sensor.SensorType sensorType){
     ReadingDTO current = readingRepo.getCurrentReading(roomId, sensorType);
