@@ -71,7 +71,7 @@ public class Reading
 {
   @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
-  private int readingValue; //"value" is restricted in database, so I changed it
+  private double readingValue; //"value" is restricted in database, so I changed it
   @Temporal(TemporalType.TIMESTAMP)
   private Date timeStamp; //changed to Date because it can help us filter readings by date/time/timestamp much easier
 
@@ -134,12 +134,12 @@ public class Reading
     this.id = id;
   }
 
-  public int getReadingValue()
+  public double getReadingValue()
   {
     return readingValue;
   }
 
-  public void setReadingValue(int readingValue)
+  public void setReadingValue(double readingValue)
   {
     this.readingValue = readingValue;
   }

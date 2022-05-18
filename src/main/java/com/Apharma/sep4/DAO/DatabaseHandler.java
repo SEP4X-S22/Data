@@ -102,7 +102,7 @@ public class DatabaseHandler
               if (i == 1)
               {
                 room = new Room();
-                room.setId("5000A30B00E7E072");
+                room.setId("0004A30B00E7E2E5");
               }
 
               temp = new Sensor();

@@ -41,6 +41,7 @@ public class RoomController
   private List<RoomDTO> getAllRooms()
   {
     return roomRepo.getAllRooms();
+
   }
   
   @GetMapping("/rooms/{roomId}/sensors")

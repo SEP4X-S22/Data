@@ -4,10 +4,10 @@ import java.util.Date;
 public class ReadingDTO
 {
   private int id;
-  private int readingValue;
+  private double readingValue;
   private Date timeStamp;
 
-  public ReadingDTO(int id, int readingValue, Date timeStamp)
+  public ReadingDTO(int id, double readingValue, Date timeStamp)
   {
     this.id = id;
     this.readingValue = readingValue;
@@ -24,12 +24,12 @@ public class ReadingDTO
     this.id = id;
   }
 
-  public int getReadingValue()
+  public double getReadingValue()
   {
     return readingValue;
   }
 
-  public void setReadingValue(int readingValue)
+  public void setReadingValue(double readingValue)
   {
     this.readingValue = readingValue;
   }
