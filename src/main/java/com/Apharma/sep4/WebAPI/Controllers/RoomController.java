@@ -36,27 +36,31 @@ public class RoomController
   {
     return "Hello from Data Team!";
   }
+  
   @GetMapping("/rooms")
-  private List<Room> getAllRooms()
-  {
-    return roomRepo.findAll();
-  }
-
-  @GetMapping("/roomsDTO")
-  private List<RoomDTO> getAllRoomsDTO()
+  private List<RoomDTO> getAllRooms()
   {
     return roomRepo.getAllRooms();
+
   }
   
   @GetMapping("/rooms/{roomId}/sensors")
-  private List<SensorDTO> getRoomSensors(@PathVariable int roomId)
+  private List<SensorDTO> getRoomSensors(@PathVariable String roomId)
   {
     return sensorRepo.getRoomSensors(roomId);
   }
   
-  @GetMapping("/rooms/{roomId}/sensors/{sensor}")
-  private List<ReadingDTO> getSensorReading(@PathVariable int roomId, @PathVariable Sensor.SensorType sensor)
+  @GetMapping("/rooms/{roomId}/sensors/{sensorType}")
+  private List<ReadingDTO> getSensorReading(@PathVariable String roomId, @PathVariable Sensor.SensorType sensorType)
   {
-    return readingRepo.getReadingsForRoomIdAndSensorType(roomId, sensor);
+    return readingRepo.getReadingsForRoomIdAndSensorType(roomId, sensorType);
+  }
+
+
+  @GetMapping("rooms/{roomId}/current/{sensorType}")
+  private ReadingDTO getCurrentReading(@PathVariable String roomId, @PathVariable Sensor.SensorType sensorType){
+    ReadingDTO current = readingRepo.getCurrentReading(roomId, sensorType);
+    System.out.println(current);
+    return current;
   }
 }
