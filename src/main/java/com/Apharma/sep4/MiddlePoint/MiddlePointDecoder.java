@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Component
@@ -80,4 +81,13 @@ public class MiddlePointDecoder
       e.printStackTrace();
     }
   }
+
+  private String tsToString(long ts)
+  {
+      //TODO add reference to Ib for date changing code
+    Date date = new Date(ts); // convert seconds to milliseconds
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy | HH:mm:ss"); // the format of your date
+    return dateFormat.format(date);
+  }
+
 }
