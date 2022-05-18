@@ -54,13 +54,15 @@ public class MiddlePointDecoder
       String data = receivedPayload.getString("data");
       int hum = Integer.parseInt(data,0,2,16); // radix describes the base we want our number in. 16 - hex, so on
       int temp = Integer.parseInt(data,3,6,16);
-      float tempFinal = temp/10f;
+      float tempFinal = temp/100f;
       int co2 = Integer.parseInt(data,7,10,16);
 
       long ts = receivedPayload.getLong("ts");
+
 //      DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 //      String formattedDate = dateFormat.format(new Date(ts));
-      Date timestamp = new Date(ts);
+      //Date timestamp = new Date(ts);
+      Date timestamp = new Date((ts + (3600*2*1000)));
 
       String roomId = receivedPayload.getString("EUI");
 
