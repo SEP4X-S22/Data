@@ -1,40 +1,26 @@
 package com.Apharma.sep4.DTO;
 
-
 public class RoomDTO
 {
-  private String id;
-  private long sensorsCount;
+  private int id;
 
-  public RoomDTO(String id, long sensorsCount)
+  public RoomDTO(int id)
   {
     this.id = id;
-    this.sensorsCount = sensorsCount;
   }
-
-  @Override public String toString()
-  {
-    return "RoomDTO{" + "id='" + id + '\'' + ", sensorsCount=" + sensorsCount
-        + '}';
-  }
-
-  public String getId()
+  
+  public int getId()
   {
     return id;
   }
 
-  public void setId(String id)
+  public void setId(int id)
   {
     this.id = id;
   }
-
-  public long getSensorsCount()
+  
+  @Override public String toString()
   {
-    return sensorsCount;
-  }
-
-  public void setSensorsCount(long sensorsCount)
-  {
-    this.sensorsCount = sensorsCount;
+    return "RoomDTO{" + "id=" + id + '}';
   }
 }
