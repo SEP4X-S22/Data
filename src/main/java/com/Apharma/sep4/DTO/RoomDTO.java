@@ -39,3 +39,4 @@ public class RoomDTO
     this.sensorsCount = sensorsCount;
   }
 }
+
