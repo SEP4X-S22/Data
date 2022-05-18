@@ -20,6 +20,7 @@ import java.util.List;
 @Repository
 public interface RoomRepo extends JpaRepository<Room, String>
 {
+
   @Query("SELECT new com.Apharma.sep4.DTO.RoomDTO(r.id, COUNT(s.id))"
       + " FROM Room r"
       + " JOIN r.sensors s"
