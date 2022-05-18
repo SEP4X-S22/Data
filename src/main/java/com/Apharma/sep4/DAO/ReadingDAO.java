@@ -56,6 +56,9 @@ public class ReadingDAO implements Dao<Reading>
           temperature.setSensor(temper);
           temper.setRoom(room);
         }
+        
+        
+        
         break;
         case CO2:
         {
