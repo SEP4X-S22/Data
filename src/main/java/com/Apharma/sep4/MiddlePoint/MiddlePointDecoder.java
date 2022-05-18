@@ -8,7 +8,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+
+//Date formatting method "tsToString" taken from Ib Havn
 
 @Component
 public class MiddlePointDecoder
@@ -51,33 +54,36 @@ public class MiddlePointDecoder
   {
     try
     {
-      String data = receivedPayload.getString("data");
-      int hum = Integer.parseInt(data,0,2,16); // radix describes the base we want our number in. 16 - hex, so on
-      int temp = Integer.parseInt(data,3,6,16);
-      float tempFinal = temp/100f;
-      int co2 = Integer.parseInt(data,7,10,16);
+      if(receivedPayload.getString("cmd").equals("rx"))
+      {
+        String data = receivedPayload.getString("data");
+        int hum = Integer.parseInt(data, 0, 2, 16); // radix describes the base we want our number in. 16 - hex, so on
+        int temp = Integer.parseInt(data, 3, 6, 16);
+        double tempFinal = temp / 10d;
+        int co2 = Integer.parseInt(data, 7, 10, 16);
+        String roomId = receivedPayload.getString("EUI");
 
-      long ts = receivedPayload.getLong("ts");
+        long ts = receivedPayload.getLong("ts");
+        //
+        String formattedStringDate = tsToString(ts);
 
-//      DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-//      String formattedDate = dateFormat.format(new Date(ts));
-      //Date timestamp = new Date(ts);
-      Date timestamp = new Date((ts + (3600*2*1000)));
-
-      String roomId = receivedPayload.getString("EUI");
-
-      readingDAO.storeNewEntry(hum, temp,co2,timestamp,roomId);
+        //Date still hardcoded - since we have to change everything else ... :(
+        Date timestamp = new Date((ts + (3600 * 2 * 1000)));
 
 
-      System.out.println(hum + "\n" +
-          tempFinal + "\n" +
-          co2 + "\n" +
-          timestamp + "\n" +
-          roomId + "\n");
+
+
+        readingDAO.storeNewEntry(hum, tempFinal, co2, timestamp, roomId);
+      }
     }
     catch (JSONException e)
     {
       e.printStackTrace();
     }
+  }
+  private String tsToString(long ts) {
+    Date date = new Date(ts); // convert seconds to milliseconds
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy MM dd HH:mm:ss.SSS"); // the format of your date
+    return dateFormat.format(date);
   }
 }

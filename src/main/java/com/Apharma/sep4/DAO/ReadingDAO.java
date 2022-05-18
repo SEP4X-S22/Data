@@ -29,7 +29,7 @@ public class ReadingDAO implements Dao<Reading>
   {
   }
 
-  public void storeNewEntry(int hum, int temp, int co2, Date timestamp, String roomId)
+  public void storeNewEntry(int hum, double temp, int co2, Date timestamp, String roomId)
   {
     Room room = new Room();
     room.setId(roomId);
@@ -42,7 +42,6 @@ public class ReadingDAO implements Dao<Reading>
     Reading temperature = new Reading(temp, timestamp);
     Reading co2Reading = new Reading(co2, timestamp);
 
-    System.out.println("here" + sensors);
     for (int i = 0; i < sensors.size(); i++)
     {
       switch (sensors.get(i).getSensorType())

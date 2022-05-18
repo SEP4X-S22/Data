@@ -11,5 +11,5 @@ public interface Dao<T>
 //  int save(T t);
 //void delete(T t);
 
-  void storeNewEntry(int hum, int temp, int co2, Date timestamp, String roomId);
+  void storeNewEntry(int hum, double temp, int co2, Date timestamp, String roomId);
 }

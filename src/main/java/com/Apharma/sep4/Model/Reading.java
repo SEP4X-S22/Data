@@ -113,7 +113,7 @@ public class Reading
         && timeStamp.equals(reading.timeStamp);
   }
 
-  public Reading(int readingValue, Date timeStamp)
+  public Reading(double readingValue, Date timeStamp)
   {
     this.readingValue = readingValue;
     this.timeStamp = timeStamp;
