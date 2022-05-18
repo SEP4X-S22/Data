@@ -81,9 +81,13 @@ public class MiddlePointDecoder
       e.printStackTrace();
     }
   }
-  private String tsToString(long ts) {
+
+  private String tsToString(long ts)
+  {
+      //TODO add reference to Ib for date changing code
     Date date = new Date(ts); // convert seconds to milliseconds
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy MM dd HH:mm:ss.SSS"); // the format of your date
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy | HH:mm:ss"); // the format of your date
     return dateFormat.format(date);
   }
+
 }
