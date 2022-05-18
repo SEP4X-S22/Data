@@ -22,3 +22,4 @@ public interface RoomRepo extends JpaRepository<Room, Integer>
   List<RoomDTO> getAllRooms();
 
 }
+

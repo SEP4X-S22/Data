@@ -105,24 +105,71 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
+@Table(name = "Sensors")
 public class Sensor
 {
   @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
   private SensorType sensorType;
-  @OneToMany(targetEntity = Reading.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  @JoinColumn(name= "sensor_reading_fk", referencedColumnName = "id")
-  private List<Reading> readings = new ArrayList<>();
-  
+
+
+//  @OneToMany(targetEntity = Reading.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//  @JoinColumn(name= "sensor_reading_fk", referencedColumnName = "id")
+//  private List<Reading> readings = new ArrayList<>();
+  @OneToMany(mappedBy = "sensor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  private List<Reading> readings;
+
+  @ManyToOne
+  @JoinColumn(name = "room_id")
+  private Room room;
 
   public Sensor(){
+    readings = new ArrayList<>();
   }
-  
-  public Sensor(SensorType sensorType, List<Reading> readings, Room room)
+
+  public List<Reading> getReadings()
+  {
+    return readings;
+  }
+
+  public void setReadings(List<Reading> readings)
   {
     this.readings = readings;
-    this.sensorType = sensorType;
   }
+
+  public Room getRoom()
+  {
+    return room;
+  }
+
+  public void setRoom(Room room)
+  {
+    this.room = room;
+    room.getSensors().add(this);
+  }
+
+  @Override public boolean equals(Object o)
+  {
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
+    Sensor sensor1 = (Sensor) o;
+    return id == sensor1.id && sensorType == sensor1.sensorType;
+  }
+
+  @Override public int hashCode()
+  {
+    return Objects.hash(id, sensorType);
+  }
+
+  @Override public String toString()
+  {
+    return "Sensor{" + "id=" + id + ", sensor=" + sensorType + ", readings="
+        +'}';
+  }
+
+
 
   public int getId()
   {
@@ -144,37 +191,6 @@ public class Sensor
     this.sensorType = sensorType;
   }
 
-  public List<Reading> getReadings()
-  {
-    return readings;
-  }
-
-  public void setReadings(List<Reading> readings)
-  {
-    this.readings = readings;
-  }
-
-  @Override public int hashCode()
-  {
-    return Objects.hash(id, sensorType, readings);
-  }
-
-  @Override public boolean equals(Object obj)
-  {
-    if (this == obj)
-      return true;
-    if (obj == null || getClass() != obj.getClass())
-      return false;
-    Sensor sensor1 = (Sensor) obj;
-    return id == sensor1.id && sensorType == sensor1.sensorType && readings.equals(
-        sensor1.readings);
-  }
-
-  @Override public String toString()
-  {
-    return "Sensor{" + "id=" + id + ", sensor=" + sensorType + ", readings=" + readings + '}';
-  }
-  
   public enum SensorType
   {
     Humidity, CO2, Light, Temperature

@@ -87,6 +87,7 @@ public class Room
     return "Room{" + "id=" + id + ", sensors=" + sensors + '}';
   }
 
+
   public Room()
   {
   }

@@ -68,6 +68,7 @@ public class MiddlePointDecoder
 
       readingDAO.storeNewEntry(hum, temp,co2,timestamp,roomId);
 
+
       System.out.println(hum + "\n" +
           tempFinal + "\n" +
           co2 + "\n" +

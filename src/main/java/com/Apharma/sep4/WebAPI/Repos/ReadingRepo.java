@@ -13,3 +13,4 @@ public interface ReadingRepo extends JpaRepository<Reading, Integer>
   @Query("SELECT new com.Apharma.sep4.DTO.ReadingDTO(r.id, r.readingValue, r.timeStamp) FROM Room ro JOIN ro.sensors s JOIN s.readings r WHERE s.sensor = ?2 AND ro.id = ?1")
   List<ReadingDTO> getReadingsForRoomIdAndSensorType(int roomId, Sensor.SensorType sensorType);
 }
+

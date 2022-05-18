@@ -14,4 +14,5 @@ public class Sep4Application
 		WebSocketClient client = new WebSocketClient("wss://iotnet.teracom.dk/app?token=vnoUcQAAABFpb3RuZXQudGVyYWNvbS5ka-iuwG5H1SHPkGogk2YUH3Y=");
 		SpringApplication.run(Sep4Application.class, args);
 	}
+
 }

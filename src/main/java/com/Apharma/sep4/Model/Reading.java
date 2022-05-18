@@ -64,6 +64,7 @@ import java.util.Objects;
 //		return "{readingId = "+ id +", readingValue = " + readingValue + ", timeStamp = " + timeStamp + '}';
 //	}
 //=======
+
 @Entity
 public class Reading
 {
