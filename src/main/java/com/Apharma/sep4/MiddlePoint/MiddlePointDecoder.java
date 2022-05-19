@@ -56,8 +56,7 @@ public class MiddlePointDecoder
   public void doIt(){
     decode(receivedPayload);
   }
-
-
+  
   public void decode(JSONObject receivedPayload)
   {
     try

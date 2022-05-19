@@ -79,14 +79,24 @@ public class Reading
   @ManyToOne
   @JoinColumn(name = "sensor_id")
   private Sensor sensor;
+  
+  public Reading()
+  {
+  }
 
-  public Reading(int readingValue, Date timeStamp, Sensor sensor)
+  public Reading(double readingValue, Date timeStamp)
+  {
+    this.readingValue = readingValue;
+    this.timeStamp = timeStamp;
+  }
+  
+  public Reading(double readingValue, Date timeStamp, Sensor sensor)
   {
     this.readingValue = readingValue;
     this.timeStamp = timeStamp;
     this.sensor = sensor;
   }
-
+  
   public void setSensor(Sensor sensor)
   {
     this.sensor = sensor;
@@ -96,33 +106,6 @@ public class Reading
   public Sensor getSensor()
   {
     return sensor;
-  }
-
-  public Reading()
-  {
-  }
-
-  @Override public boolean equals(Object o)
-  {
-    if (this == o)
-      return true;
-    if (o == null || getClass() != o.getClass())
-      return false;
-    Reading reading = (Reading) o;
-    return id == reading.id && readingValue == reading.readingValue
-        && timeStamp.equals(reading.timeStamp);
-  }
-
-  public Reading(double readingValue, Date timeStamp)
-  {
-    this.readingValue = readingValue;
-    this.timeStamp = timeStamp;
-  }
-
-  @Override public String toString()
-  {
-    return "Reading{" + "id=" + id + ", readingValue=" + readingValue
-        + ", timeStamp=" + timeStamp + '}';
   }
 
   public int getId()
@@ -154,6 +137,21 @@ public class Reading
   {
     this.timeStamp = timeStamp;
   }
+  
+  @Override public boolean equals(Object o)
+  {
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
+    Reading reading = (Reading) o;
+    return id == reading.id && readingValue == reading.readingValue
+        && timeStamp.equals(reading.timeStamp);
+  }
 
-
+  @Override public String toString()
+  {
+    return "Reading{" + "id=" + id + ", readingValue=" + readingValue
+        + ", timeStamp=" + timeStamp + '}';
+  }
 }

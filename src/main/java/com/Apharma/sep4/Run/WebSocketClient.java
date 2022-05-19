@@ -21,7 +21,6 @@ import java.util.concurrent.CompletionStage;
 public class WebSocketClient implements WebSocket.Listener
 {
 	private WebSocket server = null;
-
 	@Autowired
 	private MiddlePointDecoder decoder;
 	
@@ -32,11 +31,8 @@ public class WebSocketClient implements WebSocket.Listener
 		server.sendText(jsonTelegram, true);
 	}
 	
-	
 	// E.g. url: "wss://iotnet.teracom.dk/app?token=??????????????????????????????????????????????="
 	// Substitute ????????????????? with the token you have been given
-
-
 	public WebSocketClient(String url)
 	{
 		HttpClient client = HttpClient.newHttpClient();
@@ -102,6 +98,4 @@ public class WebSocketClient implements WebSocket.Listener
 		
 		return CompletableFuture.completedFuture("onText() completed.").thenAccept(System.out::println);
 	}
-	
-	//TODO decide where to decode payload, create class for decoding & calling db
 }
