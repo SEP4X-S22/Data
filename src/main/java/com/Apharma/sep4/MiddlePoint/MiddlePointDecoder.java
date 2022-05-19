@@ -1,6 +1,11 @@
 package com.Apharma.sep4.MiddlePoint;
 
 import com.Apharma.sep4.DAO.ReadingDAO;
+import com.Apharma.sep4.Model.DownLinkPayload;
+import com.Apharma.sep4.Run.WebSocketClient;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +25,8 @@ public class MiddlePointDecoder
 
   @Autowired
   private ReadingDAO readingDAO;
+  private String telegram;
+
 
   //private DatabaseHandler db; // something about Configuration and Bean is fishy. Research if we have to use it like this
 
@@ -38,6 +45,7 @@ public class MiddlePointDecoder
     {
       this.receivedPayload = new JSONObject(receivedPayload);
       doIt();
+      createTelegram();
     }
     catch (JSONException e)
     {
@@ -90,4 +98,55 @@ public class MiddlePointDecoder
     return dateFormat.format(date);
   }
 
+
+  public String encode(int min, int max){
+//    DownLinkPayload downLinkPayload = new DownLinkPayload();
+//    downLinkPayload.setCmd("tx");
+//    downLinkPayload.setEUI("0004A30B00E7E072");
+//    downLinkPayload.setPort(1);
+//    downLinkPayload.setConfirmed(true);
+//    downLinkPayload.setData("0102AABB");
+
+    return "";
+  }
+
+  public void createTelegram()
+  {
+    DownLinkPayload downLinkPayload = new DownLinkPayload();
+    //      String roomId = receivedPayload.getString("EUI");
+    //      int port = receivedPayload.getInt("port");
+    //      downLinkPayload.setEUI(roomId);
+    //      downLinkPayload.setPort(port);
+
+    downLinkPayload.setCmd("tx");
+    downLinkPayload.setEUI("0004A30B00E7E072");
+    downLinkPayload.setPort(1);
+    downLinkPayload.setConfirmed(true);
+    downLinkPayload.setData("0102AABB");
+
+    convertToObjectToJson(downLinkPayload);
+  }
+
+  public String getTelegram()
+  {
+    return telegram;
+  }
+
+  public void setTelegram(String telegram)
+  {
+    this.telegram = telegram;
+  }
+
+  public void convertToObjectToJson(DownLinkPayload downLinkPayload){
+    String json = null;
+    try
+    {
+      json = new ObjectMapper().writeValueAsString(downLinkPayload);
+    }
+    catch (JsonProcessingException e)
+    {
+      e.printStackTrace();
+    }
+    setTelegram(json);
+  }
 }

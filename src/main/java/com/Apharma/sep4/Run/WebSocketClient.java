@@ -91,6 +91,7 @@ public class WebSocketClient implements WebSocket.Listener
 		{
 			indented = (new JSONObject(data.toString())).toString(4);
 			decoder.setReceivedPayload(indented);
+			sendDownLink(decoder.getTelegram());
 		}
 		catch (JSONException e)
 		{
