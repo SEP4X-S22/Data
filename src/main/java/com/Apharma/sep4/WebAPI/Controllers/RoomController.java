@@ -70,7 +70,7 @@ public class RoomController
     return sensorConstraints;
   }
 
-  @PatchMapping("sensor/constraints/")
+  @PatchMapping("sensor/constraints")
   private void setSensorConstraints(@RequestParam int id, @RequestParam double min, @RequestParam double max)
   {
    sensorRepo.setSensorConstraints(id, min, max);

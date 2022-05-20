@@ -105,16 +105,29 @@ public class MiddlePointDecoder
   public void createTelegram()
   {
     DownLinkPayload downLinkPayload = new DownLinkPayload();
-    //      String roomId = receivedPayload.getString("EUI");
-    //      int port = receivedPayload.getInt("port");
-    //      downLinkPayload.setEUI(roomId);
-    //      downLinkPayload.setPort(port);
+
+    int port = 0;
+    String roomId;
+    try
+    {
+      roomId = receivedPayload.getString("EUI");
+      port = receivedPayload.getInt("port");
+      downLinkPayload.setEUI(roomId);
+      downLinkPayload.setPort(port);
+      downLinkPayload.setCmd("tx");
+      downLinkPayload.setConfirmed(true);
+      downLinkPayload.setData("0102AABB");
+    }
+    catch (JSONException e)
+    {
+      e.printStackTrace();
+    }
+
     
-    downLinkPayload.setCmd("tx");
-    downLinkPayload.setEUI("0004A30B00E7E072");
-    downLinkPayload.setPort(1);
-    downLinkPayload.setConfirmed(true);
-    downLinkPayload.setData("0102AABB");
+
+//    downLinkPayload.setEUI("0004A30B00E7E072");
+//    downLinkPayload.setPort(1);
+
     
     convertToObjectToJson(downLinkPayload);
   }
