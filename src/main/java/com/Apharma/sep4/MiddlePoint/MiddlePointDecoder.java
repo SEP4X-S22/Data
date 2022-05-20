@@ -1,6 +1,11 @@
 package com.Apharma.sep4.MiddlePoint;
 
 import com.Apharma.sep4.DAO.ReadingDAO;
+import com.Apharma.sep4.Model.DownLinkPayload;
+import com.Apharma.sep4.Run.WebSocketClient;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,30 +24,34 @@ public class MiddlePointDecoder
   private JSONObject receivedPayload; // JSONObject so we can extract the data more easily?
   @Autowired
   private ReadingDAO readingDAO;
-
-  public MiddlePointDecoder(){
-
+  private String telegram;
+  
+  public MiddlePointDecoder()
+  {
+  
   }
-
+  
   public JSONObject getReceivedPayload()
   {
     return receivedPayload;
   }
-
+  
   public void setReceivedPayload(String receivedPayload)
   {
     try
     {
       this.receivedPayload = new JSONObject(receivedPayload);
       doIt();
+      createTelegram();
     }
     catch (JSONException e)
     {
       e.printStackTrace();
     }
   }
-
-  public void doIt(){
+  
+  public void doIt()
+  {
     decode(receivedPayload);
   }
   
@@ -50,7 +59,7 @@ public class MiddlePointDecoder
   {
     try
     {
-      if(receivedPayload.getString("cmd").equals("rx"))
+      if (receivedPayload.getString("cmd").equals("rx"))
       {
         String data = receivedPayload.getString("data");
         int hum = Integer.parseInt(data, 0, 2, 16); // radix describes the base we want our number in. 16 - hex, so on
@@ -58,10 +67,10 @@ public class MiddlePointDecoder
         double tempFinal = temp / 10d;
         int co2 = Integer.parseInt(data, 7, 10, 16);
         String roomId = receivedPayload.getString("EUI");
-
+  
         long ts = receivedPayload.getLong("ts");
         String formattedStringDate = tsToString(ts);
-
+  
         //Date still hardcoded - since we have to change everything else ... :(
         //Date timestamp = new Date((ts + (3600 * 2 * 1000)));
         
@@ -73,12 +82,64 @@ public class MiddlePointDecoder
       e.printStackTrace();
     }
   }
-
+  
   private String tsToString(long ts)
   {
-      //TODO add reference to Ib for date changing code
+    //TODO add reference to Ib for date changing code
     Date date = new Date(ts); // convert seconds to milliseconds
     SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy | HH:mm:ss"); // the format of your date
     return dateFormat.format(date);
   }
+  
+  public String encode(int min, int max){
+    //    DownLinkPayload downLinkPayload = new DownLinkPayload();
+    //    downLinkPayload.setCmd("tx");
+    //    downLinkPayload.setEUI("0004A30B00E7E072");
+    //    downLinkPayload.setPort(1);
+    //    downLinkPayload.setConfirmed(true);
+    //    downLinkPayload.setData("0102AABB");
+    
+    return "";
+  }
+  
+  public void createTelegram()
+  {
+    DownLinkPayload downLinkPayload = new DownLinkPayload();
+    //      String roomId = receivedPayload.getString("EUI");
+    //      int port = receivedPayload.getInt("port");
+    //      downLinkPayload.setEUI(roomId);
+    //      downLinkPayload.setPort(port);
+    
+    downLinkPayload.setCmd("tx");
+    downLinkPayload.setEUI("0004A30B00E7E072");
+    downLinkPayload.setPort(1);
+    downLinkPayload.setConfirmed(true);
+    downLinkPayload.setData("0102AABB");
+    
+    convertToObjectToJson(downLinkPayload);
+  }
+  
+  public String getTelegram()
+  {
+    return telegram;
+  }
+  
+  public void setTelegram(String telegram)
+  {
+    this.telegram = telegram;
+  }
+  
+  public void convertToObjectToJson(DownLinkPayload downLinkPayload){
+    String json = null;
+    try
+    {
+      json = new ObjectMapper().writeValueAsString(downLinkPayload);
+    }
+    catch (JsonProcessingException e)
+    {
+      e.printStackTrace();
+    }
+    setTelegram(json);
+  }
 }
+
