@@ -2,6 +2,7 @@ package com.Apharma.sep4.WebAPI.Controllers;
 
 import com.Apharma.sep4.DTO.ReadingDTO;
 import com.Apharma.sep4.DTO.RoomDTO;
+import com.Apharma.sep4.DTO.SensorConstraintsDTO;
 import com.Apharma.sep4.DTO.SensorDTO;
 import com.Apharma.sep4.Model.Reading;
 import com.Apharma.sep4.Model.Room;
@@ -60,5 +61,18 @@ public class RoomController
     ReadingDTO current = readingRepo.getCurrentReading(roomId, sensorType);
     System.out.println(current);
     return current;
+  }
+
+  @GetMapping("sensor/{sensorId}")
+  private SensorConstraintsDTO getSensorConstraints(@PathVariable int sensorId)
+  {
+    SensorConstraintsDTO sensorConstraints = sensorRepo.getSensorConstraints(sensorId);
+    return sensorConstraints;
+  }
+
+  @PatchMapping("sensor/constraints/")
+  private void setSensorConstraints(@RequestParam int id, @RequestParam double min, @RequestParam double max)
+  {
+   sensorRepo.setSensorConstraints(id, min, max);
   }
 }

@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.slf4j.Logger;
@@ -88,6 +89,7 @@ public class DatabaseHandler
     {
           long now = new Date().getTime();
           long delay = 5 * 60 * 1000;
+          tsToString(now + delay);
 
           return args -> {
             Sensor temp;
@@ -113,17 +115,19 @@ public class DatabaseHandler
               hum.setSensorType(Sensor.SensorType.Humidity);
               co2 = new Sensor();
               co2.setSensorType(Sensor.SensorType.CO2);
+              co2.setConstraintMaxValue(1000);
+              co2.setConstraintMinValue(250);
 
 
             for (int j = 0; j < 50; j++)
             {
-              Reading temp1 = new Reading((int) (Math.random() * (50 - 1 + 1) + 1), new Date(now + j * delay));
+              Reading temp1 = new Reading((int) (Math.random() * (50 - 1 + 1) + 1),  tsToString(now + j*delay));
               temp1.setSensor(temp);
-              Reading temp2 = new Reading((int) (Math.random() * (50 - 1 + 1) + 1), new Date(now + j * delay));
+              Reading temp2 = new Reading((int) (Math.random() * (50 - 1 + 1) + 1),  tsToString(now + j*delay));
               temp2.setSensor(light);
-              Reading temp3 = new Reading((int) (Math.random() * (50 - 1 + 1) + 1), new Date(now +j * delay));
+              Reading temp3 = new Reading((int) (Math.random() * (1000 - 1 + 1) + 1),  tsToString(now + j*delay));
               temp3.setSensor(co2);
-              Reading temp4 = new Reading((int) (Math.random() * (50 - 1 + 1) + 1), new Date(now + j *delay));
+              Reading temp4 = new Reading((int) (Math.random() * (50 - 1 + 1) + 1),  tsToString(now + j*delay));
               temp4.setSensor(hum);
             }
 
@@ -140,6 +144,14 @@ public class DatabaseHandler
   @Bean
   public WebSocketClient getWebSocket(){
     return new WebSocketClient("wss://iotnet.teracom.dk/app?token=vnoUcQAAABFpb3RuZXQudGVyYWNvbS5ka-iuwG5H1SHPkGogk2YUH3Y=");
+  }
+
+  private String tsToString(long ts)
+  {
+    //TODO add reference to Ib for date changing code
+    Date date = new Date(ts); // convert seconds to milliseconds
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy | HH:mm:ss"); // the format of your date
+    return dateFormat.format(date);
   }
 
 //  @Bean

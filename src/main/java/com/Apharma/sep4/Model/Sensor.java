@@ -12,6 +12,8 @@ public class Sensor
   @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
   private SensorType sensorType;
+  private double constraintMinValue;
+  private double constraintMaxValue;
 //  @OneToMany(targetEntity = Reading.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 //  @JoinColumn(name= "sensor_reading_fk", referencedColumnName = "id")
 //  private List<Reading> readings = new ArrayList<>();
@@ -65,7 +67,27 @@ public class Sensor
   {
     this.sensorType = sensorType;
   }
-  
+
+  public double getConstraintMinValue()
+  {
+    return constraintMinValue;
+  }
+
+  public void setConstraintMinValue(double constraintMinValue)
+  {
+    this.constraintMinValue = constraintMinValue;
+  }
+
+  public double getConstraintMaxValue()
+  {
+    return constraintMaxValue;
+  }
+
+  public void setConstraintMaxValue(double constraintMaxValue)
+  {
+    this.constraintMaxValue = constraintMaxValue;
+  }
+
   @Override public boolean equals(Object o)
   {
     if (this == o)
@@ -75,7 +97,7 @@ public class Sensor
     Sensor sensor1 = (Sensor) o;
     return id == sensor1.id && sensorType == sensor1.sensorType;
   }
-  
+
   @Override public int hashCode()
   {
     return Objects.hash(id, sensorType);
