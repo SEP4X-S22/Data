@@ -60,17 +60,4 @@ public class RoomController
     System.out.println(current);
     return current;
   }
-
-  @GetMapping("sensor/{sensorId}")
-  private SensorConstraintsDTO getSensorConstraints(@PathVariable int sensorId)
-  {
-    SensorConstraintsDTO sensorConstraints = sensorRepo.getSensorConstraints(sensorId);
-    return sensorConstraints;
-  }
-
-  @PatchMapping("sensor/constraints")
-  private void setSensorConstraints(@RequestParam int id, @RequestParam double min, @RequestParam double max)
-  {
-   sensorRepo.setSensorConstraints(id, min, max);
-  }
 }
