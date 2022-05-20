@@ -1,8 +1,5 @@
 package com.Apharma.sep4.Model;
 
-import lombok.Data;
-
-
 public class DownLinkPayload
 {
   private String cmd;

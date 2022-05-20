@@ -4,8 +4,6 @@ import com.Apharma.sep4.DTO.ReadingDTO;
 import com.Apharma.sep4.DTO.RoomDTO;
 import com.Apharma.sep4.DTO.SensorConstraintsDTO;
 import com.Apharma.sep4.DTO.SensorDTO;
-import com.Apharma.sep4.Model.Reading;
-import com.Apharma.sep4.Model.Room;
 import com.Apharma.sep4.Model.Sensor;
 import com.Apharma.sep4.WebAPI.Repos.ReadingRepo;
 import com.Apharma.sep4.WebAPI.Repos.RoomRepo;
