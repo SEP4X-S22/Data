@@ -11,7 +11,7 @@ public class SensorDTO
 	private double readingValue;
 	
 	public SensorDTO(int id, Sensor.SensorType sensorType, double constraintMinValue, double constraintMaxValue,
-                     double readingValue)
+					 double readingValue)
 	{
 		this.id = id;
 		this.sensorType = sensorType;
@@ -69,9 +69,9 @@ public class SensorDTO
 	{
 		this.constraintMaxValue = constraintMaxValue;
 	}
-  
-  @Override public String toString()
-  {
-    return "SensorDTO {" + "id = " + id + ", sensorType = " + sensorType + ", readingValue = " + readingValue + '}';
-  }
+	
+	@Override public String toString()
+	{
+		return "SensorDTO {" + "id = " + id + ", sensorType = " + sensorType + ", readingValue = " + readingValue + '}';
+	}
 }

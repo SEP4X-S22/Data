@@ -15,22 +15,20 @@ import java.util.List;
 @Transactional
 @Repository public interface SensorRepo extends JpaRepository<Sensor, Integer>
 {
-  @Query(
-      "SELECT new com.Apharma.sep4.DTO.SensorDTO(s.id, s.sensorType, s.constraintMinValue, s.constraintMaxValue, r.readingValue)"
-          + " FROM Sensor s"
-          + " JOIN s.readings r"
-          + " WHERE room_id = ?1 AND r.id = (SELECT max(r.id) FROM s.readings r)") List<SensorDTO> getRoomSensors(
-      String roomId);
-
-  @Query(
-      "SELECT new com.Apharma.sep4.DTO.SensorConstraintsDTO(id, constraintMinValue, constraintMaxValue) "
-          + " FROM Sensor"
-          + " WHERE id = ?1") SensorConstraintsDTO getSensorConstraints(
-      int sensorId);
-
-  @Modifying
-  @Query("UPDATE Sensor s "
-      + " SET s.constraintMinValue =:min, s.constraintMaxValue =:max"
-      + " WHERE s.id =:id")
-  void setSensorConstraints(@Param(value = "id") int id, @Param(value = "min")double min, @Param(value = "max")double max);
+	@Query("SELECT new com.Apharma.sep4.DTO.SensorDTO(s.id, s.sensorType, s.constraintMinValue, s.constraintMaxValue, r.readingValue)"
+						 + " FROM Sensor s"
+						 + " JOIN s.readings r"
+						 + " WHERE room_id = ?1 AND r.id = (SELECT max(r.id) FROM s.readings r)")
+	List<SensorDTO> getRoomSensors(String roomId);
+	
+	@Query("SELECT new com.Apharma.sep4.DTO.SensorConstraintsDTO(id, constraintMinValue, constraintMaxValue) "
+						 + " FROM Sensor"
+						 + " WHERE id = ?1")
+	SensorConstraintsDTO getSensorConstraints(int sensorId);
+	
+	@Modifying
+	@Query("UPDATE Sensor s "
+						 + " SET s.constraintMinValue =:min, s.constraintMaxValue =:max"
+						 + " WHERE s.id =:id")
+	void setSensorConstraints(@Param(value = "id") int id, @Param(value = "min") double min, @Param(value = "max") double max);
 }
