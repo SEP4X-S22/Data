@@ -1,7 +1,6 @@
 package com.Apharma.sep4.Model;
 
 import javax.persistence.*;
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -15,9 +14,6 @@ public class Sensor
   private SensorType sensorType;
   private double constraintMinValue;
   private double constraintMaxValue;
-//  @OneToMany(targetEntity = Reading.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//  @JoinColumn(name= "sensor_reading_fk", referencedColumnName = "id")
-//  private List<Reading> readings = new ArrayList<>();
   @OneToMany(mappedBy = "sensor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   private List<Reading> readings;
   @ManyToOne

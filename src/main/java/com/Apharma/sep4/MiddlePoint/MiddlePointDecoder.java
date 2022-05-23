@@ -17,16 +17,15 @@ import javax.annotation.PostConstruct;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-//Date formatting method "tsToString" taken from Ib Havn
+//Date formatting method "tsToString" courtesy of Ib Havn
 
 @Component
 public class MiddlePointDecoder
 {
-  private JSONObject receivedPayload = null; // JSONObject so we can extract the data more easily?
+  private JSONObject receivedPayload = null;
   @Autowired
   private ReadingDAO readingDAO;
   private String telegram = null;
-
 	private WebSocketClient client;
 
   
@@ -68,10 +67,7 @@ public class MiddlePointDecoder
   
         long ts = receivedPayload.getLong("ts");
         String formattedStringDate = tsToString(ts);
-  
-        //Date still hardcoded - since we have to change everything else ... :(
-        //Date timestamp = new Date((ts + (3600 * 2 * 1000)));
-        
+
         readingDAO.storeNewEntry(hum, tempFinal, co2, formattedStringDate, roomId);
       }
     }
@@ -145,7 +141,8 @@ public class MiddlePointDecoder
     this.telegram = telegram;
   }
   
-  public void convertToObjectToJson(DownLinkPayload downLinkPayload){
+  public void convertToObjectToJson(DownLinkPayload downLinkPayload)
+  {
     String json = null;
     try
     {
@@ -155,7 +152,7 @@ public class MiddlePointDecoder
     {
       e.printStackTrace();
     }
-      setTelegram(json);
+    setTelegram(json);
 		System.out.println(json);
 		client.sendDownLink(json);
   }
