@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "users") //User is restricted in database.
+@Table(name = "users")
 public class User
 {
 	private @Id @GeneratedValue int id;
