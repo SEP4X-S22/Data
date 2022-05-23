@@ -1,4 +1,8 @@
 --***************************       DDL; Create Tables for Staging      *******************************
+/***    RESET STAGE    ***/
+/*DROP TABLE stage_fact_sensor_reading;
+DROP TABLE stage_dim_rooms;
+DROP TABLE stage_dim_sensors;*/
 
 --Create staging for Dim_Room
 CREATE TABLE IF NOT EXISTS stage_dim_rooms (
@@ -18,8 +22,8 @@ CREATE TABLE IF NOT EXISTS stage_fact_sensor_reading (
  ReadingId SERIAL PRIMARY KEY,
  RoomId VARCHAR(16) NOT NULL,
  SensorId INT NOT NULL,
- readingValue INT,
- timestamp TIMESTAMP,
+ readingValue DOUBLE PRECISION,
+ timestamp VARCHAR,
  isOverMax BIT,
  isUnderMin BIT
 );
@@ -39,8 +43,39 @@ INSERT INTO stage_dim_rooms
 FROM rooms;
 
 --Sensors; Load to Stage
+INSERT INTO stage_dim_sensors
+    (SensorId,
+     sensorType,
+     minValue,
+     maxValue)
+    SELECT
+           (id,
+            sensor_type,
+            constraint_min_value,
+            constraint_max_value)
+FROM sensors;
+
+
+--Readings; Load to Stage
+INSERT INTO stage_fact_sensor_reading
+    (roomid,
+     sensorid,
+     readingvalue,
+     timestamp
+     )
+     SELECT
+            (s.room_id,
+            r.sensor_id,
+            r.reading_value,
+            r.time_stamp)
+FROM sensors s
+inner join readings r on r.sensor_id = s.id ;
+
 
 --***************************       ETL                                     *******************************
+
+/*select to_timestamp(time_stamp, 'DD/MM/YYYY | HH24:MI:SS')
+            From readings;*/
 
 --***************************       Cleanse Data                            *******************************
 
@@ -88,7 +123,7 @@ CREATE TABLE IF NOT EXISTS dw_fact_sensor_reading (
  S_ID INT NOT NULL,
  D_ID INT NOT NULL,
  T_ID INT NOT NULL,
- readingValue INT,
+ readingValue DOUBLE PRECISION,
  isOverMax BIT,
  isUnderMin BIT
 );
