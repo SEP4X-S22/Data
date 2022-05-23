@@ -1,4 +1,4 @@
---***************************       DDL - Create Tables for Staging     *******************************
+--***************************       DDL; Create Tables for Staging      *******************************
 
 --Create staging for Dim_Room
 CREATE TABLE IF NOT EXISTS stage_dim_rooms (
@@ -30,13 +30,21 @@ ALTER TABLE stage_fact_sensor_reading ADD CONSTRAINT FK_Stage_Fact_SensorReading
 
 
 
---***************************       DML - LOAD TO STAGE                     *******************************
+--***************************       DML; LOAD TO STAGE                      *******************************
+
+-- Room; Load to Stage
+INSERT INTO stage_dim_rooms
+    (RoomId)
+    SELECT id
+FROM rooms;
+
+--Sensors; Load to Stage
 
 --***************************       ETL                                     *******************************
 
 --***************************       Cleanse Data                            *******************************
 
---***************************       DDl - EDW                               *******************************
+--***************************       DDl; EDW                                *******************************
 
 
 --Create dw for Dim_Room
@@ -56,7 +64,7 @@ CREATE TABLE IF NOT EXISTS dw_dim_sensors (
 
 --Create dw for Dim_Date
 CREATE TABLE IF NOT EXISTS dw_dim_date (
- D_ID INT NOT NULL,
+ D_ID INT NOT NULL PRIMARY KEY,
  Date DATE,
  Day INT,
  Week INT,
@@ -64,8 +72,17 @@ CREATE TABLE IF NOT EXISTS dw_dim_date (
  Year INT
 );
 
+--Create dw for Dim_Time
+CREATE TABLE IF NOT EXISTS dw_dim_time (
+ T_ID INT NOT NULL PRIMARY KEY,
+ Time TIME,
+ Minute INT,
+ Hour INT
+);
+
+
 --Create dw for Fact_SensorReading
-CREATE TABLE IF NOT EXISTS stage_fact_sensor_reading (
+CREATE TABLE IF NOT EXISTS dw_fact_sensor_reading (
  ReadingId SERIAL PRIMARY KEY,
  R_ID INT NOT NULL,
  S_ID INT NOT NULL,
