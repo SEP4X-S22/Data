@@ -2,7 +2,9 @@ package com.Apharma.sep4.WebAPI.Controllers;
 
 import com.Apharma.sep4.DTO.SensorConstraintsDTO;
 import com.Apharma.sep4.DTO.SensorDTO;
+import com.Apharma.sep4.MiddlePoint.MiddlePointDecoder;
 import com.Apharma.sep4.WebAPI.Repos.SensorRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityManager;
@@ -13,7 +15,8 @@ public class SensorController
 {
 	private final SensorRepo sensorRepo;
 	private EntityManager entityManager;
-	
+	@Autowired
+	private MiddlePointDecoder middlePointDecoder;
 	
 	public SensorController(SensorRepo sensorRepo, EntityManager entityManager)
 	{
@@ -36,6 +39,7 @@ public class SensorController
 	@PatchMapping("sensor/constraints")
 	private void setSensorConstraints(@RequestParam int id, @RequestParam double min, @RequestParam double max)
 	{
+		middlePointDecoder.createTelegram();
 		sensorRepo.setSensorConstraints(id, min, max);
 	}
 }
