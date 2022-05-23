@@ -19,6 +19,7 @@ CREATE TABLE IF NOT EXISTS stage_fact_sensor_reading (
  RoomId VARCHAR(16) NOT NULL,
  SensorId INT NOT NULL,
  readingValue INT,
+ timestamp TIMESTAMP,
  isOverMax BIT,
  isUnderMin BIT
 );
@@ -41,14 +42,14 @@ ALTER TABLE stage_fact_sensor_reading ADD CONSTRAINT FK_Stage_Fact_SensorReading
 --Create dw for Dim_Room
 CREATE TABLE IF NOT EXISTS dw_dim_rooms (
  R_ID SERIAL PRIMARY KEY,
- RoomId VARCHAR(10)
+ RoomId VARCHAR(16)
 );
 
 --Create dw for Dim_Sensor
 CREATE TABLE IF NOT EXISTS dw_dim_sensors (
  S_ID SERIAL PRIMARY KEY,
- SensorId VARCHAR(10),
- sensorType VARCHAR(10),
+ SensorId INT,
+ sensorType INT,
  minValue INT,
  maxValue INT
 );
