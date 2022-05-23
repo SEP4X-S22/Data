@@ -17,126 +17,129 @@ import java.util.Date;
 @Component
 public class MiddlePointDecoder
 {
-	private JSONObject receivedPayload;
-	@Autowired
-	private ReadingDAO readingDAO;
-	private String telegram;
-	
-	public MiddlePointDecoder()
-	{
-	
-	}
-	
-	public JSONObject getReceivedPayload()
-	{
-		return receivedPayload;
-	}
-	
-	public void setReceivedPayload(String receivedPayload)
-	{
-		try
-		{
-			this.receivedPayload = new JSONObject(receivedPayload);
-			decode(this.receivedPayload);
-			createTelegram();
-		}
-		catch (JSONException e)
-		{
-			e.printStackTrace();
-		}
-	}
-	
-	public void decode(JSONObject receivedPayload)
-	{
-		try
-		{
-			if (receivedPayload.getString("cmd").equals("rx"))
-			{
-				String data = receivedPayload.getString("data");
-				int hum = Integer.parseInt(data, 0, 2, 16); // radix describes the base we want our number in. 16 - hex, so on
-				int temp = Integer.parseInt(data, 3, 6, 16);
-				double tempFinal = temp / 10d;
-				int co2 = Integer.parseInt(data, 7, 10, 16);
-				String roomId = receivedPayload.getString("EUI");
-				
-				long ts = receivedPayload.getLong("ts");
-				String formattedStringDate = tsToString(ts);
-				
-				readingDAO.storeNewEntry(hum, tempFinal, co2, formattedStringDate, roomId);
-			}
-		}
-		catch (JSONException e)
-		{
-			e.printStackTrace();
-		}
-	}
-	
-	private String tsToString(long ts)
-	{
-		//TODO add reference to Ib for date changing code
-		Date date = new Date(ts); // convert seconds to milliseconds
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy | HH:mm:ss"); // the format of your date
-		return dateFormat.format(date);
-	}
-	
-	public void createTelegram()
-	{
-		DownLinkPayload downLinkPayload = new DownLinkPayload();
-		
-		int port = 0;
-		String roomId;
-		try
-		{
-			roomId = receivedPayload.getString("EUI");
-			port = receivedPayload.getInt("port");
-			downLinkPayload.setEUI(roomId);
-			downLinkPayload.setPort(port);
-			downLinkPayload.setCmd("tx");
-			downLinkPayload.setConfirmed(true);
-			downLinkPayload.setData("0102AABB");
-		}
-		catch (JSONException e)
-		{
-			e.printStackTrace();
-		}
-		
-		convertToObjectToJson(downLinkPayload);
-	}
-	
-	public void convertToObjectToJson(DownLinkPayload downLinkPayload)
-	{
-		String json = null;
-		try
-		{
-			json = new ObjectMapper().writeValueAsString(downLinkPayload);
-		}
-		catch (JsonProcessingException e)
-		{
-			e.printStackTrace();
-		}
-		setTelegram(json);
-	}
-	
-	public String encode(int min, int max)
-	{
-		//    DownLinkPayload downLinkPayload = new DownLinkPayload();
-		//    downLinkPayload.setCmd("tx");
-		//    downLinkPayload.setEUI("0004A30B00E7E072");
-		//    downLinkPayload.setPort(1);
-		//    downLinkPayload.setConfirmed(true);
-		//    downLinkPayload.setData("0102AABB");
-		
-		return "";
-	}
-	
-	public String getTelegram()
-	{
-		return telegram;
-	}
-	
-	public void setTelegram(String telegram)
-	{
-		this.telegram = telegram;
-	}
+  private JSONObject receivedPayload = null;
+  @Autowired
+  private ReadingDAO readingDAO;
+  private String telegram = null;
+  
+  public MiddlePointDecoder()
+  {
+  
+  }
+  
+  public JSONObject getReceivedPayload()
+  {
+    return receivedPayload;
+  }
+  
+  public void setReceivedPayload(String payload)
+  {
+    try
+    {
+      if(receivedPayload == null)
+      {
+        receivedPayload = new JSONObject(payload);
+        decode(receivedPayload);
+      }
+    }
+    catch (JSONException e)
+    {
+      e.printStackTrace();
+    }
+  }
+  
+  public void decode(JSONObject receivedPayload)
+  {
+    try
+    {
+      if (receivedPayload.getString("cmd").equals("rx"))
+      {
+        String data = receivedPayload.getString("data");
+        int hum = Integer.parseInt(data, 0, 2, 16); // radix describes the base we want our number in. 16 - hex, so on
+        int temp = Integer.parseInt(data, 3, 6, 16);
+        double tempFinal = temp / 10d;
+        int co2 = Integer.parseInt(data, 7, 10, 16);
+        String roomId = receivedPayload.getString("EUI");
+  
+        long ts = receivedPayload.getLong("ts");
+        String formattedStringDate = tsToString(ts);
+
+        readingDAO.storeNewEntry(hum, tempFinal, co2, formattedStringDate, roomId);
+      }
+    }
+    catch (JSONException e)
+    {
+      e.printStackTrace();
+    }
+  }
+  
+  private String tsToString(long ts)
+  {
+    //TODO add reference to Ib for date changing code
+    Date date = new Date(ts); // convert seconds to milliseconds
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy | HH:mm:ss"); // the format of your date
+    return dateFormat.format(date);
+  }
+  
+  public String encode(int min, int max){
+    //    DownLinkPayload downLinkPayload = new DownLinkPayload();
+    //    downLinkPayload.setCmd("tx");
+    //    downLinkPayload.setEUI("0004A30B00E7E072");
+    //    downLinkPayload.setPort(1);
+    //    downLinkPayload.setConfirmed(true);
+    //    downLinkPayload.setData("0102AABB");
+    
+    return "";
+  }
+  
+  public void createTelegram()
+  {
+    DownLinkPayload downLinkPayload = new DownLinkPayload();
+
+    int port = 0;
+    String roomId;
+    int seqno = 0;
+    try
+    {
+      roomId = receivedPayload.getString("EUI");
+      port = receivedPayload.getInt("port");
+      //seqno = receivedPayload.getInt("seqno");
+      downLinkPayload.setEUI(roomId);
+      downLinkPayload.setPort(port);
+      //downLinkPayload.setSeqNo(seqno);
+      downLinkPayload.setCmd("tx");
+      downLinkPayload.setConfirmed(true);
+      downLinkPayload.setData("0102AABB");
+    }
+    catch (JSONException e)
+    {
+      e.printStackTrace();
+    }
+    convertToObjectToJson(downLinkPayload);
+  }
+  
+  public String getTelegram()
+  {
+    return telegram;
+  }
+  
+  public void setTelegram(String telegram)
+  {
+    this.telegram = telegram;
+  }
+  
+  public void convertToObjectToJson(DownLinkPayload downLinkPayload)
+  {
+    String json = null;
+    try
+    {
+      json = new ObjectMapper().writeValueAsString(downLinkPayload);
+    }
+    catch (JsonProcessingException e)
+    {
+      e.printStackTrace();
+    }
+    setTelegram(json);
+  }
 }
 

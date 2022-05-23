@@ -17,6 +17,7 @@ import java.net.http.WebSocket;
 import java.nio.ByteBuffer;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
+import java.util.concurrent.TimeUnit;
 
 public class WebSocketClient implements WebSocket.Listener
 {
@@ -86,8 +87,10 @@ public class WebSocketClient implements WebSocket.Listener
 		try
 		{
 			indented = (new JSONObject(data.toString())).toString(4);
-			decoder.setReceivedPayload(indented);
-			sendDownLink(decoder.getTelegram());
+//			if(!decoder.getReceivedPayload().toString(4).equals(indented))
+//			{
+//				handleReceivedPayload(indented);
+//			}
 		}
 		catch (JSONException e)
 		{
@@ -95,7 +98,28 @@ public class WebSocketClient implements WebSocket.Listener
 		}
 		System.out.println(indented);
 		webSocket.request(1);
-		
-		return CompletableFuture.completedFuture("onText() completed.").thenAccept(System.out::println);
+
+//		return CompletableFuture.completedFuture("onText() completed").thenAccept(System.out::println);
+
+		return CompletableFuture.completedFuture(indented)
+				.thenAccept(this::handleReceivedPayload);
+//				.thenRun(()-> {
+//			try
+//			{
+//				TimeUnit.SECONDS.sleep(2);
+//				sendDownLink(decoder.getTelegram());
+//			}
+//			catch (InterruptedException e)
+//			{
+//				e.printStackTrace();
+//			}
+//		});
+	}
+
+	private void handleReceivedPayload(String s)
+	{
+		decoder.setReceivedPayload(s);
+		decoder.createTelegram();
+		sendDownLink(decoder.getTelegram());
 	}
 }
