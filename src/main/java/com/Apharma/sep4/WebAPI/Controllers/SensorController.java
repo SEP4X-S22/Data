@@ -14,6 +14,7 @@ public class SensorController
 	private final SensorRepo sensorRepo;
 	private EntityManager entityManager;
 	
+	
 	public SensorController(SensorRepo sensorRepo, EntityManager entityManager)
 	{
 		this.sensorRepo = sensorRepo;
