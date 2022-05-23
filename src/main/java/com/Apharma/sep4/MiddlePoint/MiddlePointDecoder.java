@@ -107,16 +107,32 @@ public class MiddlePointDecoder
     int port = 0;
     String roomId;
     int seqno = 0;
-		//      roomId = receivedPayload.getString("EUI");
-		//      port = receivedPayload.getInt("port");
-		// seqno = receivedPayload.getInt("seqno");
-		downLinkPayload.setEUI("0004A30B00E7E072");
-		downLinkPayload.setPort(1);
-		//downLinkPayload.setSeqNo(seqno);
-		downLinkPayload.setCmd("tx");
-		downLinkPayload.setConfirmed(true);
-		downLinkPayload.setData("0102AABB");
-		convertToObjectToJson(downLinkPayload);
+
+		try
+		{
+			if(receivedPayload == null){
+				roomId = "0004A30B00E7E072";
+				port = 1;
+			}
+			else
+			{
+				roomId = receivedPayload.getString("EUI");
+				port = receivedPayload.getInt("port");
+			}
+
+			downLinkPayload.setEUI(roomId);
+			downLinkPayload.setPort(port);
+			downLinkPayload.setCmd("tx");
+			downLinkPayload.setConfirmed(true);
+			downLinkPayload.setData("0400");
+
+			convertToObjectToJson(downLinkPayload);
+		}
+		catch (JSONException e)
+		{
+			e.printStackTrace();
+		}
+
   }
   
   public String getTelegram()
@@ -143,6 +159,5 @@ public class MiddlePointDecoder
 		System.out.println(json);
 		client.sendDownLink(json);
   }
-
 }
 
