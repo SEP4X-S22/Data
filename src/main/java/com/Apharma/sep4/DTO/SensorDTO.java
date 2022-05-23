@@ -6,17 +6,16 @@ public class SensorDTO
 {
 	private int id;
 	private Sensor.SensorType sensorType;
-	private double constraintMinValue;
-	private double constraintMaxValue;
+	private double constraintMin;
+	private double constraintMax;
 	private double readingValue;
 	
-	public SensorDTO(int id, Sensor.SensorType sensorType, double constraintMinValue, double constraintMaxValue,
-                     double readingValue)
+	public SensorDTO(int id, Sensor.SensorType sensorType, double constraintMin, double constraintMax, double readingValue)
 	{
 		this.id = id;
 		this.sensorType = sensorType;
-		this.constraintMinValue = constraintMinValue;
-		this.constraintMaxValue = constraintMaxValue;
+		this.constraintMin = constraintMin;
+		this.constraintMax = constraintMax;
 		this.readingValue = readingValue;
 	}
 	
@@ -52,22 +51,22 @@ public class SensorDTO
 	
 	public double getConstraintMinValue()
 	{
-		return constraintMinValue;
+		return constraintMin;
 	}
 	
 	public void setConstraintMinValue(double constraintMinValue)
 	{
-		this.constraintMinValue = constraintMinValue;
+		this.constraintMin = constraintMinValue;
 	}
 	
 	public double getConstraintMaxValue()
 	{
-		return constraintMaxValue;
+		return constraintMax;
 	}
 	
 	public void setConstraintMaxValue(double constraintMaxValue)
 	{
-		this.constraintMaxValue = constraintMaxValue;
+		this.constraintMax = constraintMaxValue;
 	}
   
   @Override public String toString()
