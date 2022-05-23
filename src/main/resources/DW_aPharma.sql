@@ -1,4 +1,4 @@
--- DDL - Create Tables for Staging
+--***************************       DDL - Create Tables for Staging     *******************************
 
 --Create staging for Dim_Room
 CREATE TABLE IF NOT EXISTS stage_dim_rooms (
@@ -23,29 +23,29 @@ CREATE TABLE IF NOT EXISTS stage_fact_sensor_reading (
  isUnderMin BIT
 );
 
---SET FOREIGN KEYS FOR STAGE_
+--SET FOREIGN KEYS FOR STAGE_fact_sensor_reading
 ALTER TABLE stage_fact_sensor_reading ADD CONSTRAINT FK_Stage_Fact_SensorReading_0 FOREIGN KEY (RoomId) REFERENCES stage_dim_rooms (RoomId);
-ALTER TABLE stage_fact_sensor_reading ADD CONSTRAINT FK_Stage_Fact_SensorReading_1 FOREIGN KEY (SensorId) REFERENCES stage_dim_Sensors (SensorId);
+ALTER TABLE stage_fact_sensor_reading ADD CONSTRAINT FK_Stage_Fact_SensorReading_1 FOREIGN KEY (SensorId) REFERENCES stage_dim_sensors (SensorId);
 
 
 
--- DML - LOAD TO STAGE
+--***************************       DML - LOAD TO STAGE                     *******************************
 
--- ETL
+--***************************       ETL                                     *******************************
 
--- Cleanse Data
+--***************************       Cleanse Data                            *******************************
 
--- DDl - EDW
+--***************************       DDl - EDW                               *******************************
 
 
---Create staging for Dim_Room
-CREATE TABLE IF NOT EXISTS stage_dim_rooms (
+--Create dw for Dim_Room
+CREATE TABLE IF NOT EXISTS dw_dim_rooms (
  R_ID SERIAL PRIMARY KEY,
  RoomId VARCHAR(10)
 );
 
---Create staging for Dim_Sensor
-CREATE TABLE IF NOT EXISTS stage_dim_sensors (
+--Create dw for Dim_Sensor
+CREATE TABLE IF NOT EXISTS dw_dim_sensors (
  S_ID SERIAL PRIMARY KEY,
  SensorId VARCHAR(10),
  sensorType VARCHAR(10),
@@ -53,8 +53,8 @@ CREATE TABLE IF NOT EXISTS stage_dim_sensors (
  maxValue INT
 );
 
---Create staging for Dim_Date
-CREATE TABLE IF NOT EXISTS stage_dim_date (
+--Create dw for Dim_Date
+CREATE TABLE IF NOT EXISTS dw_dim_date (
  D_ID INT NOT NULL,
  Date DATE,
  Day INT,
@@ -63,9 +63,7 @@ CREATE TABLE IF NOT EXISTS stage_dim_date (
  Year INT
 );
 
-
-
---Create staging for Fact_SensorReading
+--Create dw for Fact_SensorReading
 CREATE TABLE IF NOT EXISTS stage_fact_sensor_reading (
  ReadingId SERIAL PRIMARY KEY,
  R_ID INT NOT NULL,
@@ -77,21 +75,21 @@ CREATE TABLE IF NOT EXISTS stage_fact_sensor_reading (
  isUnderMin BIT
 );
 
---SET FOREIGN KEYS FOR STAGE_
-ALTER TABLE stage_fact_sensor_reading ADD CONSTRAINT FK_Stage_Fact_SensorReading_0 FOREIGN KEY (R_ID) REFERENCES stage_dim_rooms (R_ID);
-ALTER TABLE stage_fact_sensor_reading ADD CONSTRAINT FK_Stage_Fact_SensorReading_1 FOREIGN KEY (S_ID) REFERENCES stage_dim_Sensors (S_ID);
-ALTER TABLE stage_fact_sensor_reading ADD CONSTRAINT FK_Stage_Fact_SensorReading_2 FOREIGN KEY (D_ID) REFERENCES stage_dim_date (D_ID);
-ALTER TABLE stage_fact_sensor_reading ADD CONSTRAINT FK_Stage_Fact_SensorReading_3 FOREIGN KEY (T_ID) REFERENCES stage_dim_time (T_ID);
+--SET FOREIGN KEYS FOR dw_fact_sensor_reading
+ALTER TABLE dw_fact_sensor_reading ADD CONSTRAINT FK_dw_Fact_SensorReading_0 FOREIGN KEY (R_ID) REFERENCES dw_dim_rooms (R_ID);
+ALTER TABLE dw_fact_sensor_reading ADD CONSTRAINT FK_dw_Fact_SensorReading_1 FOREIGN KEY (S_ID) REFERENCES dw_dim_sensors (S_ID);
+ALTER TABLE dw_fact_sensor_reading ADD CONSTRAINT FK_dw_Fact_SensorReading_2 FOREIGN KEY (D_ID) REFERENCES dw_dim_date (D_ID);
+ALTER TABLE dw_fact_sensor_reading ADD CONSTRAINT FK_dw_Fact_SensorReading_3 FOREIGN KEY (T_ID) REFERENCES dw_dim_time (T_ID);
 
 
 
 
--- GENERATE DATES
+--***************************       GENERATE DATES                          *******************************
 
--- GENERATE TIMES
+--***************************       GENERATE TIMES                          *******************************
 
--- DML - EDW
+--***************************       DML - EDW                               *******************************
 
--- INCREMENTAL LOAD / SCHEDULING
+--***************************       INCREMENTAL LOAD / SCHEDULING           *******************************
 
--- TESTING
+--***************************       TESTING                                 *******************************
