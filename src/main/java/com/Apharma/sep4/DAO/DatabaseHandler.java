@@ -141,7 +141,7 @@ public class DatabaseHandler
     };
     //return null;
   }
-  @Bean
+  @Bean("socket")
   public WebSocketClient getWebSocket(){
     return new WebSocketClient("wss://iotnet.teracom.dk/app?token=vnoUcQAAABFpb3RuZXQudGVyYWNvbS5ka-iuwG5H1SHPkGogk2YUH3Y=");
   }

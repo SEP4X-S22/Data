@@ -2,13 +2,18 @@ package com.Apharma.sep4.MiddlePoint;
 
 import com.Apharma.sep4.DAO.ReadingDAO;
 import com.Apharma.sep4.Model.DownLinkPayload;
+import com.Apharma.sep4.Run.WebSocketClient;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -21,25 +26,26 @@ public class MiddlePointDecoder
   @Autowired
   private ReadingDAO readingDAO;
   private String telegram = null;
+
+	private WebSocketClient client;
+
   
-  public MiddlePointDecoder()
+  public MiddlePointDecoder(@Lazy WebSocketClient client)
   {
-  
+		this.client = client;
   }
-  
+
   public JSONObject getReceivedPayload()
   {
     return receivedPayload;
   }
-  
-  public void setReceivedPayload(String payload)
+
+	public void setReceivedPayload(String payload)
   {
     try
     {
-      if(receivedPayload == null){
         receivedPayload = new JSONObject(payload);
         decode(receivedPayload);
-      }
     }
     catch (JSONException e)
     {
@@ -101,23 +107,16 @@ public class MiddlePointDecoder
     int port = 0;
     String roomId;
     int seqno = 0;
-    try
-    {
-      roomId = receivedPayload.getString("EUI");
-      port = receivedPayload.getInt("port");
-     // seqno = receivedPayload.getInt("seqno");
-      downLinkPayload.setEUI(roomId);
-      downLinkPayload.setPort(port);
-      //downLinkPayload.setSeqNo(seqno);
-      downLinkPayload.setCmd("tx");
-      downLinkPayload.setConfirmed(true);
-      downLinkPayload.setData("0102AABB");
-    }
-    catch (JSONException e)
-    {
-      e.printStackTrace();
-    }
-    convertToObjectToJson(downLinkPayload);
+		//      roomId = receivedPayload.getString("EUI");
+		//      port = receivedPayload.getInt("port");
+		// seqno = receivedPayload.getInt("seqno");
+		downLinkPayload.setEUI("0004A30B00E7E072");
+		downLinkPayload.setPort(1);
+		//downLinkPayload.setSeqNo(seqno);
+		downLinkPayload.setCmd("tx");
+		downLinkPayload.setConfirmed(true);
+		downLinkPayload.setData("0102AABB");
+		convertToObjectToJson(downLinkPayload);
   }
   
   public String getTelegram()
@@ -141,6 +140,9 @@ public class MiddlePointDecoder
       e.printStackTrace();
     }
       setTelegram(json);
+		System.out.println(json);
+		client.sendDownLink(json);
   }
+
 }
 
