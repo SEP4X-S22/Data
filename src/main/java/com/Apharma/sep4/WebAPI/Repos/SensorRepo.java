@@ -32,5 +32,11 @@ import java.util.List;
   @Query("UPDATE Sensor s "
       + " SET s.constraintMinValue =:min, s.constraintMaxValue =:max"
       + " WHERE s.id =:id")
-  void setSensorConstraints(@Param(value = "id") int id, @Param(value = "min")double min, @Param(value = "max")double max);
+  void setSensorConstraints(@Param(value = "id") int id, @Param(value = "min")int min, @Param(value = "max")int max);
+
+  @Query("SELECT r.id"
+      + " FROM Room r"
+      + " JOIN r.sensors s"
+      + " WHERE s.id = ?1")
+  String getRoomIdBySensorId(int sensorId);
 }

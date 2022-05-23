@@ -12,8 +12,8 @@ public class Sensor
   @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
   private SensorType sensorType;
-  private double constraintMinValue;
-  private double constraintMaxValue;
+  private int constraintMinValue;
+  private int constraintMaxValue;
   @OneToMany(mappedBy = "sensor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   private List<Reading> readings;
   @ManyToOne
@@ -65,22 +65,22 @@ public class Sensor
     this.sensorType = sensorType;
   }
 
-  public double getConstraintMinValue()
+  public int getConstraintMinValue()
   {
     return constraintMinValue;
   }
 
-  public void setConstraintMinValue(double constraintMinValue)
+  public void setConstraintMinValue(int constraintMinValue)
   {
     this.constraintMinValue = constraintMinValue;
   }
 
-  public double getConstraintMaxValue()
+  public int getConstraintMaxValue()
   {
     return constraintMaxValue;
   }
 
-  public void setConstraintMaxValue(double constraintMaxValue)
+  public void setConstraintMaxValue(int constraintMaxValue)
   {
     this.constraintMaxValue = constraintMaxValue;
   }

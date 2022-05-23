@@ -3,10 +3,10 @@ package com.Apharma.sep4.DTO;
 public class SensorConstraintsDTO
 {
 	private int id;
-	private double constraintMinValue;
-	private double constraintMaxValue;
+	private int constraintMinValue;
+	private int constraintMaxValue;
 	
-	public SensorConstraintsDTO(int id, double constraintMinValue, double constraintMaxValue)
+	public SensorConstraintsDTO(int id, int constraintMinValue, int constraintMaxValue)
 	{
 		this.id = id;
 		this.constraintMinValue = constraintMinValue;
@@ -23,22 +23,22 @@ public class SensorConstraintsDTO
 		this.id = id;
 	}
 	
-	public double getConstraintMinValue()
+	public int getConstraintMinValue()
 	{
 		return constraintMinValue;
 	}
 	
-	public void setConstraintMinValue(double constraintMinValue)
+	public void setConstraintMinValue(int constraintMinValue)
 	{
 		this.constraintMinValue = constraintMinValue;
 	}
 	
-	public double getConstraintMaxValue()
+	public int getConstraintMaxValue()
 	{
 		return constraintMaxValue;
 	}
 	
-	public void setConstraintMaxValue(double constraintMaxValue)
+	public void setConstraintMaxValue(int constraintMaxValue)
 	{
 		this.constraintMaxValue = constraintMaxValue;
 	}

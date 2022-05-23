@@ -16,7 +16,7 @@ public class SensorDAO implements iSensorDAO
 	
 	}
 	
-	@Override public void saveConstraints(int sensorId, double minValue, double maxValue)
+	@Override public void saveConstraints(int sensorId, int minValue, int maxValue)
 	{
 		sensorRepo.setSensorConstraints(sensorId, minValue, maxValue);
 	}

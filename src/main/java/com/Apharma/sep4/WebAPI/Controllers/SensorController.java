@@ -37,9 +37,9 @@ public class SensorController
 	}
 	
 	@PatchMapping("sensor/constraints")
-	private void setSensorConstraints(@RequestParam int id, @RequestParam double min, @RequestParam double max)
+	private void setSensorConstraints(@RequestParam int id, @RequestParam int min, @RequestParam int max)
 	{
-		middlePointDecoder.createTelegram();
+		middlePointDecoder.createTelegram(id, min, max);
 		sensorRepo.setSensorConstraints(id, min, max);
 	}
 }

@@ -2,7 +2,9 @@ package com.Apharma.sep4.MiddlePoint;
 
 import com.Apharma.sep4.DAO.ReadingDAO;
 import com.Apharma.sep4.Model.DownLinkPayload;
+import com.Apharma.sep4.Model.Sensor;
 import com.Apharma.sep4.Run.WebSocketClient;
+import com.Apharma.sep4.WebAPI.Repos.SensorRepo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONException;
@@ -14,7 +16,9 @@ import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 
 //Date formatting method "tsToString" courtesy of Ib Havn
@@ -27,6 +31,8 @@ public class MiddlePointDecoder
   private ReadingDAO readingDAO;
   private String telegram = null;
 	private WebSocketClient client;
+  @Autowired
+  private SensorRepo sensorRepo;
 
   
   public MiddlePointDecoder(@Lazy WebSocketClient client)
@@ -85,34 +91,23 @@ public class MiddlePointDecoder
     return dateFormat.format(date);
   }
   
-  public String encode(int min, int max){
-    //    DownLinkPayload downLinkPayload = new DownLinkPayload();
-    //    downLinkPayload.setCmd("tx");
-    //    downLinkPayload.setEUI("0004A30B00E7E072");
-    //    downLinkPayload.setPort(1);
-    //    downLinkPayload.setConfirmed(true);
-    //    downLinkPayload.setData("0102AABB");
-    
-    return "";
-  }
-  
-  public void createTelegram()
+  public void createTelegram(int sensorId, int min, int max)
   {
+    String roomId = sensorRepo.getRoomIdBySensorId(sensorId);
     DownLinkPayload downLinkPayload = new DownLinkPayload();
 
-    int port = 0;
-    String roomId;
-    int seqno = 0;
-		//      roomId = receivedPayload.getString("EUI");
-		//      port = receivedPayload.getInt("port");
-		// seqno = receivedPayload.getInt("seqno");
-		downLinkPayload.setEUI("0004A30B00E7E072");
+    String minConstraint = String.format("%04X", min & 0x0FFFFF);
+    String maxConstraint = String.format("%04X", max & 0x0FFFFF);
+    String data = minConstraint + maxConstraint;
+
+		downLinkPayload.setEUI(roomId);
 		downLinkPayload.setPort(1);
-		//downLinkPayload.setSeqNo(seqno);
 		downLinkPayload.setCmd("tx");
-		downLinkPayload.setConfirmed(true);
-		downLinkPayload.setData("0102AABB");
+		downLinkPayload.setConfirmed(false);
+		downLinkPayload.setData(data);
+
 		convertToObjectToJson(downLinkPayload);
+    sendDownLink(getTelegram());
   }
   
   public String getTelegram()
@@ -135,9 +130,13 @@ public class MiddlePointDecoder
     {
       e.printStackTrace();
     }
-      setTelegram(json);
+    setTelegram(json);
 		System.out.println(json);
-		client.sendDownLink(json);
+
+  }
+
+  private void sendDownLink(String json){
+    client.sendDownLink(json);
   }
 
 }

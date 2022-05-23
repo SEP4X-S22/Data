@@ -43,8 +43,6 @@ public class ReadingDAO implements Dao<Reading>
 		
 		for (SensorDTO s: sensors)
 		{
-			System.out.println(s.getSensorType());
-			
 			Sensor sensor = new Sensor();
 			sensor.setId(s.getId());
 			sensor.setSensorType(s.getSensorType());

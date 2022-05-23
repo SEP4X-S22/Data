@@ -6,11 +6,11 @@ public class SensorDTO
 {
 	private int id;
 	private Sensor.SensorType sensorType;
-	private double constraintMin;
-	private double constraintMax;
+	private int constraintMin;
+	private int constraintMax;
 	private double readingValue;
 	
-	public SensorDTO(int id, Sensor.SensorType sensorType, double constraintMin, double constraintMax, double readingValue)
+	public SensorDTO(int id, Sensor.SensorType sensorType, int constraintMin, int constraintMax, double readingValue)
 	{
 		this.id = id;
 		this.sensorType = sensorType;
@@ -49,22 +49,22 @@ public class SensorDTO
 		this.readingValue = readingValue;
 	}
 	
-	public double getConstraintMinValue()
+	public int getConstraintMinValue()
 	{
 		return constraintMin;
 	}
 	
-	public void setConstraintMinValue(double constraintMinValue)
+	public void setConstraintMinValue(int constraintMinValue)
 	{
 		this.constraintMin = constraintMinValue;
 	}
 	
-	public double getConstraintMaxValue()
+	public int getConstraintMaxValue()
 	{
 		return constraintMax;
 	}
 	
-	public void setConstraintMaxValue(double constraintMaxValue)
+	public void setConstraintMaxValue(int constraintMaxValue)
 	{
 		this.constraintMax = constraintMaxValue;
 	}
