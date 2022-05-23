@@ -41,38 +41,34 @@ public class ReadingDAO implements Dao<Reading>
 		Reading temperature = new Reading(temp, timestamp);
 		Reading co2Reading = new Reading(co2, timestamp);
 		
-		for (int i = 0; i < sensors.size(); i++)
+		for (SensorDTO s: sensors)
 		{
-			switch (sensors.get(i).getSensorType())
+			System.out.println(s.getSensorType());
+			
+			Sensor sensor = new Sensor();
+			sensor.setId(s.getId());
+			sensor.setSensorType(s.getSensorType());
+			sensor.setRoom(room);
+			
+			switch (sensor.getSensorType())
 			{
 				case Temperature:
 				{
-					System.out.println(sensors.get(i).getSensorType());
-					Sensor temper = new Sensor();
-					temper.setId(sensors.get(i).getId());
-					temper.setSensorType(sensors.get(i).getSensorType());
-					temperature.setSensor(temper);
-					temper.setRoom(room);
+					temperature.setSensor(sensor);
 				}
 				break;
+				
 				case CO2:
 				{
-					Sensor cotwo = new Sensor();
-					cotwo.setId(sensors.get(i).getId());
-					cotwo.setSensorType(sensors.get(i).getSensorType());
-					co2Reading.setSensor(cotwo);
-					cotwo.setRoom(room);
+					sensor.setConstraintMinValue(s.getConstraintMinValue());
+					sensor.setConstraintMaxValue(s.getConstraintMaxValue());
+					co2Reading.setSensor(sensor);
 				}
-				
 				break;
+				
 				case Humidity:
 				{
-					System.out.println(sensors.get(i).getSensorType());
-					Sensor humi = new Sensor();
-					humi.setId(sensors.get(i).getId());
-					humi.setSensorType(sensors.get(i).getSensorType());
-					humidity.setSensor(humi);
-					humi.setRoom(room);
+					humidity.setSensor(sensor);
 				}
 				break;
 			}
