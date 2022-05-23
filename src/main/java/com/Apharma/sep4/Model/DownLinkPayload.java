@@ -1,11 +1,15 @@
 package com.Apharma.sep4.Model;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY, getterVisibility = JsonAutoDetect.Visibility.NONE, setterVisibility = JsonAutoDetect.Visibility.NONE)
 public class DownLinkPayload
 {
   private String cmd;
+
+  @JsonProperty("EUI")
   private String EUI;
   private int port;
   private boolean confirmed;

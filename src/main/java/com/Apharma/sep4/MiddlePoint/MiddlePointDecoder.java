@@ -2,17 +2,13 @@ package com.Apharma.sep4.MiddlePoint;
 
 import com.Apharma.sep4.DAO.ReadingDAO;
 import com.Apharma.sep4.Model.DownLinkPayload;
-import com.Apharma.sep4.Run.WebSocketClient;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -21,10 +17,10 @@ import java.util.Date;
 @Component
 public class MiddlePointDecoder
 {
-  private JSONObject receivedPayload; // JSONObject so we can extract the data more easily?
+  private JSONObject receivedPayload = null; // JSONObject so we can extract the data more easily?
   @Autowired
   private ReadingDAO readingDAO;
-  private String telegram;
+  private String telegram = null;
   
   public MiddlePointDecoder()
   {
@@ -36,23 +32,19 @@ public class MiddlePointDecoder
     return receivedPayload;
   }
   
-  public void setReceivedPayload(String receivedPayload)
+  public void setReceivedPayload(String payload)
   {
     try
     {
-      this.receivedPayload = new JSONObject(receivedPayload);
-      doIt();
-      createTelegram();
+      if(receivedPayload == null){
+        receivedPayload = new JSONObject(payload);
+        decode(receivedPayload);
+      }
     }
     catch (JSONException e)
     {
       e.printStackTrace();
     }
-  }
-  
-  public void doIt()
-  {
-    decode(receivedPayload);
   }
   
   public void decode(JSONObject receivedPayload)
@@ -108,12 +100,15 @@ public class MiddlePointDecoder
 
     int port = 0;
     String roomId;
+    int seqno = 0;
     try
     {
       roomId = receivedPayload.getString("EUI");
       port = receivedPayload.getInt("port");
+     // seqno = receivedPayload.getInt("seqno");
       downLinkPayload.setEUI(roomId);
       downLinkPayload.setPort(port);
+      //downLinkPayload.setSeqNo(seqno);
       downLinkPayload.setCmd("tx");
       downLinkPayload.setConfirmed(true);
       downLinkPayload.setData("0102AABB");
@@ -122,13 +117,6 @@ public class MiddlePointDecoder
     {
       e.printStackTrace();
     }
-
-    
-
-//    downLinkPayload.setEUI("0004A30B00E7E072");
-//    downLinkPayload.setPort(1);
-
-    
     convertToObjectToJson(downLinkPayload);
   }
   
@@ -152,7 +140,7 @@ public class MiddlePointDecoder
     {
       e.printStackTrace();
     }
-    setTelegram(json);
+      setTelegram(json);
   }
 }
 
