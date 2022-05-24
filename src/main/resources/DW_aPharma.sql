@@ -199,11 +199,22 @@ ALTER TABLE dw_fact_sensor_reading ADD CONSTRAINT FK_dw_Fact_SensorReading_3 FOR
 
 
 --***************************       GENERATE DATES                          *******************************
-SELECT date_trunc('day', dd) :: date
-FROM generate_series(
-    '2020-01-01' :: timestamp
-   ,'2120-01-01' :: timestamp
-   ,'1 day'::interval) dd;
+--Create Temp Table for dates
+CREATE TEMP TABLE genDate
+(
+    Date DATE
+);
+
+-- 100 years of dates
+INSERT INTO genDate(
+    (SELECT date_trunc('day', dd):: date
+     FROM generate_series
+              ('01/01/2020'::timestamp
+              , '01/01/2120'::timestamp
+              , '1 day'::interval) dd)
+);
+
+
 --***************************       GENERATE TIMES                          *******************************
 SELECT ourDay::time
 FROM   generate_series(timestamp '2020-01-01'
@@ -213,6 +224,19 @@ FROM   generate_series(timestamp '2020-01-01'
 --***************************       DML - EDW                               *******************************
 
 
+--Insert into Dim_date
+INSERT INTO dw_dim_date(D_ID,Date, Day, Week, Month, Year)
+SELECT
+       (SELECT to_char((Date), 'YYYYMMDD'))::integer,
+       Date,
+       EXTRACT(day FROM DATE),
+       EXTRACT(week FROM DATE),
+       EXTRACT(month FROM DATE),
+       EXTRACT(year FROM DATE)
+FROM genDate;
+
+--DROP TEMP TABLE
+DROP TABLE genDate;
 
 --***************************       INCREMENTAL LOAD / SCHEDULING           *******************************
 
