@@ -1,8 +1,8 @@
 --***************************       DDL; Create Tables for Staging      *******************************
 /***    RESET STAGE    ***/
-/*DROP TABLE stage_fact_sensor_reading;
+DROP TABLE stage_fact_sensor_reading;
 DROP TABLE stage_dim_rooms;
-DROP TABLE stage_dim_sensors;*/
+DROP TABLE stage_dim_sensors;
 
 /***    RESET DW    ***/
 /*DROP TABLE dw_fact_sensor_reading;
@@ -203,13 +203,16 @@ SELECT date_trunc('day', dd) :: date
 FROM generate_series(
     '2020-01-01' :: timestamp
    ,'2120-01-01' :: timestamp
-   ,'1 day'::interval) dd
-    ;
-
-
+   ,'1 day'::interval) dd;
 --***************************       GENERATE TIMES                          *******************************
+SELECT ourDay::time
+FROM   generate_series(timestamp '2020-01-01'
+                     , timestamp '2120-01-01'
+                     , interval  '5 min') ourDay;
 
 --***************************       DML - EDW                               *******************************
+
+
 
 --***************************       INCREMENTAL LOAD / SCHEDULING           *******************************
 
