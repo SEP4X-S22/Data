@@ -199,6 +199,13 @@ ALTER TABLE dw_fact_sensor_reading ADD CONSTRAINT FK_dw_Fact_SensorReading_3 FOR
 
 
 --***************************       GENERATE DATES                          *******************************
+SELECT date_trunc('day', dd) :: date
+FROM generate_series(
+    '2020-01-01' :: timestamp
+   ,'2120-01-01' :: timestamp
+   ,'1 day'::interval) dd
+    ;
+
 
 --***************************       GENERATE TIMES                          *******************************
 
