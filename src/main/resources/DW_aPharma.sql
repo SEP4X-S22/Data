@@ -66,8 +66,7 @@ INSERT INTO stage_fact_sensor_reading
     (roomid,
      sensorid,
      readingvalue,
-     timestamp
-     )
+     timestamp)
      SELECT
             s.room_id,
             r.sensor_id,
@@ -79,13 +78,27 @@ inner join sensors s on r.sensor_id = s.id ;
 
 --***************************       Cleanse Data                            *******************************
 
-/*select to_timestamp(time_stamp, 'DD/MM/YYYY | HH24:MI:SS')
-            From readings;*/
+/*select to_timestamp(timestamp, 'DD/MM/YYYY | HH24:MI:SS')
+            From stage_fact_sensor_reading;*/
 --DO THIS IN DW DML
 
 -- set constraint if null for each sensorType
 
 -- set isOverMax and isUnderMin
+
+
+UPDATE stage_fact_sensor_reading
+SET isovermax = '0'
+WHERE isovermax IS NOT NULL;
+
+UPDATE stage_fact_sensor_reading
+SET isundermin = '0'
+WHERE isundermin IS NULL;
+
+/*UPDATE stage_fact_sensor_reading
+SET isovermax = '1'
+FROM stage_dim_sensors s
+WHERE readingvalue > s.maxValue;*/
 
 --***************************       DDl; EDW                                *******************************
 
