@@ -1,15 +1,9 @@
 package com.Apharma.sep4.Run;
 
-import com.Apharma.sep4.DAO.DatabaseHandler;
 import com.Apharma.sep4.MiddlePoint.MiddlePointDecoder;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -17,7 +11,6 @@ import java.net.http.WebSocket;
 import java.nio.ByteBuffer;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
-import java.util.concurrent.TimeUnit;
 
 public class WebSocketClient implements WebSocket.Listener
 {
@@ -25,15 +18,11 @@ public class WebSocketClient implements WebSocket.Listener
 	@Autowired
 	private MiddlePointDecoder decoder;
 	
-	// Send down-link message to device
-	// Must be in Json format according to https://github.com/ihavn/IoT_Semester_project/blob/master/LORA_NETWORK_SERVER.md
 	public void sendDownLink(String jsonTelegram)
 	{
 		server.sendText(jsonTelegram, true);
 	}
 	
-	// E.g. url: "wss://iotnet.teracom.dk/app?token=??????????????????????????????????????????????="
-	// Substitute ????????????????? with the token you have been given
 	public WebSocketClient(String url)
 	{
 		HttpClient client = HttpClient.newHttpClient();
@@ -43,9 +32,6 @@ public class WebSocketClient implements WebSocket.Listener
 	
 	public void onOpen(WebSocket webSocket)
 	{
-		// This WebSocket will invoke onText, onBinary, onPing, onPong or onClose methods on the associated listener
-		// (i.e. receive methods) up to n more times
-		
 		webSocket.request(1);
 		System.out.println("WebSocket Listener is open for requests.");
 	}
@@ -95,13 +81,12 @@ public class WebSocketClient implements WebSocket.Listener
 		}
 		System.out.println(indented);
 		webSocket.request(1);
-
+		
 		return CompletableFuture.completedFuture("onText() completed").thenAccept(System.out::println);
 	}
-
+	
 	private void handleReceivedPayload(String s)
 	{
 		decoder.setReceivedPayload(s);
 	}
-
 }

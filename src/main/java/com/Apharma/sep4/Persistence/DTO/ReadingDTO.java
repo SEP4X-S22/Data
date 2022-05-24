@@ -1,4 +1,4 @@
-package com.Apharma.sep4.DTO;
+package com.Apharma.sep4.Persistence.DTO;
 
 public class ReadingDTO
 {

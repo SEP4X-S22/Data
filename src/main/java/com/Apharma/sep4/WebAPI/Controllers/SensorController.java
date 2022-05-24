@@ -1,11 +1,9 @@
 package com.Apharma.sep4.WebAPI.Controllers;
 
-import com.Apharma.sep4.DTO.SensorConstraintsDTO;
-import com.Apharma.sep4.DTO.SensorDTO;
+import com.Apharma.sep4.Persistence.DTO.SensorConstraintsDTO;
+import com.Apharma.sep4.Persistence.DTO.SensorDTO;
 import com.Apharma.sep4.MiddlePoint.MiddlePointDecoder;
 import com.Apharma.sep4.WebAPI.Repos.SensorRepo;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,16 +14,14 @@ import java.util.List;
 public class SensorController
 {
 	private final SensorRepo sensorRepo;
-	private EntityManager entityManager;
 	@Autowired
 	private MiddlePointDecoder middlePointDecoder;
 	
-	public SensorController(SensorRepo sensorRepo, EntityManager entityManager)
+	public SensorController(SensorRepo sensorRepo)
 	{
 		this.sensorRepo = sensorRepo;
-		this.entityManager = entityManager;
 	}
-//------------------------------------
+
 	@GetMapping("/log")
 	private String getLog(){
 			return middlePointDecoder.getLog();
@@ -35,7 +31,6 @@ public class SensorController
 	private void clearLog(){
 		middlePointDecoder.clearLog();
 	}
-	//-----------------------
 
 	@GetMapping("/rooms/{roomId}/sensors")
 	private List<SensorDTO> getRoomSensors(@PathVariable String roomId)
@@ -43,13 +38,13 @@ public class SensorController
 		return sensorRepo.getRoomSensors(roomId);
 	}
 	
-	@GetMapping("sensor/{sensorId}")
+	@GetMapping("/sensor/{sensorId}")
 	private SensorConstraintsDTO getSensorConstraints(@PathVariable int sensorId)
 	{
 		return sensorRepo.getSensorConstraints(sensorId);
 	}
 	
-	@PatchMapping("sensor/constraints")
+	@PatchMapping("/sensor/constraints")
 	private void setSensorConstraints(@RequestParam int id, @RequestParam int min, @RequestParam int max)
 	{
 		middlePointDecoder.createTelegram(id, min, max);

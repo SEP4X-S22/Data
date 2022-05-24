@@ -1,4 +1,4 @@
-package com.Apharma.sep4.DAO;
+package com.Apharma.sep4.Persistence;
 
 import com.Apharma.sep4.Model.Reading;
 import com.Apharma.sep4.Model.Room;
@@ -8,7 +8,6 @@ import com.Apharma.sep4.WebAPI.Repos.RoomRepo;
 import com.Apharma.sep4.WebAPI.Repos.ReadingRepo;
 import com.Apharma.sep4.WebAPI.Repos.SensorRepo;
 import com.Apharma.sep4.WebAPI.Repos.UserRepo;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -96,8 +95,8 @@ public class DatabaseHandler
 	private String tsToString(long ts)
 	{
 		//TODO add reference to Ib for date changing code
-		Date date = new Date(ts); // convert seconds to milliseconds
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy | HH:mm:ss"); // the format of your date
+		Date date = new Date(ts);
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy | HH:mm:ss");
 		return dateFormat.format(date);
 	}
 }

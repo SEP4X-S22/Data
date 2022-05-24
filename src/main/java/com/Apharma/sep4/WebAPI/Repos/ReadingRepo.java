@@ -1,6 +1,6 @@
 package com.Apharma.sep4.WebAPI.Repos;
 
-import com.Apharma.sep4.DTO.ReadingDTO;
+import com.Apharma.sep4.Persistence.DTO.ReadingDTO;
 import com.Apharma.sep4.Model.Reading;
 import com.Apharma.sep4.Model.Sensor;
 import org.springframework.data.jpa.repository.JpaRepository;

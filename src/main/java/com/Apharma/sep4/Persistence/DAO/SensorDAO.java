@@ -1,4 +1,4 @@
-package com.Apharma.sep4.DAO;
+package com.Apharma.sep4.Persistence.DAO;
 
 import com.Apharma.sep4.WebAPI.Repos.SensorRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +9,6 @@ public class SensorDAO implements iSensorDAO
 {
 	@Autowired
 	private SensorRepo sensorRepo;
-	
 	
 	public SensorDAO()
 	{
