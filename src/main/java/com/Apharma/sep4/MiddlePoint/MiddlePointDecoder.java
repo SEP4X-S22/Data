@@ -142,6 +142,7 @@ public class MiddlePointDecoder
 //--------------------------------------
   public void setLog(String payload)
   {
+    String good = formatter(payload);
     String date = tsToString(System.currentTimeMillis() + 2*3600*1000);
     String prefix;
     if(payload.contains("\"tx\""))
@@ -152,12 +153,19 @@ public class MiddlePointDecoder
     {
       prefix = "UPLINK Message (From IoT)";
     }
-    log = log + "<br> <b style=\"color:#008F11;\">" + date + " - " + prefix + "</b><p style=\"color:#00FF41;\">" + payload + "</p></body></html>  ";
+    log = log + "<br> <b style=\"color:#008F11;\">" + date + " - " + prefix + "</b><p style=\"color:#00FF41;\">" + good + "</p></body></html>  ";
   }
 
   public String getLog()
   {
     return log;
+  }
+
+  public String formatter(String payload){
+    payload = payload.replace("{", "{<br>&nbsp&nbsp&nbsp&nbsp");
+    payload = payload.replace(",", ",<br>&nbsp&nbsp&nbsp&nbsp");
+    payload = payload.replace("}","<br>}<br>");
+    return payload;
   }
 
   public void clearLog(){

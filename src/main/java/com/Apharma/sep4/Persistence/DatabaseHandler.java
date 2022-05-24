@@ -37,7 +37,7 @@ public class DatabaseHandler
   @Bean CommandLineRunner initDatabase(RoomRepo roomRepo, SensorRepo sensorRepo,
       UserRepo userRepo, ReadingRepo readingRepo)
   {
-    return args -> createDummyData(roomRepo);
+    return args -> System.out.println("Yeey");
   }
 
   @Bean
