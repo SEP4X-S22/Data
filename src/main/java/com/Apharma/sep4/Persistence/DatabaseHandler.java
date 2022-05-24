@@ -32,10 +32,6 @@ public class DatabaseHandler
 	
 	@Bean CommandLineRunner initDatabase(RoomRepo roomRepo, SensorRepo sensorRepo, UserRepo userRepo, ReadingRepo readingRepo)
 	{
-		long now = new Date().getTime();
-		long delay = 5 * 60 * 1000;
-		tsToString(now + delay);
-		
 		return args ->
 		{
 			Sensor temp;
@@ -63,18 +59,6 @@ public class DatabaseHandler
 				co2.setSensorType(Sensor.SensorType.CO2);
 				co2.setConstraintMaxValue(1000);
 				co2.setConstraintMinValue(250);
-				
-				for (int j = 0; j < 50; j++)
-				{
-					Reading temp1 = new Reading((int) (Math.random() * (50 - 1 + 1) + 1), tsToString(now + j * delay));
-					temp1.setSensor(temp);
-					Reading temp2 = new Reading((int) (Math.random() * (50 - 1 + 1) + 1), tsToString(now + j * delay));
-					temp2.setSensor(light);
-					Reading temp3 = new Reading((int) (Math.random() * (1000 - 1 + 1) + 1), tsToString(now + j * delay));
-					temp3.setSensor(co2);
-					Reading temp4 = new Reading((int) (Math.random() * (50 - 1 + 1) + 1), tsToString(now + j * delay));
-					temp4.setSensor(hum);
-				}
 				
 				co2.setRoom(room);
 				temp.setRoom(room);
