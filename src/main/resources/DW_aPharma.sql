@@ -49,10 +49,10 @@ INSERT INTO stage_dim_sensors
      minValue,
      maxValue)
     SELECT
-           (id,
+            id,
             sensor_type,
             constraint_min_value,
-            constraint_max_value)
+            constraint_max_value
 FROM sensors;
 
 
