@@ -64,12 +64,12 @@ INSERT INTO stage_fact_sensor_reading
      timestamp
      )
      SELECT
-            (s.room_id,
+            s.room_id,
             r.sensor_id,
             r.reading_value,
-            r.time_stamp)
-FROM sensors s
-inner join readings r on r.sensor_id = s.id ;
+            r.time_stamp
+FROM readings r
+inner join sensors s on r.sensor_id = s.id ;
 
 
 --***************************       ETL                                     *******************************
