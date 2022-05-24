@@ -1,4 +1,4 @@
-package com.Apharma.sep4.DAO;
+package com.Apharma.sep4.Persistence;
 
 import com.Apharma.sep4.Model.Reading;
 import com.Apharma.sep4.Model.Room;
@@ -8,7 +8,8 @@ import com.Apharma.sep4.WebAPI.Repos.RoomRepo;
 import com.Apharma.sep4.WebAPI.Repos.ReadingRepo;
 import com.Apharma.sep4.WebAPI.Repos.SensorRepo;
 import com.Apharma.sep4.WebAPI.Repos.UserRepo;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -18,10 +19,17 @@ import org.springframework.context.annotation.Configuration;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-@Configuration @EnableAutoConfiguration @ComponentScan(basePackages = {
-    "com/Apharma/sep4/DAO", "com/Apharma/sep4/MiddlePoint",
+@Configuration
+@EnableAutoConfiguration
+@ComponentScan
+    (basePackages = {
+    "com/Apharma/sep4/Persistance/DAO",
+    "com/Apharma/sep4/Persistance/DTO",
+    "com/Apharma/sep4/MiddlePoint",
+    "com/Apharma/sep4/WebAPI/Controllers",
     "com/Apharma/sep4/WebAPI/Repos",
-    "com/Apharma/sep4/Run"}) public class DatabaseHandler
+    "com/Apharma/sep4/Run"})
+public class DatabaseHandler
 {
   private static final Logger log = LoggerFactory.getLogger(
       DatabaseHandler.class);
@@ -29,10 +37,11 @@ import java.util.Date;
   @Bean CommandLineRunner initDatabase(RoomRepo roomRepo, SensorRepo sensorRepo,
       UserRepo userRepo, ReadingRepo readingRepo)
   {
-    return args -> System.out.println("Yeeey!");
+    return args -> createDummyData(roomRepo);
   }
 
-  @Bean("socket") public WebSocketClient getWebSocket()
+  @Bean
+  public WebSocketClient getWebSocket()
   {
     return new WebSocketClient(
         "wss://iotnet.teracom.dk/app?token=vnoUcQAAABFpb3RuZXQudGVyYWNvbS5ka-iuwG5H1SHPkGogk2YUH3Y=");

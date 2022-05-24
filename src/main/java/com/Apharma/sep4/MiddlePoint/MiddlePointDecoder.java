@@ -1,8 +1,8 @@
 package com.Apharma.sep4.MiddlePoint;
 
-import com.Apharma.sep4.DAO.ReadingDAO;
-import com.Apharma.sep4.Model.DownLinkPayload;
-import com.Apharma.sep4.Model.Sensor;
+import com.Apharma.sep4.Model.DownlinkPayload;
+import com.Apharma.sep4.Persistence.DAO.ReadingDAO;
+import com.Apharma.sep4.Persistence.DAO.iReadingDAO;
 import com.Apharma.sep4.Run.WebSocketClient;
 import com.Apharma.sep4.WebAPI.Repos.SensorRepo;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -10,18 +10,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
-import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 
 //Date formatting method "tsToString" courtesy of Ib Havn
@@ -102,7 +94,7 @@ public class MiddlePointDecoder
   public void createTelegram(int sensorId, int min, int max)
   {
     String roomId = sensorRepo.getRoomIdBySensorId(sensorId);
-    DownLinkPayload downLinkPayload = new DownLinkPayload();
+    DownlinkPayload downLinkPayload = new DownlinkPayload();
 
     String minConstraint = String.format("%04X", min & 0x0FFFFF);
     String maxConstraint = String.format("%04X", max & 0x0FFFFF);
@@ -128,7 +120,7 @@ public class MiddlePointDecoder
     this.telegram = telegram;
   }
   
-  public void convertToObjectToJson(DownLinkPayload downLinkPayload){
+  public void convertToObjectToJson(DownlinkPayload downLinkPayload){
     String json = null;
     try
     {

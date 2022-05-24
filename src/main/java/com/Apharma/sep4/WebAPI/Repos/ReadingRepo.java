@@ -12,14 +12,14 @@ import java.util.List;
 @Repository
 public interface ReadingRepo extends JpaRepository<Reading, Integer>
 {
-  @Query("SELECT new com.Apharma.sep4.DTO.ReadingDTO(r.id, r.readingValue, r.timeStamp) "
+  @Query("SELECT new com.Apharma.sep4.Persistence.DTO.ReadingDTO(r.id, r.readingValue, r.timeStamp) "
       + " FROM Room ro "
       + " JOIN ro.sensors s "
       + " JOIN s.readings r "
       + " WHERE s.sensorType = ?2 AND ro.id = ?1")
   List<ReadingDTO> getReadingsForRoomIdAndSensorType(String roomId, Sensor.SensorType sensorType);
 
-  @Query("SELECT new com.Apharma.sep4.DTO.ReadingDTO(r.id, r.readingValue, r.timeStamp)"
+  @Query("SELECT new com.Apharma.sep4.Persistence.DTO.ReadingDTO(r.id, r.readingValue, r.timeStamp)"
       + " FROM Room ro"
       + " JOIN ro.sensors s"
       + " JOIN s.readings r"
