@@ -47,7 +47,9 @@ public class ReadingDAO implements Dao<Reading>
 			sensor.setId(s.getId());
 			sensor.setSensorType(s.getSensorType());
 			sensor.setRoom(room);
-			
+			sensor.setConstraintMinValue(s.getConstraintMinValue());
+			sensor.setConstraintMaxValue(s.getConstraintMaxValue());
+
 			switch (sensor.getSensorType())
 			{
 				case Temperature:
@@ -55,11 +57,9 @@ public class ReadingDAO implements Dao<Reading>
 					temperature.setSensor(sensor);
 				}
 				break;
-				
+
 				case CO2:
 				{
-					sensor.setConstraintMinValue(s.getConstraintMinValue());
-					sensor.setConstraintMaxValue(s.getConstraintMaxValue());
 					co2Reading.setSensor(sensor);
 				}
 				break;
