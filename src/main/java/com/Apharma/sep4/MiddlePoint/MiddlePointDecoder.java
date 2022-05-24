@@ -16,6 +16,9 @@ import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -33,6 +36,9 @@ public class MiddlePointDecoder
 	private WebSocketClient client;
   @Autowired
   private SensorRepo sensorRepo;
+
+  private String log = "<html> <head> <h3> PAYLOAD LOGGER </h3></head><body> "; //-----------------------------
+
 
   
   public MiddlePointDecoder(@Lazy WebSocketClient client)
@@ -57,7 +63,9 @@ public class MiddlePointDecoder
       e.printStackTrace();
     }
   }
-  
+
+
+
   public void decode(JSONObject receivedPayload)
   {
     try
@@ -131,6 +139,7 @@ public class MiddlePointDecoder
       e.printStackTrace();
     }
     setTelegram(json);
+
 		System.out.println(json);
 
   }
@@ -138,6 +147,21 @@ public class MiddlePointDecoder
   private void sendDownLink(String json){
     client.sendDownLink(json);
   }
+//--------------------------------------
+  public void setLog(String payload)
+  {
+    String date = tsToString(System.currentTimeMillis() + 2*3600*1000);
+   log = log + "<br> <i>" + date + "</i> " + payload + "</body> </html>  ";
+  }
 
+  public String getLog()
+  {
+    return log;
+  }
+
+  public void clearLog(){
+    log = "<html> <head> <h3> PAYLOAD LOGGER </h3> </head><body> ";
+  }
+  //--------------------------------
 }
 

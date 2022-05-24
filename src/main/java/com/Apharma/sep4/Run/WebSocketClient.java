@@ -87,6 +87,7 @@ public class WebSocketClient implements WebSocket.Listener
 		{
 			indented = (new JSONObject(data.toString())).toString(4);
 			handleReceivedPayload(indented);
+			decoder.setLog(indented); //-------------------------------
 		}
 		catch (JSONException e)
 		{
@@ -102,4 +103,5 @@ public class WebSocketClient implements WebSocket.Listener
 	{
 		decoder.setReceivedPayload(s);
 	}
+
 }

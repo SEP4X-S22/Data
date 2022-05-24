@@ -4,6 +4,8 @@ import com.Apharma.sep4.DTO.SensorConstraintsDTO;
 import com.Apharma.sep4.DTO.SensorDTO;
 import com.Apharma.sep4.MiddlePoint.MiddlePointDecoder;
 import com.Apharma.sep4.WebAPI.Repos.SensorRepo;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +25,18 @@ public class SensorController
 		this.sensorRepo = sensorRepo;
 		this.entityManager = entityManager;
 	}
-	
+//------------------------------------
+	@GetMapping("/log")
+	private String getLog(){
+			return middlePointDecoder.getLog();
+	}
+
+	@GetMapping("/clearLog")
+	private void clearLog(){
+		middlePointDecoder.clearLog();
+	}
+	//-----------------------
+
 	@GetMapping("/rooms/{roomId}/sensors")
 	private List<SensorDTO> getRoomSensors(@PathVariable String roomId)
 	{
