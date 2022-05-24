@@ -40,6 +40,6 @@ public class Room
   
   @Override public String toString()
   {
-    return "Room{" + "id=" + id + '}';
+    return "Room {" + "id = " + id + '}';
   }
 }

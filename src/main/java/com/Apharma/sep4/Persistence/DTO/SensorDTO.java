@@ -1,4 +1,4 @@
-package com.Apharma.sep4.DTO;
+package com.Apharma.sep4.Persistence.DTO;
 
 import com.Apharma.sep4.Model.Sensor;
 
@@ -10,12 +10,12 @@ public class SensorDTO
 	private int constraintMax;
 	private double readingValue;
 	
-	public SensorDTO(int id, Sensor.SensorType sensorType, int constraintMin, int constraintMax, double readingValue)
+	public SensorDTO(int id, Sensor.SensorType sensorType, int min, int max, double readingValue)
 	{
 		this.id = id;
 		this.sensorType = sensorType;
-		this.constraintMin = constraintMin;
-		this.constraintMax = constraintMax;
+		this.constraintMin = min;
+		this.constraintMax = max;
 		this.readingValue = readingValue;
 	}
 	

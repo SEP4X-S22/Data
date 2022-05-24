@@ -1,10 +1,9 @@
-package com.Apharma.sep4.DAO;
+package com.Apharma.sep4.Persistence.DAO;
 
-import com.Apharma.sep4.DTO.SensorDTO;
+import com.Apharma.sep4.Persistence.DTO.SensorDTO;
 import com.Apharma.sep4.Model.Reading;
 import com.Apharma.sep4.Model.Room;
 import com.Apharma.sep4.Model.Sensor;
-import com.Apharma.sep4.WebAPI.Repos.ReadingRepo;
 import com.Apharma.sep4.WebAPI.Repos.RoomRepo;
 import com.Apharma.sep4.WebAPI.Repos.SensorRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class ReadingDAO implements Dao<Reading>
+public class ReadingDAO implements iReadingDAO
 {
 	@Autowired
 	private SensorRepo sensorRepo;
@@ -21,11 +20,9 @@ public class ReadingDAO implements Dao<Reading>
 	@Autowired
 	private RoomRepo roomRepo;
 	
-	@Autowired
-	private ReadingRepo readingRepo;
-	
 	public ReadingDAO()
 	{
+	
 	}
 	
 	public void storeNewEntry(int hum, double temp, int co2, String timestamp, String roomId)
@@ -33,8 +30,6 @@ public class ReadingDAO implements Dao<Reading>
 		Room room = new Room();
 		room.setId(roomId);
 		
-		//TODO: JPA add to reading without getting all children
-		// Room room = roomRepo.getById(roomId);
 		List<SensorDTO> sensors = sensorRepo.getRoomSensors(roomId);
 		
 		Reading humidity = new Reading(hum, timestamp);

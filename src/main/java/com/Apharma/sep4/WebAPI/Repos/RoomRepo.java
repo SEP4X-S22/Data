@@ -1,6 +1,6 @@
 package com.Apharma.sep4.WebAPI.Repos;
 
-import com.Apharma.sep4.DTO.RoomDTO;
+import com.Apharma.sep4.Persistence.DTO.RoomDTO;
 
 import com.Apharma.sep4.Model.Room;
 import org.springframework.data.jpa.repository.JpaRepository;
