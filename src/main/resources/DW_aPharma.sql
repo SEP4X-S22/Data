@@ -83,6 +83,42 @@ inner join sensors s on r.sensor_id = s.id ;
 --DO THIS IN DW DML
 
 -- set constraint if null for each sensorType
+--Humidity (PERCENTAGE)
+UPDATE stage_dim_sensors
+SET minValue = 30
+WHERE sensortype = 0 AND minValue = 0;
+
+UPDATE stage_dim_sensors
+SET maxValue = 60
+WHERE sensortype = 0 AND maxValue = 0;
+
+--CO2 (PPM)
+UPDATE stage_dim_sensors
+SET minValue = 250
+WHERE sensortype = 1 AND minValue = 0;
+
+UPDATE stage_dim_sensors
+SET maxValue = 1000
+WHERE sensortype = 1 AND maxValue = 0;
+
+--Light (LUX)
+UPDATE stage_dim_sensors
+SET minValue = 300
+WHERE sensortype = 2 AND minValue = 0;
+
+UPDATE stage_dim_sensors
+SET maxValue = 500
+WHERE sensortype = 2 AND maxValue = 0;
+
+--Temperature (CELSIUS)
+UPDATE stage_dim_sensors
+SET minValue = 15
+WHERE sensortype = 3 AND minValue = 0;
+
+UPDATE stage_dim_sensors
+SET maxValue = 30
+WHERE sensortype = 3 AND maxValue = 0;
+
 
 -- set isOverMax and isUnderMin
 UPDATE stage_fact_sensor_reading
@@ -93,16 +129,16 @@ UPDATE stage_fact_sensor_reading
 SET isundermin = '0'
 WHERE isundermin IS NULL;
 
-/*UPDATE stage_fact_sensor_reading
+UPDATE stage_fact_sensor_reading
 SET isovermax = '1'
 FROM stage_dim_sensors s
-WHERE readingvalue > s.maxValue;*/
+WHERE readingvalue > s.maxValue;
 
-/*UPDATE stage_fact_sensor_reading
+UPDATE stage_fact_sensor_reading
 SET isundermin = '1'
 FROM stage_dim_sensors s
 WHERE readingvalue < s.minValue;
-*/
+
 --***************************       DDl; EDW                                *******************************
 
 
