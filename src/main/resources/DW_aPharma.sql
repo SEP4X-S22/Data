@@ -85,8 +85,6 @@ inner join sensors s on r.sensor_id = s.id ;
 -- set constraint if null for each sensorType
 
 -- set isOverMax and isUnderMin
-
-
 UPDATE stage_fact_sensor_reading
 SET isovermax = '0'
 WHERE isovermax IS NOT NULL;
@@ -100,6 +98,11 @@ SET isovermax = '1'
 FROM stage_dim_sensors s
 WHERE readingvalue > s.maxValue;*/
 
+/*UPDATE stage_fact_sensor_reading
+SET isundermin = '1'
+FROM stage_dim_sensors s
+WHERE readingvalue < s.minValue;
+*/
 --***************************       DDl; EDW                                *******************************
 
 
