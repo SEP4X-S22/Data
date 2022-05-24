@@ -4,6 +4,11 @@
 DROP TABLE stage_dim_rooms;
 DROP TABLE stage_dim_sensors;*/
 
+/***    RESET DW    ***/
+/*DROP TABLE dw_fact_sensor_reading;
+DROP TABLE dw_dim_rooms;
+DROP TABLE dw_dim_sensors;*/
+
 --Create staging for Dim_Room
 CREATE TABLE IF NOT EXISTS stage_dim_rooms (
  RoomId VARCHAR(16) PRIMARY KEY
@@ -72,12 +77,15 @@ FROM readings r
 inner join sensors s on r.sensor_id = s.id ;
 
 
---***************************       ETL                                     *******************************
+--***************************       Cleanse Data                            *******************************
 
 /*select to_timestamp(time_stamp, 'DD/MM/YYYY | HH24:MI:SS')
             From readings;*/
+--DO THIS IN DW DML
 
---***************************       Cleanse Data                            *******************************
+-- set constraint if null for each sensorType
+
+-- set isOverMax and isUnderMin
 
 --***************************       DDl; EDW                                *******************************
 
@@ -124,6 +132,7 @@ CREATE TABLE IF NOT EXISTS dw_fact_sensor_reading (
  D_ID INT NOT NULL,
  T_ID INT NOT NULL,
  readingValue DOUBLE PRECISION,
+ timestamp TIMESTAMP,
  isOverMax BIT,
  isUnderMin BIT
 );
