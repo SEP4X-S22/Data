@@ -305,3 +305,11 @@ DROP TABLE genTime;
 
 --***************************       TESTING                                 *******************************
 
+
+--Testing for fact count
+SELECT count(*) AS CountOnSource_Readings
+    FROM "public".readings;
+
+SELECT count(*) AS CountOnDW_fact_reading
+    FROM "DW_aPHarma".fact_sensor_reading;
+
