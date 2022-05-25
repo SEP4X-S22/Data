@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
  Implementation class of iSensorDAO.
  
  @author 4X Data team
- @version 1 - 23.05.2022
+ @version 1.0 - 23.05.2022
  */
 @Component
 public class SensorDAO implements iSensorDAO

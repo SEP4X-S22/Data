@@ -2,6 +2,13 @@ package com.Apharma.sep4.Persistence.DTO;
 
 import com.Apharma.sep4.Model.Sensor;
 
+/**
+ DTO class made to hold relevant variables of Sensor model class objects.
+ 
+ @author 4X Data team
+ @version 2.0 - 20.05.2022
+ @implNote Added fields for latest reading value as well as the upper and lower threshold constraints. - 4X Data team
+ */
 public class SensorDTO
 {
 	private int id;
@@ -10,6 +17,15 @@ public class SensorDTO
 	private int constraintMax;
 	private double readingValue;
 	
+	/**
+	 Five argument constructor for a SensorDTO object.
+	 
+	 @param id String ID
+	 @param sensorType Enum of type of Sensor
+	 @param min Integer of lower threshold constraint value
+	 @param max Integer of upper threshold constraint value
+	 @param readingValue Double of the most recently recorded Reading value
+	 */
 	public SensorDTO(int id, Sensor.SensorType sensorType, int min, int max, double readingValue)
 	{
 		this.id = id;
@@ -68,9 +84,12 @@ public class SensorDTO
 	{
 		this.constraintMax = constraintMaxValue;
 	}
-  
+	
+	/**
+	 Overridden toString method to alter the default String representation of this class' objects.
+	 */
   @Override public String toString()
   {
-    return "SensorDTO {" + "id = " + id + ", sensorType = " + sensorType + ", readingValue = " + readingValue + '}';
+    return "SensorDTO {" + "ID = " + id + ", sensorType = " + sensorType + ", readingValue = " + readingValue + '}';
   }
 }

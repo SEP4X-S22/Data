@@ -8,7 +8,7 @@ import java.util.List;
  Model class for a Room object. Used as an entity in JPA under the name of 'Rooms'.
  
  @author 4X Data team, Stefan Georgiev
- @version 2 - 06.05.2022
+ @version 2.0 - 06.05.2022
  */
 @Entity
 @Table(name = "Rooms")

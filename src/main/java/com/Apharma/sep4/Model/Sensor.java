@@ -10,7 +10,7 @@ import java.util.Objects;
  object and collections of Sensor objects are also stored in Room objects for identification purposes.
  
  @author 4X Data team, Stefan Georgiev
- @version 5 - 23.05.2022
+ @version 5.0 - 23.05.2022
  @implNote Changed constraintMinValue and constraintMaxValue fields' data types from double to int.
  */
 @Entity

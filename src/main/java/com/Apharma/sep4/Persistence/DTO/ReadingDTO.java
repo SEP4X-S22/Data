@@ -1,16 +1,30 @@
 package com.Apharma.sep4.Persistence.DTO;
 
+/**
+ DTO class made to hold relevant variables of Reading model class objects.
+ 
+ @author 4X Data team
+ @version 1.1 - 18.05.2022
+ @implNote Changed 'timestamp' field data type from Date to String. - Aldís Eir Hansen
+ */
 public class ReadingDTO
 {
 	private int id;
 	private double readingValue;
-	private String timeStamp;
+	private String timestamp;
 	
-	public ReadingDTO(int id, double readingValue, String timeStamp)
+	/**
+	 Three argument constructor for a ReadingDTO.
+	 
+	 @param id Integer ID value
+	 @param readingValue Double of the recorded reading value
+	 @param timestamp String timestamp of when the data was sent from LoRaWAN
+	 */
+	public ReadingDTO(int id, double readingValue, String timestamp)
 	{
 		this.id = id;
 		this.readingValue = readingValue;
-		this.timeStamp = timeStamp;
+		this.timestamp = timestamp;
 	}
 	
 	public int getId()
@@ -33,18 +47,21 @@ public class ReadingDTO
 		this.readingValue = readingValue;
 	}
 	
-	public String getTimeStamp()
+	public String getTimestamp()
 	{
-		return timeStamp;
+		return timestamp;
 	}
 	
-	public void setTimeStamp(String timeStamp)
+	public void setTimestamp(String timestamp)
 	{
-		this.timeStamp = timeStamp;
+		this.timestamp = timestamp;
 	}
 	
+	/**
+	 Overridden toString method to alter the default String representation of this class' objects.
+	 */
 	@Override public String toString()
 	{
-		return "ReadingDTO {" + "id = " + id + ", readingValue = " + readingValue + ", timeStamp = " + timeStamp + '}';
+		return "ReadingDTO {" + "ID = " + id + ", readingValue = " + readingValue + ", timestamp = " + timestamp + '}';
 	}
 }
