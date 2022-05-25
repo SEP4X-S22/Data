@@ -10,7 +10,7 @@ DROP TABLE "DW_aPHarma".dim_rooms;
 DROP TABLE "DW_aPHarma".dim_sensors;
 DROP TABLE "DW_aPHarma".dim_date;
 DROP TABLE "DW_aPHarma".dim_time;
-  DROP TABLE genDate;
+DROP TABLE genDate;
 DROP TABLE genTime;*/
 
 --Create staging for Dim_Room
@@ -33,8 +33,8 @@ CREATE TABLE IF NOT EXISTS "stage_aPharma".fact_sensor_reading (
  SensorId INT NOT NULL,
  readingValue DOUBLE PRECISION,
  timestamp TIMESTAMP,
- isOverMax BIT,
- isUnderMin BIT
+ isOverMax BOOLEAN,
+ isUnderMin BOOLEAN
 );
 
 --SET FOREIGN KEYS FOR STAGE_fact_sensor_reading
@@ -83,10 +83,6 @@ inner join public.sensors s on r.sensor_id = s.id ;
 
 --***************************       Cleanse Data                            *******************************
 
-/*select to_timestamp(timestamp, 'DD/MM/YYYY | HH24:MI:SS')
-            From "stage_aPharma".fact_sensor_reading;*/
---DO THIS IN DW DML
-
 -- set constraint if null for each sensorType
 --Humidity (PERCENTAGE)
 UPDATE "stage_aPharma".dim_sensors
@@ -134,15 +130,15 @@ UPDATE "stage_aPharma".fact_sensor_reading
 SET isundermin = '0'
 WHERE isundermin IS NULL;
 
-UPDATE "stage_aPharma".fact_sensor_reading
+UPDATE "stage_aPharma".fact_sensor_reading fsr
 SET isovermax = '1'
 FROM "stage_aPharma".dim_sensors s
-WHERE readingvalue > s.maxValue;
+WHERE readingvalue > s.maxValue AND fsr.sensorid = s.sensorid;
 
-UPDATE "stage_aPharma".fact_sensor_reading
+UPDATE "stage_aPharma".fact_sensor_reading fsr
 SET isundermin = '1'
 FROM "stage_aPharma".dim_sensors s
-WHERE readingvalue < s.minValue;
+WHERE readingvalue < s.minValue  AND fsr.sensorid = s.sensorid;
 
 --***************************       DDl; EDW                                *******************************
 
@@ -182,7 +178,7 @@ CREATE TABLE IF NOT EXISTS "DW_aPHarma".dim_time (
  Hour INT
 );
 
---drop table dw_fact_sensor_reading;
+-- drop table "DW_aPHarma".fact_sensor_reading;
 --Create dw for Fact_SensorReading
 CREATE TABLE IF NOT EXISTS "DW_aPHarma".fact_sensor_reading (
  FS_ID SERIAL PRIMARY KEY,
@@ -191,8 +187,8 @@ CREATE TABLE IF NOT EXISTS "DW_aPHarma".fact_sensor_reading (
  D_ID INT NOT NULL,
  T_ID INT NOT NULL,
  readingValue DOUBLE PRECISION,
- isOverMax BIT,
- isUnderMin BIT
+ isOverMax BOOLEAN default false,
+ isUnderMin BOOLEAN default false
 );
 
 --SET FOREIGN KEYS FOR dw_fact_sensor_reading
