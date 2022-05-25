@@ -2,10 +2,10 @@
 /***    RESET STAGE    ***/
 /*DROP TABLE "stage_aPharma".fact_sensor_reading;
 DROP TABLE "stage_aPharma".dim_rooms;
-DROP TABLE "stage_aPharma".dim_sensors;*/
+DROP TABLE "stage_aPharma".dim_sensors;
 
 /***    RESET DW    ***/
-/*DROP TABLE "DW_aPHarma".fact_sensor_reading;
+DROP TABLE "DW_aPHarma".fact_sensor_reading;
 DROP TABLE "DW_aPHarma".dim_rooms;
 DROP TABLE "DW_aPHarma".dim_sensors;
 DROP TABLE "DW_aPHarma".dim_date;
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS "stage_aPharma".fact_sensor_reading (
  RoomId VARCHAR(16) NOT NULL,
  SensorId INT NOT NULL,
  readingValue DOUBLE PRECISION,
- timestamp VARCHAR,
+ timestamp timestamp,
  isOverMax BIT,
  isUnderMin BIT
 );
@@ -70,10 +70,11 @@ INSERT INTO "stage_aPharma".fact_sensor_reading
      readingvalue,
      timestamp)
      SELECT
+
             s.room_id,
             r.sensor_id,
             r.reading_value,
-            r.time_stamp
+            to_timestamp(r.time_stamp, 'DD/MM/YYYY | HH24:MI:SS')
 FROM public.readings r
 inner join public.sensors s on r.sensor_id = s.id ;
 
@@ -81,7 +82,7 @@ inner join public.sensors s on r.sensor_id = s.id ;
 --***************************       Cleanse Data                            *******************************
 
 /*select to_timestamp(timestamp, 'DD/MM/YYYY | HH24:MI:SS')
-            From stage_fact_sensor_reading;*/
+            From "stage_aPharma".fact_sensor_reading;*/
 --DO THIS IN DW DML
 
 -- set constraint if null for each sensorType
@@ -182,8 +183,8 @@ CREATE TABLE IF NOT EXISTS "DW_aPHarma".dim_time (
 --drop table dw_fact_sensor_reading;
 --Create dw for Fact_SensorReading
 CREATE TABLE IF NOT EXISTS "DW_aPHarma".fact_sensor_reading (
- ReadingId SERIAL PRIMARY KEY,
- R_ID INT NOT NULL,
+ ReadingId INT PRIMARY KEY,
+ R_ID varchar NOT NULL,
  S_ID INT NOT NULL,
  D_ID INT NOT NULL,
  T_ID INT NOT NULL,
@@ -269,6 +270,19 @@ SELECT sensorid,
        minvalue,
        maxvalue
            FROM "stage_aPharma".dim_sensors;
+
+--Inserting into Fact table
+INSERT INTO "DW_aPHarma".fact_sensor_reading(ReadingId, r_id, s_id, d_id, t_id, readingvalue, isovermax, isundermin)
+SELECT readingid,
+       roomid,
+       sensorid,
+       (SELECT to_char((select timestamp :: date), 'YYYYMMDD')::integer),
+       (SELECT to_char((select timestamp :: time), 'HH24MISS')::integer),
+       readingvalue,
+       isovermax,
+       isundermin
+           FROM "stage_aPharma".fact_sensor_reading;
+
 
 --DROP TEMP TABLE
 DROP TABLE genDate;
