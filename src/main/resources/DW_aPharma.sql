@@ -218,11 +218,19 @@ INSERT INTO genDate(
 
 
 --***************************       GENERATE TIMES                          *******************************
-SELECT ourDay::time
-FROM   generate_series(timestamp '2020-01-01'
-                     , timestamp '2120-01-01'
-                     , interval  '1 SECOND') ourDay;
+CREATE TEMP TABLE genTime
+(
+    Time Time
+);
 
+INSERT INTO genTime(
+    (SELECT dayTime::time
+FROM   generate_series(timestamp '2020-01-01'
+                     , timestamp '2020-01-02'
+                     , interval  '1 SECOND') dayTime)
+);
+SELECT (SELECT to_char((TIME), 'HH24MISS'))::integer
+FROM genTime;
 --***************************       DML - EDW                               *******************************
 
 
