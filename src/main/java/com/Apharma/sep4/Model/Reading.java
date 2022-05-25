@@ -115,6 +115,6 @@ public class Reading
 	 */
 	@Override public String toString()
 	{
-		return "Reading {" + "id = " + id + ", readingValue = " + readingValue + ", timeStamp = " + timeStamp + '}';
+		return "Reading {" + "ID = " + id + ", readingValue = " + readingValue + ", timeStamp = " + timeStamp + '}';
 	}
 }

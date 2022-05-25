@@ -5,6 +5,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ Model class for a User object. Used as an entity in JPA under the name of 'users'.
+ 
+ @author 4X Data team
+ @version 1.1 - 28.04.2022
+ */
 @Entity
 @Table(name = "users")
 public class User
@@ -51,9 +57,12 @@ public class User
 	{
 		admin = !admin;
 	}
-
+	
+	/**
+	 Overridden toString method to alter the default String representation of this class' objects.
+	 */
 	@Override public String toString()
 	{
-		return "User{" + "id = " + id + ", name = '" + name + '\'' + ", admin = " + admin + '}';
+		return "User {" + "ID = " + id + ", name = '" + name + '\'' + ", admin = " + admin + '}';
 	}
 }

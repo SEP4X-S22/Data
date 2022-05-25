@@ -5,6 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ Model class for a Sensor object. Used as an entity in JPA under the name of 'Sensors'.
+ 
+ @author 4X Data team, Stefan Georgiev
+ @version 5 - 23.05.2022
+ @implNote Changed constraintMinValue and constraintMaxValue fields' data types from double to int.
+ */
 @Entity
 @Table(name = "Sensors")
 public class Sensor
@@ -20,6 +27,9 @@ public class Sensor
 	@JoinColumn(name = "room_id")
 	private Room room;
 	
+	/**
+	 Required empty constructor for JPA initializing the 'readings' field to a new empty ArrayList.
+	 */
 	public Sensor()
 	{
 		readings = new ArrayList<>();
@@ -40,6 +50,10 @@ public class Sensor
 		return room;
 	}
 	
+	/**
+	 Setter for the 'room' field, also gets the Room objects field containing its Sensor objects and adds this Sensor
+	 object to that variable.
+	 */
 	public void setRoom(Room room)
 	{
 		this.room = room;
@@ -105,12 +119,17 @@ public class Sensor
 		return Objects.hash(id, sensorType);
 	}
 	
+	/**
+	 Overridden toString method to alter the default String representation of this class' objects.
+	 */
 	@Override public String toString()
 	{
-		return "Sensor {" + "id = " + id + ", sensor = " + sensorType + ", readings = "
-							 + '}';
+		return "Sensor {" + "ID = " + id + ", sensorType = " + sensorType + ", readings = " + '}';
 	}
 	
+	/**
+	 An enum declaring the four Sensor types; Humidity, CO2, Light and Temperature.
+	 */
 	public enum SensorType
 	{
 		Humidity, CO2, Light, Temperature
