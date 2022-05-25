@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS "stage_aPharma".fact_sensor_reading (
  RoomId VARCHAR(16) NOT NULL,
  SensorId INT NOT NULL,
  readingValue DOUBLE PRECISION,
- timestamp timestamp,
+ timestamp TIMESTAMP,
  isOverMax BIT,
  isUnderMin BIT
 );
@@ -183,13 +183,12 @@ CREATE TABLE IF NOT EXISTS "DW_aPHarma".dim_time (
 --drop table dw_fact_sensor_reading;
 --Create dw for Fact_SensorReading
 CREATE TABLE IF NOT EXISTS "DW_aPHarma".fact_sensor_reading (
- ReadingId INT PRIMARY KEY,
- R_ID varchar NOT NULL,
+ FS_ID SERIAL PRIMARY KEY,
+ R_ID INT NOT NULL,
  S_ID INT NOT NULL,
  D_ID INT NOT NULL,
  T_ID INT NOT NULL,
  readingValue DOUBLE PRECISION,
- timestamp TIMESTAMP,
  isOverMax BIT,
  isUnderMin BIT
 );
@@ -260,28 +259,45 @@ SELECT
 FROM genTime;
 
 --Inserting the rooms
-INSERT INTO "DW_aPHarma".dim_rooms(roomid)
-SELECT roomid FROM "stage_aPharma".dim_rooms;
+INSERT INTO "DW_aPHarma".dim_rooms
+    (roomid)
+SELECT
+       roomid
+FROM "stage_aPharma".dim_rooms;
 
 --Inserting the sensors
-INSERT INTO "DW_aPHarma".dim_sensors( sensorid, sensortype, minvalue, maxvalue)
-SELECT sensorid,
+INSERT INTO "DW_aPHarma".dim_sensors
+    ( sensorid,
+     sensortype,
+     minvalue,
+     maxvalue)
+SELECT
+       sensorid,
        sensortype,
        minvalue,
        maxvalue
-           FROM "stage_aPharma".dim_sensors;
+FROM "stage_aPharma".dim_sensors;
 
 --Inserting into Fact table
-INSERT INTO "DW_aPHarma".fact_sensor_reading(ReadingId, r_id, s_id, d_id, t_id, readingvalue, isovermax, isundermin)
-SELECT readingid,
-       roomid,
-       sensorid,
+INSERT INTO "DW_aPHarma".fact_sensor_reading
+    (r_id,
+     s_id,
+     d_id,
+     t_id,
+     readingvalue,
+     isovermax,
+     isundermin)
+SELECT
+       dr.R_ID,
+       ds.S_ID,
        (SELECT to_char((select timestamp :: date), 'YYYYMMDD')::integer),
        (SELECT to_char((select timestamp :: time), 'HH24MISS')::integer),
-       readingvalue,
-       isovermax,
-       isundermin 
-           FROM "stage_aPharma".fact_sensor_reading;
+       fsr.readingvalue,
+       fsr.isovermax,
+       fsr.isundermin
+FROM "stage_aPharma".fact_sensor_reading fsr
+JOIN "DW_aPHarma".dim_sensors ds on ds.sensorid = fsr.sensorid
+JOIN "DW_aPHarma".dim_rooms dr on dr.roomid = fsr.roomid;
 
 
 --DROP TEMP TABLE
