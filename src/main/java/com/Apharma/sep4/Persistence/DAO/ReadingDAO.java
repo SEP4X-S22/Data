@@ -25,7 +25,7 @@ public class ReadingDAO implements iReadingDAO
 	
 	}
 	
-	public void storeNewEntry(int hum, double temp, int co2, String timestamp, String roomId)
+	public void storeNewEntry(int hum, double temp, int co2, int light, String timestamp, String roomId)
 	{
 		Room room = new Room();
 		room.setId(roomId);
@@ -35,6 +35,8 @@ public class ReadingDAO implements iReadingDAO
 		Reading humidity = new Reading(hum, timestamp);
 		Reading temperature = new Reading(temp, timestamp);
 		Reading co2Reading = new Reading(co2, timestamp);
+		Reading lightReading = new Reading(light, timestamp);
+		System.out.println(lightReading);
 		
 		for (SensorDTO s: sensors)
 		{
@@ -64,6 +66,12 @@ public class ReadingDAO implements iReadingDAO
 					humidity.setSensor(sensor);
 				}
 				break;
+
+				case Light:
+				{
+					lightReading.setSensor(sensor);
+
+				}
 			}
 		}
 		roomRepo.save(room);

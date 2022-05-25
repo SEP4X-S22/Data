@@ -69,12 +69,13 @@ public class MiddlePointDecoder
         int temp = Integer.parseInt(data, 3, 6, 16);
         double tempFinal = temp / 10d;
         int co2 = Integer.parseInt(data, 7, 10, 16);
+        int light = Integer.parseInt(data, 11,14,16);  //---------light measurement decoding
         String roomId = receivedPayload.getString("EUI");
   
         long ts = receivedPayload.getLong("ts");
         String formattedStringDate = tsToString(ts);
 
-        readingDAO.storeNewEntry(hum, tempFinal, co2, formattedStringDate, roomId);
+        readingDAO.storeNewEntry(hum, tempFinal, co2, light, formattedStringDate, roomId);
       }
     }
     catch (JSONException e)

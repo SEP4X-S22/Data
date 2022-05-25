@@ -118,7 +118,7 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.xmlunit:xmlunit-core:2.8.4" level="project" />
     <orderEntry type="library" name="Maven: com.h2database:h2:2.1.212" level="project" />
     <orderEntry type="library" name="Maven: com.vaadin.external.google:android-json:0.0.20131108.vaadin1" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: org.postgresql:postgresql:42.3.4" level="project" />
+    <orderEntry type="library" name="Maven: org.postgresql:postgresql:42.3.4" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.checkerframework:checker-qual:3.5.0" level="project" />
     <orderEntry type="library" name="Maven: org.assertj:assertj-core:3.21.0" level="project" />
   </component>

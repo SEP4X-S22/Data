@@ -3,6 +3,8 @@ package com.Apharma.sep4.Persistence;
 import com.Apharma.sep4.Model.Reading;
 import com.Apharma.sep4.Model.Room;
 import com.Apharma.sep4.Model.Sensor;
+import com.Apharma.sep4.Persistence.DAO.DataWarehouse.DataWarehouseDAO;
+import com.Apharma.sep4.Persistence.DAO.DataWarehouse.iDataWarehouseDAO;
 import com.Apharma.sep4.Run.WebSocketClient;
 import com.Apharma.sep4.WebAPI.Repos.RoomRepo;
 import com.Apharma.sep4.WebAPI.Repos.ReadingRepo;
@@ -15,6 +17,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -22,13 +25,6 @@ import java.util.Date;
 @Configuration
 @EnableAutoConfiguration
 @ComponentScan
-    (basePackages = {
-    "com/Apharma/sep4/Persistance/DAO",
-    "com/Apharma/sep4/Persistance/DTO",
-    "com/Apharma/sep4/MiddlePoint",
-    "com/Apharma/sep4/WebAPI/Controllers",
-    "com/Apharma/sep4/WebAPI/Repos",
-    "com/Apharma/sep4/Run"})
 public class DatabaseHandler
 {
   private static final Logger log = LoggerFactory.getLogger(
@@ -37,7 +33,7 @@ public class DatabaseHandler
   @Bean CommandLineRunner initDatabase(RoomRepo roomRepo, SensorRepo sensorRepo,
       UserRepo userRepo, ReadingRepo readingRepo)
   {
-    return args -> System.out.println("Yeey");
+    return args -> System.out.println("Database init...");
   }
 
   @Bean
@@ -112,4 +108,26 @@ public class DatabaseHandler
       roomRepo.save(room);
     }
 }
+//-------- Data warehouse DAO config ---------//
+
+  @Bean
+  @Scope("singleton")
+  public iDataWarehouseDAO warehouseDAO() {
+  return new DataWarehouseDAO();
+}
+
+  @Bean(name = "jdbcUrl")
+  public String jdbcUrl() {
+    return "jdbc:postgresql://aajqdx6jxlql49.cuqtxh0uawoy.eu-central-1.rds.amazonaws.com:5432/postgres?currentSchema=\"DW_aPHarma\"";
+  }
+
+  @Bean(name = "username")
+  public String username() {
+    return "postgres";
+  }
+
+  @Bean(name = "password")
+  public String password() {
+    return "password";
+  }
 }
