@@ -15,9 +15,13 @@ import org.springframework.stereotype.Component;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/*
-* Date formatting method "tsToString" courtesy of Ib Havn
-*/
+/**
+ * A class for logging and mutating communication data sent to and from the Data team's domain.
+ *
+ * @author 4X Data team
+ * @author Ib Havn
+ * @version 4.0 - 24.05.22
+ */
 
 @Component
 public class MiddlePointDecoder
@@ -29,10 +33,7 @@ public class MiddlePointDecoder
 	private WebSocketClient client;
   @Autowired
   private SensorRepo sensorRepo;
-
   private String log = "<html> <head> <h3 style=\"color:#003B00;\"> PAYLOAD LOGGER </h3></head><body style=\"background-color:black;\"> "; //-----------------------------
-
-
   
   public MiddlePointDecoder(@Lazy WebSocketClient client)
   {
@@ -43,7 +44,14 @@ public class MiddlePointDecoder
   {
     return receivedPayload;
   }
-
+	
+	/**
+	 Setter for the receivedPayload field.
+	 Called by custom method in WebSocketClient.
+	 Has a try-catch block for a possible JSONException thrown during conversion of the String payload into a JSONObject.
+	 
+	 @param payload String of the data received from Loriot
+	 */
 	public void setReceivedPayload(String payload)
 	{
 		try
@@ -57,16 +65,20 @@ public class MiddlePointDecoder
 		}
 	}
 	
-	/*
-	* Taking JSONObject argument, sectioning it and filtering by the 'cmd' field
-	* Only decoding if the 'cmd' field equals 'rx'
-	* 	Then the string from the 'data' field is extracted, sectioned down and converted from hex to integer
-	* 		To get a single decimal point precision double the IoT team multiplied the temperature sensor reading by 10
-	* 		Reversing that with division gives us a double for the temperature reading
-	* 	The room ID is extracted and used unaltered, the ID corresponds to the device EUI code
-	* 	The timestamp is taken from the 'ts' field of the payload and sent for conversion & formatting
-	* Then the ReadingDAO is called to store a new Reading entry using the extracted and transformed data
-	*/
+	/**
+	 Method for mutating data received into variables needed for storing new Readings from a room.
+	 Filters the payload, only decoding and storing it if the 'cmd' field of the json is 'rx', meaning it is a new
+	 measurement from the IoT team. The 'data' field is extracted, sectioned and parsed into relevant variables. The
+	 temperature reading received from IoT is an integer they have multiplied by 10 before sending so that here it can
+	 be divided by 10 and converted to a double for a single decimal point precision.
+	 The Room ID is set to the 'EUI' part of the payload, the 'ts' long value is extracted and sent to a mutator method
+	 returning the time stamp in a specified format.
+	 Those variables are used as arguments for the ReadingDAO method for storing new entries in the database.
+	 
+	 Has a try-catch block for a possible JSONException thrown when extracting String fields from the JSONObject.
+	 
+	 @param receivedPayload JSONObject received from setReceivedPayload method.
+	 */
 	public void decode(JSONObject receivedPayload)
 	{
 		try
@@ -92,10 +104,13 @@ public class MiddlePointDecoder
 		}
 	}
 	
-	/*
-	* Method for converting a long argument into a java.util.Date object and returning a timestamp in a given format
-	* Courtesy of Ib Havn
-	*/
+	/**
+	 Method for converting a long into a String timestamp.
+	 Base code courtesy of Ib Havn, minor adjustments made to get the desired format.
+	 
+	 @param ts Long representing Epoch time when reading was taken
+	 @return String of the specified format timestamp
+	 */
 	private String tsToString(long ts)
 	{
 		//TODO add reference to Ib for date changing code
@@ -104,17 +119,20 @@ public class MiddlePointDecoder
 		return dateFormat.format(date);
 	}
 	
-	/*
-	* Creating a DownlinkPayload object adhering to the LoRaWAN downlink format constraints
-	* Taking a constraint for the minimum allowed value and the maximum allowed value for the sensor with the ID
-	* The integer arguments are converted to a string and formatted to hex
-	* 	If the hex value of the constraint does not meet the byte length requirement the rest is filled out with zeroes
-	* 	The two strings of the min and max constraints are then concatenated and inserted into the 'data' field
-	* The 'EUI' field is set from calling the SensorRepo with the sensor ID to get the ID of the room the sensor is in
-	* The port number is set to the agreed port number between Data and IoT
-	* When the DownlinkPayload instance variables have been set it is sent to convertObjectToJson method
-	* Lastly the sendDownLink method is called
-	*/
+	/**
+	 Method for creating a DownlinkPayload object, setting the payload instance variable and calling the private
+	 convertObjectToJson method to set the 'payload' field to the result of the data manipulation before calling the
+	 sendDownLink method.
+	 
+	 The ID of the Sensor is unique, therefore the SensorRepo is called to get the relevant Sensor and saving its Room
+	 ID as a String for later use. A new DownlinkPayload object is created and it's fields are set to appropriate
+	 values. The 'data' field is set to a concatenation of the upper and lower constraints when they've been converted
+	 to hexadecimal and filled out with zeroes if the values don't meet the byte length required.
+	 
+	 @param sensorId Integer ID of the Sensor the Readings are for
+	 @param min Integer of the lower constraint threshold for the Sensor
+	 @param max Integer of the upper constraint threshold for the Sensor
+	 */
 	public void createTelegram(int sensorId, int min, int max)
 	{
 		String roomId = sensorRepo.getRoomIdBySensorId(sensorId);
@@ -144,11 +162,13 @@ public class MiddlePointDecoder
 		this.telegram = telegram;
 	}
 	
-	/*
-	* This method takes a DownlinkPayload object and converts it into a JSONObject
-	* It calls a method to set the string telegram instance variable to the string JSONObject
-	*/
-	public void convertObjectToJson(DownlinkPayload downlinkPayload)
+	/**
+	 Method for converting a DownlinkPayload object to a String in Json format and setting the 'telegram' field to the
+	 result. This is called before the sendDownLink method.
+	 
+	 @param downlinkPayload DownlinkPayload object containing all relevant data for the downlink message
+	 */
+	private void convertObjectToJson(DownlinkPayload downlinkPayload)
 	{
 		String json = null;
 		try
@@ -164,14 +184,27 @@ public class MiddlePointDecoder
 		System.out.println(json);
 	}
 	
-	/*
-	* Calling the WebSocketClient instance variable and calling the sendDownLink method with the string argument
-	*/
+	/**
+	 Method for calling the sendDownLink method on the WebSocketClient instance variable.
+	 
+	 @param json Json formatted String
+	 */
 	private void sendDownLink(String json)
 	{
 		client.sendDownLink(json);
 	}
 	
+	/**
+	 Method for logging the communication between Data and the other domains. Called from WebSocketClient class.
+	 
+	 Set a String prefix with whether the payload is an uplink or downlink message and labels them accordingly based on
+	 the presence of the value 'tx'. Subsequently, the 'log' instance variable is updated by concatenating the
+	 predefined header it is initialized with and the new addition of the payload contents, the relevant prefix and a
+	 timestamp. The timestamp is created from calling the tsToString method on the current time in milliseconds with
+	 the addition of two hours due to being hosted in a location using GMT to make it the local time.
+	 
+	 @param payload String containing the data in a raw Json format
+	 */
 	public void setLog(String payload)
 	{
 		String date = tsToString(System.currentTimeMillis() + 2 * 3600 * 1000);
@@ -192,6 +225,9 @@ public class MiddlePointDecoder
 		return log;
 	}
 	
+	/**
+	 Method for clearing the messages stored in the log.
+	 */
 	public void clearLog()
 	{
 		log = "<html><head> <h3 style=\"color:#003B00;\"> PAYLOAD LOGGER </h3></head><body style=background-color:black;> ";
