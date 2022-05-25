@@ -3,6 +3,12 @@ package com.Apharma.sep4.Model;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ Class for easier datagram creation for messages travelling via the Loriot server.
+ 
+ @author Claudiu Emmanuel Cordunianu
+ @version 1 - 19.05.2022
+ */
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY, getterVisibility = JsonAutoDetect.Visibility.NONE, setterVisibility = JsonAutoDetect.Visibility.NONE)
 public class DownlinkPayload
 {
