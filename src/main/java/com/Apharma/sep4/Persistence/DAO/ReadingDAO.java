@@ -11,6 +11,13 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+/**
+ Implementation class of iReadingDAO.
+ 
+ @author 4X Data team
+ @version 2.1 - 24.05.2022
+ @implNote Moved duplicate code outside switch statement. - Aldís Eir Hansen
+ */
 @Component
 public class ReadingDAO implements iReadingDAO
 {
@@ -20,11 +27,31 @@ public class ReadingDAO implements iReadingDAO
 	@Autowired
 	private RoomRepo roomRepo;
 	
+	/**
+	 Required empty constructor for JPA.
+	 */
 	public ReadingDAO()
 	{
 	
 	}
 	
+	/**
+	 Implementation of interface method to add a new row to the 'Readings' table in the database.
+	 Firstly, it creates a Room object as it is the outermost layer of the model class "cocoon". Its ID is set to the
+	 argument value and a List of SensorDTO objects is fetched from the SensorRepo by the ID of the Room. New Reading
+	 objects are created to hold the argument data. Secondly, for each SensorDTO in the list it recreates and configures
+	 a Sensor object from the database to house the Reading. Thirdly, there is a switch statement that takes
+	 the SensorType enum  of the newly reconstructed Sensor. Inside the statement the Reading objects' Sensor field is
+	 set to the switch argument Sensor. Thus, the created Reading is stored in the Sensor who has the right SensorType
+	 and belongs in the Room whose ID was passed. Ultimately, the RoomRepo is called to update the Room entity with the
+	 Sensor objects containing the new Reading objects.
+	 
+	 @param hum Integer value of reading from the Humidity sensor
+	 @param temp Integer value of reading from the Temperature sensor
+	 @param co2 Integer value of reading from the CO2 sensor
+	 @param timestamp String representing the timestamp of when the data was collected
+	 @param roomId String ID of the Room object the Sensor whose Reading this is
+	 */
 	public void storeNewEntry(int hum, double temp, int co2, String timestamp, String roomId)
 	{
 		Room room = new Room();

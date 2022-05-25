@@ -6,7 +6,8 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- Model class for a Sensor object. Used as an entity in JPA under the name of 'Sensors'.
+ Model class for a Sensor object. Used as an entity in JPA under the name of 'Sensors'. It has a field of a Room
+ object and collections of Sensor objects are also stored in Room objects for identification purposes.
  
  @author 4X Data team, Stefan Georgiev
  @version 5 - 23.05.2022

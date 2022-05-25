@@ -3,7 +3,8 @@ package com.Apharma.sep4.Model;
 import javax.persistence.*;
 
 /**
- Model class for a Sensor Reading. Used as an entity in JPA under the name of 'Readings'.
+ Model class for a Sensor Reading. Used as an entity in JPA under the name of 'Readings'. It has a field of a Sensor
+ object and collections of Reading objects are also stored in Sensor objects for identification purposes.
  
  @author 4X Data team
  @version 1.3 - 18.05.2022
