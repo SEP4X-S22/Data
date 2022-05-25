@@ -12,16 +12,20 @@ import java.nio.ByteBuffer;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
+/**
+ Class for handling communication with Loriot server courtesy of Ib Havn with minor alterations to fit this project.
+ Alterations include the addition of an instance variable of a MiddlePointDecoder object, a method to pass the
+ payload to the decoder and a method call to add the payload to the logger in the MiddlePointDecoder class.
+ 
+ @author Ib Havn
+ @author 4X Data team
+ @version 2.1 - 25.05.2022
+ */
 public class WebSocketClient implements WebSocket.Listener
 {
 	private WebSocket server = null;
 	@Autowired
 	private MiddlePointDecoder decoder;
-	
-	public void sendDownLink(String jsonTelegram)
-	{
-		server.sendText(jsonTelegram, true);
-	}
 	
 	public WebSocketClient(String url)
 	{
@@ -66,6 +70,10 @@ public class WebSocketClient implements WebSocket.Listener
 		return CompletableFuture.completedFuture("Pong completed.").thenAccept(System.out::println);
 	}
 	
+	/**
+	 Only alteration made to this method is to call the private handleReceivedPayload method and call the setLog method
+	 on the decoder field.
+	 */
 	public CompletionStage<?> onText(WebSocket webSocket, CharSequence data, boolean last)
 	{
 		String indented = null;
@@ -73,7 +81,7 @@ public class WebSocketClient implements WebSocket.Listener
 		{
 			indented = (new JSONObject(data.toString())).toString(4);
 			handleReceivedPayload(indented);
-			decoder.setLog(indented); //-------------------------------
+			decoder.setLog(indented);
 		}
 		catch (JSONException e)
 		{
@@ -85,8 +93,18 @@ public class WebSocketClient implements WebSocket.Listener
 		return CompletableFuture.completedFuture("onText() completed").thenAccept(System.out::println);
 	}
 	
-	private void handleReceivedPayload(String s)
+	public void sendDownLink(String jsonTelegram)
 	{
-		decoder.setReceivedPayload(s);
+		server.sendText(jsonTelegram, true);
+	}
+	
+	/**
+	 Method for setting the receivedPayload instance variable in the decoder.
+	 
+	 @param indentedPayload Json formatted String
+	 */
+	private void handleReceivedPayload(String indentedPayload)
+	{
+		decoder.setReceivedPayload(indentedPayload);
 	}
 }
