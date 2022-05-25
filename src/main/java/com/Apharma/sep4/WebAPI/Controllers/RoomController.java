@@ -1,34 +1,53 @@
 package com.Apharma.sep4.WebAPI.Controllers;
 
-import com.Apharma.sep4.Persistence.DTO.ReadingDTO;
 import com.Apharma.sep4.Persistence.DTO.RoomDTO;
-import com.Apharma.sep4.Model.Sensor;
-import com.Apharma.sep4.WebAPI.Repos.ReadingRepo;
 import com.Apharma.sep4.WebAPI.Repos.RoomRepo;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 
+/**
+ Controller class for handling requests to the API that deal with Rooms.
+ 
+ @author 4X Data team
+ @version 2.0 - 24.05.2022
+ @implNote Extracted methods irrelevant to Rooms. - Aldís Eir Hansen & Alexandru Malai
+ */
 @RestController
 public class RoomController
 {
-  private final RoomRepo roomRepo;
+	private final RoomRepo roomRepo;
   
-  public RoomController(RoomRepo roomRepo)
-  {
-    this.roomRepo = roomRepo;
-  }
+  /**
+   One argument constructor for a RoomController.
+   
+   @param roomRepo RoomRepo object to access the database
+   */
+	public RoomController(RoomRepo roomRepo)
+	{
+		this.roomRepo = roomRepo;
+	}
   
-  @GetMapping("/")
-  private String getAll()
-  {
-    return "Hello from Data Team!";
-  }
+  /**
+   Method exposing the default endpoint for getting a greeting from the Data team.
+   
+   @return String of Data team greeting
+   */
+	@GetMapping("/")
+	private String getAll()
+	{
+		return "Hello from the Data Team!";
+	}
   
-  @GetMapping("/rooms")
-  private List<RoomDTO> getAllRooms()
-  {
-    return roomRepo.getAllRooms();
-  }
+  /**
+   Method exposing the endpoint for getting a List of all RoomDTO objects.
+   
+   @return List of RoomDTO objects from the RoomRepo
+   */
+	@GetMapping("/rooms")
+	private List<RoomDTO> getAllRooms()
+	{
+		return roomRepo.getAllRooms();
+	}
 }
