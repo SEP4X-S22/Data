@@ -225,12 +225,11 @@ CREATE TEMP TABLE genTime
 
 INSERT INTO genTime(
     (SELECT dayTime::time
-FROM   generate_series(timestamp '2020-01-01'
-                     , timestamp '2020-01-02'
+FROM   generate_series(timestamp '2020-01-01 00:00:00'
+                     , timestamp '2020-01-01 23:59:59'
                      , interval  '1 SECOND') dayTime)
 );
-SELECT (SELECT to_char((TIME), 'HH24MISS'))::integer
-FROM genTime;
+
 --***************************       DML - EDW                               *******************************
 
 
@@ -245,9 +244,21 @@ SELECT
        EXTRACT(year FROM DATE)
 FROM genDate;
 
+
+
+--Insert into Dim_Time
+INSERT INTO dw_dim_time(T_ID, Time, Second ,Minute ,Hour)
+SELECT
+       (SELECT to_char((Time), 'HH24MISS'))::integer,
+       Time,
+       EXTRACT(Second FROM Time),
+       EXTRACT(Minute FROM Time),
+       EXTRACT(Hour FROM Time)
+FROM genTime;
+
 --DROP TEMP TABLE
 DROP TABLE genDate;
-
+DROP TABLE genTime;
 --***************************       INCREMENTAL LOAD / SCHEDULING           *******************************
 
 --***************************       TESTING                                 *******************************
