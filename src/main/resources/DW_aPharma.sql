@@ -167,15 +167,17 @@ CREATE TABLE IF NOT EXISTS dw_dim_date (
  Year INT
 );
 
+--drop table dw_dim_time;
 --Create dw for Dim_Time
 CREATE TABLE IF NOT EXISTS dw_dim_time (
  T_ID INT NOT NULL PRIMARY KEY,
  Time TIME,
+ Second INT,
  Minute INT,
  Hour INT
 );
 
-
+--drop table dw_fact_sensor_reading;
 --Create dw for Fact_SensorReading
 CREATE TABLE IF NOT EXISTS dw_fact_sensor_reading (
  ReadingId SERIAL PRIMARY KEY,
@@ -219,7 +221,7 @@ INSERT INTO genDate(
 SELECT ourDay::time
 FROM   generate_series(timestamp '2020-01-01'
                      , timestamp '2120-01-01'
-                     , interval  '5 min') ourDay;
+                     , interval  '1 SECOND') ourDay;
 
 --***************************       DML - EDW                               *******************************
 
