@@ -1,17 +1,17 @@
 --***************************       DDL; Create Tables for Staging      *******************************
 /***    RESET STAGE    ***/
-/*DROP TABLE "stage_aPharma".fact_sensor_reading;
-DROP TABLE "stage_aPharma".dim_rooms;
-DROP TABLE "stage_aPharma".dim_sensors;
-
-/***    RESET DW    ***/
-DROP TABLE "DW_aPHarma".fact_sensor_reading;
-DROP TABLE "DW_aPHarma".dim_rooms;
-DROP TABLE "DW_aPHarma".dim_sensors;
-DROP TABLE "DW_aPHarma".dim_date;
-DROP TABLE "DW_aPHarma".dim_time;
-DROP TABLE genDate;
-DROP TABLE genTime;*/
+-- DROP TABLE "stage_aPharma".fact_sensor_reading;
+-- DROP TABLE "stage_aPharma".dim_rooms;
+-- DROP TABLE "stage_aPharma".dim_sensors;
+--
+-- /***    RESET DW    ***/
+-- DROP TABLE "DW_aPHarma".fact_sensor_reading;
+-- DROP TABLE "DW_aPHarma".dim_rooms;
+-- DROP TABLE "DW_aPHarma".dim_sensors;
+-- DROP TABLE "DW_aPHarma".dim_date;
+-- DROP TABLE "DW_aPHarma".dim_time;
+-- DROP TABLE genDate;
+-- DROP TABLE genTime;
 
 --Create staging for Dim_Room
 CREATE TABLE IF NOT EXISTS "stage_aPharma".dim_rooms (
@@ -124,7 +124,7 @@ WHERE sensortype = 3 AND maxValue = 0;
 -- set isOverMax and isUnderMin
 UPDATE "stage_aPharma".fact_sensor_reading
 SET isovermax = '0'
-WHERE isovermax IS NOT NULL;
+WHERE isovermax IS  NULL;
 
 UPDATE "stage_aPharma".fact_sensor_reading
 SET isundermin = '0'
@@ -304,3 +304,4 @@ DROP TABLE genTime;
 --***************************       INCREMENTAL LOAD / SCHEDULING           *******************************
 
 --***************************       TESTING                                 *******************************
+
