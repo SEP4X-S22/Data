@@ -2,6 +2,14 @@ package com.Apharma.sep4.Model;
 
 import javax.persistence.*;
 
+/**
+ Model class for a Sensor Reading. Used as an entity in JPA under the name of 'Readings'.
+ 
+ @author 4X Data team
+ @version 1.3 - 18.05.2022
+ @implNote Changed 'readingValue' field data type from int to double in order to store a single decimal point
+ precision value for the temperature. - Aldís Eir Hansen
+ */
 @Entity
 @Table(name = "Readings")
 public class Reading
@@ -14,16 +22,32 @@ public class Reading
 	@JoinColumn(name = "sensor_id")
 	private Sensor sensor;
 	
+	/**
+	 Required empty constructor for JPA.
+	 */
 	public Reading()
 	{
 	}
 	
+	/**
+	 Two argument constructor for a Reading object.
+	 
+	 @param readingValue Double value of the Reading object
+	 @param timeStamp String representation of the time when the hardware recorded the data
+	 */
 	public Reading(double readingValue, String timeStamp)
 	{
 		this.readingValue = readingValue;
 		this.timeStamp = timeStamp;
 	}
 	
+	/**
+	 Three argument constructor for a Reading object.
+	 
+	 @param readingValue Double value of the Reading object
+	 @param timeStamp String representation of the time when the hardware recorded the data
+	 @param sensor Sensor object
+	 */
 	public Reading(double readingValue, String timeStamp, Sensor sensor)
 	{
 		this.readingValue = readingValue;
@@ -86,6 +110,9 @@ public class Reading
 		return id == reading.id && readingValue == reading.readingValue && timeStamp.equals(reading.timeStamp);
 	}
 	
+	/**
+	 Overridden toString method to alter the default String representation of this class' objects.
+	 */
 	@Override public String toString()
 	{
 		return "Reading {" + "id = " + id + ", readingValue = " + readingValue + ", timeStamp = " + timeStamp + '}';
