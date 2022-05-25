@@ -258,6 +258,18 @@ SELECT
        EXTRACT(Hour FROM Time)
 FROM genTime;
 
+--Inserting the rooms
+INSERT INTO "DW_aPHarma".dim_rooms(roomid)
+SELECT roomid FROM "stage_aPharma".dim_rooms;
+
+--Inserting the sensors
+INSERT INTO "DW_aPHarma".dim_sensors( sensorid, sensortype, minvalue, maxvalue)
+SELECT sensorid,
+       sensortype,
+       minvalue,
+       maxvalue
+           FROM "stage_aPharma".dim_sensors;
+
 --DROP TEMP TABLE
 DROP TABLE genDate;
 DROP TABLE genTime;
