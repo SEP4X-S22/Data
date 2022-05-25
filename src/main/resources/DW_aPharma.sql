@@ -280,7 +280,7 @@ SELECT readingid,
        (SELECT to_char((select timestamp :: time), 'HH24MISS')::integer),
        readingvalue,
        isovermax,
-       isundermin
+       isundermin 
            FROM "stage_aPharma".fact_sensor_reading;
 
 
