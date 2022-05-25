@@ -22,25 +22,28 @@ import java.util.Date;
 @Component
 public class MiddlePointDecoder
 {
-	private JSONObject receivedPayload = null;
-	@Autowired
-	private ReadingDAO readingDAO;
-	private String telegram = null;
+  private JSONObject receivedPayload = null;
+  @Autowired
+  private ReadingDAO readingDAO;
+  private String telegram = null;
 	private WebSocketClient client;
-	@Autowired
-	private SensorRepo sensorRepo;
-	private String log = "<html> <head> <h3> PAYLOAD LOGGER </h3></head><body> ";
-	
-	public MiddlePointDecoder(@Lazy WebSocketClient client)
-	{
+  @Autowired
+  private SensorRepo sensorRepo;
+
+  private String log = "<html> <head> <h3 style=\"color:#003B00;\"> PAYLOAD LOGGER </h3></head><body style=\"background-color:black;\"> "; //-----------------------------
+
+
+  
+  public MiddlePointDecoder(@Lazy WebSocketClient client)
+  {
 		this.client = client;
-	}
-	
-	public JSONObject getReceivedPayload()
-	{
-		return receivedPayload;
-	}
-	
+  }
+
+  public JSONObject getReceivedPayload()
+  {
+    return receivedPayload;
+  }
+
 	public void setReceivedPayload(String payload)
 	{
 		try
@@ -172,7 +175,16 @@ public class MiddlePointDecoder
 	public void setLog(String payload)
 	{
 		String date = tsToString(System.currentTimeMillis() + 2 * 3600 * 1000);
-		log = log + "<br> <i>" + date + "</i> " + payload + "</body> </html>  ";
+		String prefix;
+		if(payload.contains("\"tx\""))
+		{
+			prefix = "DOWNLINK Message (From Android)";
+		}
+		else
+		{
+			prefix = "UPLINK Message (From IoT)";
+		}
+		log = log + "<br> <b style=\"color:#008F11;\">" + date + " - " + prefix + "</b><p style=\"color:#00FF41;\">" + payload + "</p></body></html>  ";
 	}
 	
 	public String getLog()
@@ -182,7 +194,7 @@ public class MiddlePointDecoder
 	
 	public void clearLog()
 	{
-		log = "<html> <head> <h3> PAYLOAD LOGGER </h3> </head><body> ";
+		log = "<html><head> <h3 style=\"color:#003B00;\"> PAYLOAD LOGGER </h3></head><body style=background-color:black;> ";
 	}
 }
 
