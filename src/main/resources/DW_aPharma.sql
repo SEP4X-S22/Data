@@ -209,11 +209,11 @@ CREATE TEMP TABLE genDate
 
 -- 100 years of dates
 INSERT INTO genDate(
-    (SELECT date_trunc('day', dd):: date
+    (SELECT generatedDate::date
      FROM generate_series
               ('01/01/2020'::timestamp
               , '01/01/2120'::timestamp
-              , '1 day'::interval) dd)
+              , '1 day'::interval) generatedDate)
 );
 
 
@@ -225,9 +225,9 @@ CREATE TEMP TABLE genTime
 
 INSERT INTO genTime(
     (SELECT dayTime::time
-FROM   generate_series(timestamp '2020-01-01 00:00:00'
-                     , timestamp '2020-01-01 23:59:59'
-                     , interval  '1 SECOND') dayTime)
+FROM   generate_series('2020-01-01 00:00:00'::timestamp
+                     , '2020-01-01 23:59:59'::timestamp
+                     , '1 SECOND'::interval) dayTime)
 );
 
 --***************************       DML - EDW                               *******************************
