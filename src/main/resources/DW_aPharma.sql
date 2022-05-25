@@ -9,7 +9,9 @@ DROP TABLE "DW_aPHarma".fact_sensor_reading;
 DROP TABLE "DW_aPHarma".dim_rooms;
 DROP TABLE "DW_aPHarma".dim_sensors;
 DROP TABLE "DW_aPHarma".dim_date;
-DROP TABLE "DW_aPHarma".dim_time;*/
+DROP TABLE "DW_aPHarma".dim_time;
+  DROP TABLE genDate;
+DROP TABLE genTime;*/
 
 --Create staging for Dim_Room
 CREATE TABLE IF NOT EXISTS "stage_aPharma".dim_rooms (
