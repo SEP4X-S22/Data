@@ -1,17 +1,17 @@
 --***************************       DDL; Create Tables for Staging      *******************************
 /***    RESET STAGE    ***/
--- DROP TABLE "stage_aPharma".fact_sensor_reading;
--- DROP TABLE "stage_aPharma".dim_rooms;
--- DROP TABLE "stage_aPharma".dim_sensors;
---
--- /***    RESET DW    ***/
--- DROP TABLE "DW_aPHarma".fact_sensor_reading;
--- DROP TABLE "DW_aPHarma".dim_rooms;
--- DROP TABLE "DW_aPHarma".dim_sensors;
--- DROP TABLE "DW_aPHarma".dim_date;
--- DROP TABLE "DW_aPHarma".dim_time;
--- DROP TABLE genDate;
--- DROP TABLE genTime;
+/*DROP TABLE "stage_aPharma".fact_sensor_reading;
+DROP TABLE "stage_aPharma".dim_rooms;
+DROP TABLE "stage_aPharma".dim_sensors;
+
+/***    RESET DW    ***/
+DROP TABLE "DW_aPHarma".fact_sensor_reading;
+DROP TABLE "DW_aPHarma".dim_rooms;
+DROP TABLE "DW_aPHarma".dim_sensors;
+DROP TABLE "DW_aPHarma".dim_date;
+DROP TABLE "DW_aPHarma".dim_time;
+DROP TABLE genDate;
+DROP TABLE genTime;*/
 
 --Create staging for Dim_Room
 CREATE TABLE IF NOT EXISTS "stage_aPharma".dim_rooms (
@@ -249,7 +249,7 @@ FROM genDate;
 --Insert into Dim_Time
 INSERT INTO "DW_aPHarma".dim_time(T_ID, Time, Second ,Minute ,Hour)
 SELECT
-       (SELECT to_char((Time), 'HH24MISS'))::integer,
+       (SELECT to_char((Time), 'SSSS'))::integer,
        Time,
        EXTRACT(Second FROM Time),
        EXTRACT(Minute FROM Time),
@@ -289,7 +289,7 @@ SELECT
        dr.R_ID,
        ds.S_ID,
        (SELECT to_char((select timestamp :: date), 'YYYYMMDD')::integer),
-       (SELECT to_char((select timestamp :: time), 'HH24MISS')::integer),
+       (SELECT to_char((select timestamp :: time), 'SSSS')::integer),
        fsr.readingvalue,
        fsr.isovermax,
        fsr.isundermin
