@@ -15,31 +15,31 @@ DROP TABLE genTime;*/
 
 --Create staging for Dim_Room
 CREATE TABLE IF NOT EXISTS "stage_aPharma".dim_rooms (
- RoomId VARCHAR(16) PRIMARY KEY
+ Room_Id VARCHAR(16) PRIMARY KEY
 );
 
 --Create staging for Dim_Sensor
 CREATE TABLE IF NOT EXISTS "stage_aPharma".dim_sensors (
- SensorId INT PRIMARY KEY,
- sensorType INT,
- minValue INT,
- maxValue INT
+ Sensor_Id INT PRIMARY KEY,
+ sensor_Type INT,
+ min_Value INT,
+ max_Value INT
 );
 
 --Create staging for Fact_SensorReading
 CREATE TABLE IF NOT EXISTS "stage_aPharma".fact_sensor_reading (
- ReadingId SERIAL PRIMARY KEY,
- RoomId VARCHAR(16) NOT NULL,
- SensorId INT NOT NULL,
- readingValue DOUBLE PRECISION,
+ Reading_Id SERIAL PRIMARY KEY,
+ Room_Id VARCHAR(16) NOT NULL,
+ Sensor_Id INT NOT NULL,
+ reading_Value DOUBLE PRECISION,
  timestamp TIMESTAMP,
- isOverMax BOOLEAN,
- isUnderMin BOOLEAN
+ is_Over_Max BOOLEAN,
+ is_Under_Min BOOLEAN
 );
 
 --SET FOREIGN KEYS FOR STAGE_fact_sensor_reading
-ALTER TABLE "stage_aPharma".fact_sensor_reading ADD CONSTRAINT FK_Stage_Fact_SensorReading_0 FOREIGN KEY (RoomId) REFERENCES "stage_aPharma".dim_rooms (RoomId);
-ALTER TABLE "stage_aPharma".fact_sensor_reading ADD CONSTRAINT FK_Stage_Fact_SensorReading_1 FOREIGN KEY (SensorId) REFERENCES "stage_aPharma".dim_sensors (SensorId);
+ALTER TABLE "stage_aPharma".fact_sensor_reading ADD CONSTRAINT FK_Stage_Fact_SensorReading_0 FOREIGN KEY (Room_Id) REFERENCES "stage_aPharma".dim_rooms (Room_Id);
+ALTER TABLE "stage_aPharma".fact_sensor_reading ADD CONSTRAINT FK_Stage_Fact_SensorReading_1 FOREIGN KEY (Sensor_Id) REFERENCES "stage_aPharma".dim_sensors (Sensor_Id);
 
 
 
@@ -47,16 +47,16 @@ ALTER TABLE "stage_aPharma".fact_sensor_reading ADD CONSTRAINT FK_Stage_Fact_Sen
 
 -- Room; Load to Stage
 INSERT INTO "stage_aPharma".dim_rooms
-    (RoomId)
+    (Room_Id)
     SELECT id
 FROM public.rooms;
 
 --Sensors; Load to Stage
 INSERT INTO "stage_aPharma".dim_sensors
-    (SensorId,
-     sensorType,
-     minValue,
-     maxValue)
+    (Sensor_Id,
+     sensor_Type,
+     min_Value,
+     max_Value)
     SELECT
             id,
             sensor_type,
@@ -67,9 +67,9 @@ FROM public.sensors;
 
 --Readings; Load to Stage
 INSERT INTO "stage_aPharma".fact_sensor_reading
-    (roomid,
-     sensorid,
-     readingvalue,
+    (room_id,
+     sensor_id,
+     reading_value,
      timestamp)
      SELECT
 
@@ -86,59 +86,59 @@ inner join public.sensors s on r.sensor_id = s.id ;
 -- set constraint if null for each sensorType
 --Humidity (PERCENTAGE)
 UPDATE "stage_aPharma".dim_sensors
-SET minValue = 30
-WHERE sensortype = 0 AND minValue = 0;
+SET min_Value = 30
+WHERE sensor_type = 0 AND min_Value = 0;
 
 UPDATE "stage_aPharma".dim_sensors
-SET maxValue = 60
-WHERE sensortype = 0 AND maxValue = 0;
+SET max_Value = 60
+WHERE sensor_type = 0 AND max_Value = 0;
 
 --CO2 (PPM)
 UPDATE "stage_aPharma".dim_sensors
-SET minValue = 250
-WHERE sensortype = 1 AND minValue = 0;
+SET min_Value = 250
+WHERE sensor_type = 1 AND min_Value = 0;
 
 UPDATE "stage_aPharma".dim_sensors
-SET maxValue = 1000
-WHERE sensortype = 1 AND maxValue = 0;
+SET max_Value = 1000
+WHERE sensor_type = 1 AND max_Value = 0;
 
 --Light (LUX)
 UPDATE "stage_aPharma".dim_sensors
-SET minValue = 300
-WHERE sensortype = 2 AND minValue = 0;
+SET min_Value = 300
+WHERE sensor_type = 2 AND min_Value = 0;
 
 UPDATE "stage_aPharma".dim_sensors
-SET maxValue = 500
-WHERE sensortype = 2 AND maxValue = 0;
+SET max_Value = 500
+WHERE sensor_type = 2 AND max_Value = 0;
 
 --Temperature (CELSIUS)
 UPDATE "stage_aPharma".dim_sensors
-SET minValue = 15
-WHERE sensortype = 3 AND minValue = 0;
+SET min_Value = 15
+WHERE sensor_type = 3 AND min_Value = 0;
 
 UPDATE "stage_aPharma".dim_sensors
-SET maxValue = 30
-WHERE sensortype = 3 AND maxValue = 0;
+SET max_Value = 30
+WHERE sensor_type = 3 AND max_Value = 0;
 
 
 -- set isOverMax and isUnderMin
 UPDATE "stage_aPharma".fact_sensor_reading
-SET isovermax = '0'
-WHERE isovermax IS  NULL;
+SET is_over_max = '0'
+WHERE is_over_max IS  NULL;
 
 UPDATE "stage_aPharma".fact_sensor_reading
-SET isundermin = '0'
-WHERE isundermin IS NULL;
+SET is_under_min = '0'
+WHERE is_under_min IS NULL;
 
 UPDATE "stage_aPharma".fact_sensor_reading fsr
-SET isovermax = '1'
+SET is_over_max = '1'
 FROM "stage_aPharma".dim_sensors s
-WHERE readingvalue > s.maxValue AND fsr.sensorid = s.sensorid;
+WHERE reading_value > s.max_Value AND fsr.sensor_id = s.sensor_id;
 
 UPDATE "stage_aPharma".fact_sensor_reading fsr
-SET isundermin = '1'
+SET is_under_min = '1'
 FROM "stage_aPharma".dim_sensors s
-WHERE readingvalue < s.minValue  AND fsr.sensorid = s.sensorid;
+WHERE reading_value < s.min_Value  AND fsr.sensor_id = s.sensor_id;
 
 --***************************       DDl; EDW                                *******************************
 
@@ -146,16 +146,16 @@ WHERE readingvalue < s.minValue  AND fsr.sensorid = s.sensorid;
 --Create dw for Dim_Room
 CREATE TABLE IF NOT EXISTS "DW_aPHarma".dim_rooms (
  R_ID SERIAL PRIMARY KEY,
- RoomId VARCHAR(16)
+ Room_Id VARCHAR(16)
 );
 
 --Create dw for Dim_Sensor
 CREATE TABLE IF NOT EXISTS "DW_aPHarma".dim_sensors (
  S_ID SERIAL PRIMARY KEY,
- SensorId INT,
- sensorType INT,
- minValue INT,
- maxValue INT
+ Sensor_Id INT,
+ sensor_Type INT,
+ min_Value INT,
+ max_Value INT
 );
 
 --Create dw for Dim_Date
@@ -186,9 +186,9 @@ CREATE TABLE IF NOT EXISTS "DW_aPHarma".fact_sensor_reading (
  S_ID INT NOT NULL,
  D_ID INT NOT NULL,
  T_ID INT NOT NULL,
- readingValue DOUBLE PRECISION,
- isOverMax BOOLEAN default false,
- isUnderMin BOOLEAN default false
+ reading_Value DOUBLE PRECISION,
+ is_Over_Max BOOLEAN default false,
+ is_Under_Min BOOLEAN default false
 );
 
 --SET FOREIGN KEYS FOR dw_fact_sensor_reading
@@ -258,22 +258,22 @@ FROM genTime;
 
 --Inserting the rooms
 INSERT INTO "DW_aPHarma".dim_rooms
-    (roomid)
+    (room_id)
 SELECT
-       roomid
+       room_id
 FROM "stage_aPharma".dim_rooms;
 
 --Inserting the sensors
 INSERT INTO "DW_aPHarma".dim_sensors
-    ( sensorid,
-     sensortype,
-     minvalue,
-     maxvalue)
+    ( sensor_id,
+     sensor_type,
+     min_value,
+     max_value)
 SELECT
-       sensorid,
-       sensortype,
-       minvalue,
-       maxvalue
+       sensor_id,
+       sensor_type,
+       min_value,
+       max_value
 FROM "stage_aPharma".dim_sensors;
 
 --Inserting into Fact table
@@ -282,20 +282,20 @@ INSERT INTO "DW_aPHarma".fact_sensor_reading
      s_id,
      d_id,
      t_id,
-     readingvalue,
-     isovermax,
-     isundermin)
+     reading_value,
+     is_over_max,
+     is_under_min)
 SELECT
        dr.R_ID,
        ds.S_ID,
        (SELECT to_char((select timestamp :: date), 'YYYYMMDD')::integer),
        (SELECT to_char((select timestamp :: time), 'SSSS')::integer),
-       fsr.readingvalue,
-       fsr.isovermax,
-       fsr.isundermin
+       fsr.reading_value,
+       fsr.is_over_max,
+       fsr.is_under_min
 FROM "stage_aPharma".fact_sensor_reading fsr
-JOIN "DW_aPHarma".dim_sensors ds on ds.sensorid = fsr.sensorid
-JOIN "DW_aPHarma".dim_rooms dr on dr.roomid = fsr.roomid;
+JOIN "DW_aPHarma".dim_sensors ds on ds.sensor_id = fsr.sensor_id
+JOIN "DW_aPHarma".dim_rooms dr on dr.room_id = fsr.room_id;
 
 
 --DROP TEMP TABLE
