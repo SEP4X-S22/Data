@@ -49,10 +49,11 @@ public class ReadingDAO implements iReadingDAO
 	 @param hum Integer value of reading from the Humidity sensor
 	 @param temp Integer value of reading from the Temperature sensor
 	 @param co2 Integer value of reading from the CO2 sensor
+	 @param light Integer value of reading from the Light sensor
 	 @param timestamp String representing the timestamp of when the data was collected
 	 @param roomId String ID of the Room object the Sensor whose Reading this is
 	 */
-	public void storeNewEntry(int hum, double temp, int co2, String timestamp, String roomId)
+	public void storeNewEntry(int hum, double temp, int co2, int light, String timestamp, String roomId)
 	{
 		Room room = new Room();
 		room.setId(roomId);
@@ -62,6 +63,7 @@ public class ReadingDAO implements iReadingDAO
 		Reading humidity = new Reading(hum, timestamp);
 		Reading temperature = new Reading(temp, timestamp);
 		Reading co2Reading = new Reading(co2, timestamp);
+		Reading lightReading = new Reading(light, timestamp);
 		
 		for (SensorDTO s: sensors)
 		{
@@ -91,6 +93,11 @@ public class ReadingDAO implements iReadingDAO
 					humidity.setSensor(sensor);
 				}
 				break;
+
+				case Light:
+				{
+					lightReading.setSensor(sensor);
+				}
 			}
 		}
 		roomRepo.save(room);

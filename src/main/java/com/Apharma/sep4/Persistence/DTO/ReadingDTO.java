@@ -26,8 +26,13 @@ public class ReadingDTO
 		this.readingValue = readingValue;
 		this.timestamp = timestamp;
 	}
-	
-	public int getId()
+
+  public ReadingDTO()
+  {
+
+  }
+
+  public int getId()
 	{
 		return id;
 	}
