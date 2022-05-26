@@ -1,7 +1,7 @@
-package com.Apharma.sep4.Persistence.DAO.DataWarehouse;
+package com.Apharma.sep4.Persistence.DataWarehouse.DataWarehouseDAO;
 
-import com.Apharma.sep4.Persistence.DAO.DataWarehouse.DbUtils.DataMapper;
-import com.Apharma.sep4.Persistence.DAO.DataWarehouse.DbUtils.DatabaseHelper;
+import com.Apharma.sep4.Persistence.DataWarehouse.Utility.DataMapper;
+import com.Apharma.sep4.Persistence.DataWarehouse.Utility.DatabaseHelper;
 import com.Apharma.sep4.Persistence.DTO.ReadingDTO;
 
 import javax.annotation.Resource;

@@ -1,13 +1,12 @@
-package com.Apharma.sep4.Persistence.DAO;
+package com.Apharma.sep4.Persistence.DatabaseDAO;
 
 import com.Apharma.sep4.Persistence.DTO.SensorDTO;
 import com.Apharma.sep4.Model.Reading;
 import com.Apharma.sep4.Model.Room;
 import com.Apharma.sep4.Model.Sensor;
-import com.Apharma.sep4.WebAPI.Repos.RoomRepo;
-import com.Apharma.sep4.WebAPI.Repos.SensorRepo;
+import com.Apharma.sep4.Persistence.Repos.RoomRepo;
+import com.Apharma.sep4.Persistence.Repos.SensorRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 

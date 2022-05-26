@@ -1,4 +1,4 @@
-package com.Apharma.sep4.Persistence.DAO;
+package com.Apharma.sep4.Persistence.DatabaseDAO;
 
 /**
  Interface with method needed to store new Reading entries into the database.

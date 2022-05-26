@@ -1,9 +1,8 @@
 package com.Apharma.sep4.WebAPI.Controllers;
 
 import com.Apharma.sep4.MiddlePoint.MiddlePointDecoder;
-import com.Apharma.sep4.Persistence.DTO.SensorConstraintsDTO;
 import com.Apharma.sep4.Persistence.DTO.SensorDTO;
-import com.Apharma.sep4.WebAPI.Repos.SensorRepo;
+import com.Apharma.sep4.Persistence.Repos.SensorRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

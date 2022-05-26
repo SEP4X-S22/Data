@@ -1,7 +1,7 @@
 package com.Apharma.sep4.WebAPI.Controllers;
 
 import com.Apharma.sep4.Persistence.DTO.RoomDTO;
-import com.Apharma.sep4.WebAPI.Repos.RoomRepo;
+import com.Apharma.sep4.Persistence.Repos.RoomRepo;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 

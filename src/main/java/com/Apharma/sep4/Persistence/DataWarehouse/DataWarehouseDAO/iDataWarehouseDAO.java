@@ -1,4 +1,4 @@
-package com.Apharma.sep4.Persistence.DAO.DataWarehouse;
+package com.Apharma.sep4.Persistence.DataWarehouse.DataWarehouseDAO;
 
 import com.Apharma.sep4.Persistence.DTO.ReadingDTO;
 

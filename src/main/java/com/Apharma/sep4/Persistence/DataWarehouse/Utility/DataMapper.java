@@ -1,4 +1,4 @@
-package com.Apharma.sep4.Persistence.DAO.DataWarehouse.DbUtils;
+package com.Apharma.sep4.Persistence.DataWarehouse.Utility;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 import java.sql.ResultSet;
