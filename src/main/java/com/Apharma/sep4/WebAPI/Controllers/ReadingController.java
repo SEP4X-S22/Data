@@ -11,9 +11,11 @@ import java.util.List;
 
 /**
  Controller class for handling requests to the API that deal with Readings.
+ Placeholder to see if Android needs this method in the end.
  
  @author 4X Data team
- @version 1.0 - 24.05.2022
+ @version 2.0 - 26.05.2022
+ @implNote Removed unused endpoint. - Aldís Eir Hansen & Claudiu Cordunianu
  */
 @RestController
 public class ReadingController
@@ -37,22 +39,9 @@ public class ReadingController
 	 @param sensorType Enum of SensorType
 	 @return List of ReadingDTO objects from the ReadingRepo
 	 */
-	@GetMapping("/rooms/{roomId}/sensors/{sensorType}")
+	@GetMapping("/readings/{roomId}/{sensorType}")
 	private List<ReadingDTO> getSensorReading(@PathVariable String roomId, @PathVariable Sensor.SensorType sensorType)
 	{
 		return readingRepo.getReadingsForRoomIdAndSensorType(roomId, sensorType);
-	}
-	
-	/**
-	 Method exposing the endpoint for getting the most recent ReadingDTO object from a certain type of Sensor in a Room.
-	 
-	 @param roomId String of a Room ID
-	 @param sensorType Enum of SensorType
-	 @return Newest ReadingDTO object from the ReadingRepo
-	 */
-	@GetMapping("/rooms/{roomId}/current/{sensorType}")
-	private ReadingDTO getCurrentReading(@PathVariable String roomId, @PathVariable Sensor.SensorType sensorType)
-	{
-		return readingRepo.getCurrentReading(roomId, sensorType);
 	}
 }
