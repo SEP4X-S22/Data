@@ -1,11 +1,14 @@
 package com.Apharma.sep4.Persistence.DAO;
 
+import org.springframework.stereotype.Component;
+
 /**
  Interface with method to update entities of the 'Sensors' table in the database.
  
  @author 4X Data team
  @version 1.0 - 23.05.2022
  */
+@Component
 public interface iSensorDAO
 {
 	/**

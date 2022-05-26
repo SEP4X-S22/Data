@@ -1,7 +1,7 @@
 package com.Apharma.sep4.MiddlePoint;
 
-import com.Apharma.sep4.Persistence.DAO.ReadingDAO;
 import com.Apharma.sep4.Model.DownlinkPayload;
+import com.Apharma.sep4.Persistence.DAO.iReadingDAO;
 import com.Apharma.sep4.Run.WebSocketClient;
 import com.Apharma.sep4.WebAPI.Repos.SensorRepo;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -27,7 +27,7 @@ public class MiddlePointDecoder
 {
   private JSONObject receivedPayload = null;
   @Autowired
-  private ReadingDAO readingDAO;
+  private iReadingDAO readingDAO;
   private String telegram = null;
 	private WebSocketClient client;
   @Autowired

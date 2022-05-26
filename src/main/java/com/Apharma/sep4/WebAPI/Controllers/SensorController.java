@@ -59,22 +59,10 @@ public class SensorController
 	 @param roomId String of the Room ID
 	 @return String of a List of Sensors represented by SensorDTO objects from the SensorRepo
 	 */
-	@GetMapping("/rooms/{roomId}/sensors")
+	@GetMapping("/sensors/{roomId}")
 	private List<SensorDTO> getRoomSensors(@PathVariable String roomId)
 	{
 		return sensorRepo.getRoomSensors(roomId);
-	}
-	
-	/**
-	 Method exposing the endpoint for getting the minimum and maximum threshold constraints for a specific Sensor.
-	 
-	 @param sensorId Integer of the Sensor ID
-	 @return String of a SensorConstraintDTO object from the SensorRepo
-	 */
-	@GetMapping("/sensor/{sensorId}")
-	private SensorConstraintsDTO getSensorConstraints(@PathVariable int sensorId)
-	{
-		return sensorRepo.getSensorConstraints(sensorId);
 	}
 	
 	/**
@@ -84,7 +72,7 @@ public class SensorController
 	 @param min Integer of the new minimum threshold constraint
 	 @param max Integer of the new maximum threshold constraint
 	 */
-	@PatchMapping("/sensor/constraints")
+	@PatchMapping("/sensors/constraints")
 	private void setSensorConstraints(@RequestParam int id, @RequestParam int min, @RequestParam int max)
 	{
 		middlePointDecoder.createTelegram(id, min, max);

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
  @author 4X Data team
  @version 1.0 - 23.05.2022
  */
-@Component
+
 public class SensorDAO implements iSensorDAO
 {
 	@Autowired

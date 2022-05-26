@@ -31,7 +31,7 @@ public class DataWarehouseDAO implements iDataWarehouseDAO
     ReadingDTO newReading = new ReadingDTO();
     newReading.setId(id);
     newReading.setReadingValue(readingValue);
-    newReading.setTimeStamp(timeStamp);
+    newReading.setTimestamp(timeStamp);
 
     return newReading;
   }
@@ -49,18 +49,20 @@ public class DataWarehouseDAO implements iDataWarehouseDAO
             + " FROM fact_sensor_reading r "
             + " JOIN dim_sensors s"
             + " ON r.s_id = s.s_id"
-            + " WHERE d_id = ? AND s.sensorid = ?", date, sensorId));
+            + " WHERE d_id = ? AND s.sensor_id = ?", date, sensorId));
     return readings;
   }
 
-  public ArrayList<ReadingDTO> getReadingsPerWeek(int week, int year) {
+  public ArrayList<ReadingDTO> getReadingsPerWeek(int week, int year, int sensorId) {
     readings.clear();
     readings.addAll(helper().map(new ReadingMapper(),
         "SELECT *"
             + " FROM fact_sensor_reading r"
-            + " LEFT JOIN dim_date d"
-            + " ON d.d_id = r.d_id "
-            + " WHERE week = ? AND year = ?", week, year));
+            + " LEFT JOIN dim_date d "
+            + " ON d.d_id = r.d_id"
+            + " LEFT JOIN dim_sensors s"
+            + " ON r.s_id = s.s_id "
+            + " WHERE week = ? AND year = ? AND s.sensor_id = ?", week, year, sensorId));
     return readings;
   }
 
@@ -69,7 +71,7 @@ public class DataWarehouseDAO implements iDataWarehouseDAO
     public ReadingDTO create(ResultSet rs) throws SQLException
     {
       int id = rs.getInt("fs_id");
-      double readingValue = rs.getDouble("readingvalue"); //refactor naming in the tables : reading_value and others
+      double readingValue = rs.getDouble("reading_value"); //refactor naming in the tables : reading_value and others
       String timeStamp = rs.getString("t_id");
       return createReading(id,readingValue, timeStamp);
     }

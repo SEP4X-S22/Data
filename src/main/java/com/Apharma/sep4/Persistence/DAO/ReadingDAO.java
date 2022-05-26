@@ -18,7 +18,7 @@ import java.util.List;
  @version 2.1 - 25.05.2022
  @implNote Added light sensor reading. - Claudiu Cordunianu
  */
-@Component
+
 public class ReadingDAO implements iReadingDAO
 {
 	@Autowired

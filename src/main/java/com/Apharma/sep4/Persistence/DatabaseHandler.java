@@ -5,6 +5,8 @@ import com.Apharma.sep4.Model.Room;
 import com.Apharma.sep4.Model.Sensor;
 import com.Apharma.sep4.Persistence.DAO.DataWarehouse.DataWarehouseDAO;
 import com.Apharma.sep4.Persistence.DAO.DataWarehouse.iDataWarehouseDAO;
+import com.Apharma.sep4.Persistence.DAO.ReadingDAO;
+import com.Apharma.sep4.Persistence.DAO.iReadingDAO;
 import com.Apharma.sep4.Run.WebSocketClient;
 import com.Apharma.sep4.WebAPI.Repos.RoomRepo;
 import com.Apharma.sep4.WebAPI.Repos.ReadingRepo;
@@ -136,6 +138,13 @@ public class DatabaseHandler
   public iDataWarehouseDAO warehouseDAO()
   {
     return new DataWarehouseDAO();
+  }
+
+  @Bean
+  @Scope("singleton")
+  public iReadingDAO readingDAO()
+  {
+    return new ReadingDAO();
   }
   
   @Bean(name = "jdbcUrl")

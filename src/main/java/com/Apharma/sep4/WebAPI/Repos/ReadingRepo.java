@@ -13,8 +13,8 @@ import java.util.List;
  Repository interface for querying the Reading entity table in the database.
  
  @author 4X Data team
- @version 2.0 - 18.05.2022
- @implNote Added query method for getting the latest Reading. - Claudiu Cordunianu
+ @version 2.1 - 26.05.2022
+ @implNote Removed unused method. - 4X Data team
  */
 @Repository
 public interface ReadingRepo extends JpaRepository<Reading, Integer>
@@ -32,19 +32,5 @@ public interface ReadingRepo extends JpaRepository<Reading, Integer>
       + " JOIN s.readings r "
       + " WHERE s.sensorType = ?2 AND ro.id = ?1")
   List<ReadingDTO> getReadingsForRoomIdAndSensorType(String roomId, Sensor.SensorType sensorType);
-  
-  /**
-   Abstract method for querying the database for the latest Reading from a Room's Sensor of a specific type.
-   
-   @param roomId String ID of the Room
-   @param sensorType Enum of the SensorType
-   @return Reading represented by a ReadingDTO object
-   */
-  @Query("SELECT new com.Apharma.sep4.Persistence.DTO.ReadingDTO(r.id, r.readingValue, r.timeStamp)"
-      + " FROM Room ro"
-      + " JOIN ro.sensors s"
-      + " JOIN s.readings r"
-      + " WHERE s.sensorType = ?2 AND ro.id = ?1 AND r.id = (SELECT max(r.id) FROM s.readings r)")
-  ReadingDTO getCurrentReading(String roomId, Sensor.SensorType sensorType);
 }
 
