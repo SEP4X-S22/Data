@@ -38,7 +38,8 @@ import java.util.Date;
 public class DatabaseHandler
 {
   private static final Logger log = LoggerFactory.getLogger(DatabaseHandler.class);
-  
+
+  //Args not used currently, might need to be purged before handin
   @Bean CommandLineRunner initDatabase(RoomRepo roomRepo, SensorRepo sensorRepo, UserRepo userRepo, ReadingRepo readingRepo)
   {
     return args -> System.out.println("Database init...");

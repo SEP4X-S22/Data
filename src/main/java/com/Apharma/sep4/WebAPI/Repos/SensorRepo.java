@@ -1,6 +1,5 @@
 package com.Apharma.sep4.WebAPI.Repos;
 
-import com.Apharma.sep4.Persistence.DTO.SensorConstraintsDTO;
 import com.Apharma.sep4.Persistence.DTO.SensorDTO;
 import com.Apharma.sep4.Model.Sensor;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,8 +15,8 @@ import java.util.List;
  Repository interface for querying the Sensor entity table in the database.
  
  @author 4X Data team
- @version 2.0 - 23.05.2022
- @implNote Added method to query Room ID from Sensor ID. - Claudiu Cordunianu
+ @version 2.1 - 26.05.2022
+ @implNote Removed unused method. - Claudiu Cordunianu & Aldís Eir Hansen
  */
 @Transactional
 @Repository public interface SensorRepo extends JpaRepository<Sensor, Integer>
@@ -33,17 +32,6 @@ import java.util.List;
           + " JOIN s.readings r"
           + " WHERE room_id = ?1 AND r.id = (SELECT max(r.id) FROM s.readings r)")
   List<SensorDTO> getRoomSensors(String roomId);
-  
-  /**
-   Abstract method for querying the database for a specific Sensors' minimum and maximum threshold constraints.
-   
-   @param sensorId Integer ID of the Sensor
-   @return Sensor represented by SensorConstraintDTO object
-   */
-  @Query("SELECT new com.Apharma.sep4.Persistence.DTO.SensorConstraintsDTO(id, constraintMinValue, constraintMaxValue) "
-          + " FROM Sensor"
-          + " WHERE id = ?1")
-  SensorConstraintsDTO getSensorConstraints(int sensorId);
   
   /**
    Abstract method for querying the database to modify a specific Sensors' minimum and maximum threshold constraints.
