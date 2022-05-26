@@ -64,11 +64,11 @@
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
         </dependency>
-		<dependency>
-			<groupId>com.Apharma</groupId>
-			<artifactId>sep4</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>com.Apharma</groupId>-->
+<!--			<artifactId>sep4</artifactId>-->
+<!--			<version>0.0.1-SNAPSHOT</version>-->
+<!--		</dependency>-->
 
 	</dependencies>
 

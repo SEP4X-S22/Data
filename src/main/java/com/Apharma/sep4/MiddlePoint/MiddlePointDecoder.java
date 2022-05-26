@@ -29,10 +29,11 @@ public class MiddlePointDecoder
   @Autowired
   private SensorRepo sensorRepo;
 
-  private String log = "<html> <head> <h3 style=\"color:#003B00;\"> PAYLOAD LOGGER </h3></head><body style=\"background-color:black;\"> "; //-----------------------------
+  private String log = "";
 
 
-  
+
+
   public MiddlePointDecoder(@Lazy WebSocketClient client)
   {
 		this.client = client;
@@ -146,20 +147,28 @@ public class MiddlePointDecoder
     String good = formatter(payload);
     String date = tsToString(System.currentTimeMillis() + 2*3600*1000);
     String prefix;
-    if(payload.contains("\"tx\""))
+    if(payload.contains("\"rx\"") || payload.contains("\"tx\"") || payload.contains("\"txd\""))
     {
-      prefix = "DOWNLINK Message (From Android)";
+      if (payload.contains("\"tx\""))
+      {
+        prefix = "DOWNLINK Message (From Android)";
+      }
+      else if (payload.contains("\"txd\""))
+      {
+        prefix = "UPLINK Message (Confirmation message for Android)";
+      }
+      else{
+        prefix = "UPLINK Message (From IoT)";
+      }
+      log = log + "<br> <b style=\"color:#008F11;\">" + date + " - " + prefix + "</b><p style=\"color:#00FF41;\">" + good + "</p>  ";
     }
-    else
-    {
-      prefix = "UPLINK Message (From IoT)";
-    }
-    log = log + "<br> <b style=\"color:#008F11;\">" + date + " - " + prefix + "</b><p style=\"color:#00FF41;\">" + good + "</p></body></html>  ";
   }
 
   public String getLog()
   {
-    return log;
+    return
+        "<html> <head> <h3 style=\"color:#003B00;\"> PAYLOAD LOGGER </h3></head><body style=\"background-color:black;\"> "
+            + log + "</body></html>";
   }
 
   public String formatter(String payload){
@@ -170,7 +179,7 @@ public class MiddlePointDecoder
   }
 
   public void clearLog(){
-    log = "<html><head> <h3 style=\"color:#003B00;\"> PAYLOAD LOGGER </h3></head><body style=background-color:black;> ";
+    log = "";
   }
   //--------------------------------
 }

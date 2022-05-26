@@ -36,7 +36,6 @@ public class ReadingDAO implements iReadingDAO
 		Reading temperature = new Reading(temp, timestamp);
 		Reading co2Reading = new Reading(co2, timestamp);
 		Reading lightReading = new Reading(light, timestamp);
-		System.out.println(lightReading);
 		
 		for (SensorDTO s: sensors)
 		{

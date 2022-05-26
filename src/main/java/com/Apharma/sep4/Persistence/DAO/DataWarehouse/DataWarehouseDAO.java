@@ -64,8 +64,6 @@ public class DataWarehouseDAO implements iDataWarehouseDAO
     return readings;
   }
 
-
-
   private static class ReadingMapper implements DataMapper<ReadingDTO>
   {
     public ReadingDTO create(ResultSet rs) throws SQLException
