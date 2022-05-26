@@ -27,19 +27,17 @@ import java.util.Date;
  
  @author 4X Data team
  @author Ib Havn
- @version 3.0 - 24.05.2022
- @implNote Removed seeding of dummy data. - 4X Data team
+ @version 3.1 - 25.05.2022
+ @implNote Added DataWarehouseDAO & getters for application properties. - Claudiu Cordunianu
  */
 @Configuration
 @EnableAutoConfiguration
 @ComponentScan
 public class DatabaseHandler
 {
-  private static final Logger log = LoggerFactory.getLogger(
-      DatabaseHandler.class);
+  private static final Logger log = LoggerFactory.getLogger(DatabaseHandler.class);
   
-  @Bean CommandLineRunner initDatabase(RoomRepo roomRepo, SensorRepo sensorRepo,
-                                       UserRepo userRepo, ReadingRepo readingRepo)
+  @Bean CommandLineRunner initDatabase(RoomRepo roomRepo, SensorRepo sensorRepo, UserRepo userRepo, ReadingRepo readingRepo)
   {
     return args -> System.out.println("Database init...");
   }
@@ -128,6 +126,11 @@ public class DatabaseHandler
 }
   //-------- Data warehouse DAO config ---------//
   
+  /**
+   Method for getting a DataWarehouseDAO.
+   
+   @return Instance of DataWarehousDAO singleton
+   */
   @Bean
   @Scope("singleton")
   public iDataWarehouseDAO warehouseDAO()

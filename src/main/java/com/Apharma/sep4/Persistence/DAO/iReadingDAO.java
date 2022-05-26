@@ -4,9 +4,8 @@ package com.Apharma.sep4.Persistence.DAO;
  Interface with method needed to store new Reading entries into the database.
  
  @author 4X Data team
- @version 2.1 - 25.05.2022
- @implNote Changed name from 'Dao' of data type T to iReadingDAO on addition of another DAO that didn't need the same
- method. - Aldís Eir Hansen
+ @version 2.2 - 25.05.2022
+ @implNote Added light sensor reading. - Claudiu Cordunianu
  */
 public interface iReadingDAO
 {

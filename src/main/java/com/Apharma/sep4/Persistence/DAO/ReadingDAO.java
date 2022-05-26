@@ -15,8 +15,8 @@ import java.util.List;
  Implementation class of iReadingDAO.
  
  @author 4X Data team
- @version 2.1 - 24.05.2022
- @implNote Moved duplicate code outside switch statement. - Aldís Eir Hansen
+ @version 2.1 - 25.05.2022
+ @implNote Added light sensor reading. - Claudiu Cordunianu
  */
 @Component
 public class ReadingDAO implements iReadingDAO
