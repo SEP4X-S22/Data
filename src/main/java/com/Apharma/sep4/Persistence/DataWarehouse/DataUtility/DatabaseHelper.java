@@ -1,4 +1,4 @@
-package com.Apharma.sep4.Persistence.DataWarehouse.Utility;
+package com.Apharma.sep4.Persistence.DataWarehouse.DataUtility;
 
 import org.postgresql.Driver;
 

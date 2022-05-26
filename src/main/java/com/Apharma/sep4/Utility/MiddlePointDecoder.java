@@ -1,8 +1,7 @@
-package com.Apharma.sep4.MiddlePoint;
+package com.Apharma.sep4.Utility;
 
 import com.Apharma.sep4.Model.DownlinkPayload;
 import com.Apharma.sep4.Persistence.DatabaseDAO.iReadingDAO;
-import com.Apharma.sep4.Run.WebSocketClient;
 import com.Apharma.sep4.Persistence.Repos.SensorRepo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

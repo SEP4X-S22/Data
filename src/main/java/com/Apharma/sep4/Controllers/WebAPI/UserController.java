@@ -1,4 +1,4 @@
-package com.Apharma.sep4.WebAPI.Controllers;
+package com.Apharma.sep4.Controllers.WebAPI;
 
 import org.springframework.web.bind.annotation.RestController;
 

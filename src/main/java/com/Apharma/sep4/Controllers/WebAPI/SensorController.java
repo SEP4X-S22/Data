@@ -1,6 +1,6 @@
-package com.Apharma.sep4.WebAPI.Controllers;
+package com.Apharma.sep4.Controllers.WebAPI;
 
-import com.Apharma.sep4.MiddlePoint.MiddlePointDecoder;
+import com.Apharma.sep4.Utility.MiddlePointDecoder;
 import com.Apharma.sep4.Persistence.DTO.SensorDTO;
 import com.Apharma.sep4.Persistence.Repos.SensorRepo;
 import org.springframework.beans.factory.annotation.Autowired;

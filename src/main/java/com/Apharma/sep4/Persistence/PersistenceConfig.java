@@ -7,7 +7,7 @@ import com.Apharma.sep4.Persistence.DataWarehouse.DataWarehouseDAO;
 import com.Apharma.sep4.Persistence.DataWarehouse.iDataWarehouseDAO;
 import com.Apharma.sep4.Persistence.DatabaseDAO.ReadingDAO;
 import com.Apharma.sep4.Persistence.DatabaseDAO.iReadingDAO;
-import com.Apharma.sep4.Run.WebSocketClient;
+import com.Apharma.sep4.Utility.WebSocketClient;
 import com.Apharma.sep4.Persistence.Repos.RoomRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

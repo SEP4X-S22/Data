@@ -1,6 +1,5 @@
-package com.Apharma.sep4.Run;
+package com.Apharma.sep4.Utility;
 
-import com.Apharma.sep4.MiddlePoint.MiddlePointDecoder;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;

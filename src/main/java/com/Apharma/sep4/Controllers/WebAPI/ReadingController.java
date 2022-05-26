@@ -1,4 +1,4 @@
-package com.Apharma.sep4.WebAPI.Controllers;
+package com.Apharma.sep4.Controllers.WebAPI;
 
 import com.Apharma.sep4.Model.Sensor;
 import com.Apharma.sep4.Persistence.DTO.ReadingDTO;
