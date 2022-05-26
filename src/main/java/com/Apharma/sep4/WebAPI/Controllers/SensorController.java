@@ -54,7 +54,7 @@ public class SensorController
 	}
 	
 	/**
-	 Method exposing the endpoint for getting a List of Sensors that are in a specific Room.
+	 Method exposing the endpoint for getting Sensors that are in a specific Room.
 	 
 	 @param roomId String of the Room ID
 	 @return String of a List of Sensors represented by SensorDTO objects from the SensorRepo

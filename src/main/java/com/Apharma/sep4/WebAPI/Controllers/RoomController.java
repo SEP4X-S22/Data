@@ -11,7 +11,7 @@ import java.util.List;
  Controller class for handling requests to the API that deal with Rooms.
  
  @author 4X Data team
- @version 2.0 - 24.05.2022
+ @version 2.1 - 26.05.2022
  @implNote Extracted methods irrelevant to Rooms. - Aldís Eir Hansen & Alexandru Malai
  */
 @RestController
@@ -41,7 +41,7 @@ public class RoomController
 	}
   
   /**
-   Method exposing the endpoint for getting a List of all RoomDTO objects.
+   Method exposing the endpoint for getting all RoomDTO objects.
    
    @return List of RoomDTO objects from the RoomRepo
    */

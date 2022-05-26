@@ -12,7 +12,7 @@ import java.util.ArrayList;
  Controller class for handling requests to the DWH that deal with historical Readings.
  
  @author 4X Data team
- @version 1.0 - 25.05.2022
+ @version 1.1 - 26.05.2022
  */
 @RestController
 public class DWHController
@@ -29,12 +29,27 @@ public class DWHController
 		this.warehouseDAO = dataWarehouseDAO;
 	}
 
+	/**
+	 Method exposing the endpoint for getting ReadingDTO objects from a Sensor for a specific day.
+	 
+	 @param date Integer of timestamp
+	 @param sensorId Integer of Sensor ID
+	 @return List of ReadingDTO objects from the DWH
+	 */
 	@GetMapping("/readings/day")
 	private ArrayList<ReadingDTO> getReadingsPerDay(@RequestParam int date, @RequestParam int sensorId)
 	{
 		return warehouseDAO.getReadingsPerDay(date, sensorId);
 	}
-
+	
+	/**
+	 Method exposing the endpoint for getting ReadingDTO objects from a Sensor of a specific week in a year.
+	 
+	 @param week Integer of week number
+	 @param year Integer of year
+	 @param sensorId Integer of Sensor ID
+	 @return List of ReadingDTO objects from the DWH
+	 */
 	@GetMapping("/readings/week")
 	private ArrayList<ReadingDTO> getReadingsPerWeek(@RequestParam int week, @RequestParam int year, @RequestParam int sensorId)
 	{

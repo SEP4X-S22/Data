@@ -14,7 +14,7 @@ import java.util.List;
  Placeholder to see if Android needs this method in the end.
  
  @author 4X Data team
- @version 2.0 - 26.05.2022
+ @version 2.1 - 26.05.2022
  @implNote Removed unused endpoint. - Aldís Eir Hansen & Claudiu Cordunianu
  */
 @RestController
@@ -33,7 +33,7 @@ public class ReadingController
 	}
 	
 	/**
-	 Method exposing the endpoint for getting a List of ReadingDTO objects from a certain type of Sensor in a Room.
+	 Method exposing the endpoint for getting ReadingDTO objects from a certain type of Sensor in a Room.
 	 
 	 @param roomId String of a Room ID
 	 @param sensorType Enum of SensorType
