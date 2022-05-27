@@ -1,6 +1,8 @@
 --***************************       TESTING                                 *******************************
+--Comparing number of entries in the src db and in the stage for each dimension and the fact
 
---Testing for dim_rooms count
+
+--Testing for dim_rooms count, comparing number of entries in the src db and in the stage
 SELECT count(*) AS count_on_source_rooms
     FROM "public".rooms;
 

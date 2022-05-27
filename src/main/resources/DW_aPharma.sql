@@ -88,7 +88,7 @@ INNER JOIN public.sensors s ON r.sensor_id = s.id ;
 
 --***************************       Cleanse Data                            *******************************
 
--- set constraint if null for each sensorType
+-- set constraint to recommended value if zero for each sensorType
 --Humidity (PERCENTAGE)
 UPDATE "stage_aPharma".dim_sensors
 SET min_Value = 30
@@ -144,6 +144,8 @@ UPDATE "stage_aPharma".fact_sensor_reading fsr
 SET is_under_min = '1'
 FROM "stage_aPharma".dim_sensors s
 WHERE reading_value < s.min_Value  AND fsr.sensor_id = s.sensor_id;
+
+
 
 --***************************       DDl; EDW                                *******************************
 
@@ -307,4 +309,3 @@ JOIN "DW_aPHarma".dim_rooms dr on dr.room_id = fsr.room_id;
 --DROP TEMP TABLE
 DROP TABLE genDate;
 DROP TABLE genTime;
-
