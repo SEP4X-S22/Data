@@ -233,6 +233,12 @@ public class MiddlePointDecoder
     log = "";
   }
   
+  /**
+   Method to prettify raw data in the log without browser extensions.
+   
+   @param payload String of Json data
+   @return formatted String for the log
+   */
   private String formatter(String payload)
   {
     payload = payload.replace("{", "{<br>&nbsp&nbsp&nbsp&nbsp");
