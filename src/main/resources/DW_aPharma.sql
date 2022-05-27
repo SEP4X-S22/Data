@@ -305,19 +305,19 @@ DROP TABLE genTime;
 
 --***************************       TESTING                                 *******************************
 
---Testing for fact rooms
+--Testing for dim_rooms count
 SELECT count(*) AS CountOnSource_Rooms
     FROM "public".rooms;
 
 SELECT count(*) AS CountOnDW_dim_Rooms
-    FROM "DW_aPHarma".fact_sensor_reading;
+    FROM "DW_aPHarma".dim_rooms;
 
---Testing for fact sensors
+--Testing for dim_sensors count
 SELECT count(*) AS CountOnSource_Sensors
-    FROM "public".readings;
+    FROM "public".sensors;
 
 SELECT count(*) AS CountOnDW_dim_sensors
-    FROM "DW_aPHarma".fact_sensor_reading;
+    FROM "DW_aPHarma".dim_sensors;
 
 --Testing for fact count
 SELECT count(*) AS CountOnSource_Readings
