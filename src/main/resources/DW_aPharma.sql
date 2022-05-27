@@ -8,10 +8,14 @@ DROP TABLE "stage_aPharma".dim_sensors;
 DROP TABLE "DW_aPHarma".fact_sensor_reading;
 DROP TABLE "DW_aPHarma".dim_rooms;
 DROP TABLE "DW_aPHarma".dim_sensors;
-DROP TABLE "DW_aPHarma".dim_date;
-DROP TABLE "DW_aPHarma".dim_time;
-DROP TABLE genDate;
-DROP TABLE genTime;*/
+/*DROP TABLE genDate;
+DROP TABLE genTime;*/*/
+
+--Create schema for staging
+CREATE SCHEMA IF NOT EXISTS  stage_aPHarma;
+
+--Create schema for DataWarehouse
+CREATE SCHEMA IF NOT EXISTS DW_aPHama;
 
 --Create staging for Dim_Room
 CREATE TABLE IF NOT EXISTS "stage_aPharma".dim_rooms (
@@ -28,7 +32,7 @@ CREATE TABLE IF NOT EXISTS "stage_aPharma".dim_sensors (
 
 --Create staging for Fact_SensorReading
 CREATE TABLE IF NOT EXISTS "stage_aPharma".fact_sensor_reading (
- Reading_Id SERIAL PRIMARY KEY,
+ Reading_Id INT PRIMARY KEY,
  Room_Id VARCHAR(16) NOT NULL,
  Sensor_Id INT NOT NULL,
  reading_Value DOUBLE PRECISION,
@@ -67,18 +71,19 @@ FROM public.sensors;
 
 --Readings; Load to Stage
 INSERT INTO "stage_aPharma".fact_sensor_reading
-    (room_id,
+    (reading_id,
+     room_id,
      sensor_id,
      reading_value,
      timestamp)
      SELECT
-
+            r.id,
             s.room_id,
             r.sensor_id,
             r.reading_value,
             to_timestamp(r.time_stamp, 'DD/MM/YYYY | HH24:MI:SS')
 FROM public.readings r
-inner join public.sensors s on r.sensor_id = s.id ;
+INNER JOIN public.sensors s ON r.sensor_id = s.id ;
 
 
 --***************************       Cleanse Data                            *******************************
@@ -168,7 +173,6 @@ CREATE TABLE IF NOT EXISTS "DW_aPHarma".dim_date (
  Year INT
 );
 
---drop table dw_dim_time;
 --Create dw for Dim_Time
 CREATE TABLE IF NOT EXISTS "DW_aPHarma".dim_time (
  T_ID INT NOT NULL PRIMARY KEY,
@@ -178,7 +182,6 @@ CREATE TABLE IF NOT EXISTS "DW_aPHarma".dim_time (
  Hour INT
 );
 
--- drop table "DW_aPHarma".fact_sensor_reading;
 --Create dw for Fact_SensorReading
 CREATE TABLE IF NOT EXISTS "DW_aPHarma".fact_sensor_reading (
  FS_ID SERIAL PRIMARY KEY,
@@ -186,6 +189,7 @@ CREATE TABLE IF NOT EXISTS "DW_aPHarma".fact_sensor_reading (
  S_ID INT NOT NULL,
  D_ID INT NOT NULL,
  T_ID INT NOT NULL,
+ Reading_Id INT,
  reading_Value DOUBLE PRECISION,
  is_Over_Max BOOLEAN default false,
  is_Under_Min BOOLEAN default false
@@ -218,11 +222,13 @@ INSERT INTO genDate(
 
 
 --***************************       GENERATE TIMES                          *******************************
+--Create Temp Table for times
 CREATE TEMP TABLE genTime
 (
     Time Time
 );
 
+-- 1 day of times
 INSERT INTO genTime(
     (SELECT dayTime::time
 FROM   generate_series('2020-01-01 00:00:00'::timestamp
@@ -243,8 +249,6 @@ SELECT
        EXTRACT(month FROM DATE),
        EXTRACT(year FROM DATE)
 FROM genDate;
-
-
 
 --Insert into Dim_Time
 INSERT INTO "DW_aPHarma".dim_time(T_ID, Time, Second ,Minute ,Hour)
@@ -282,6 +286,7 @@ INSERT INTO "DW_aPHarma".fact_sensor_reading
      s_id,
      d_id,
      t_id,
+     reading_id,
      reading_value,
      is_over_max,
      is_under_min)
@@ -290,6 +295,7 @@ SELECT
        ds.S_ID,
        (SELECT to_char((select timestamp :: date), 'YYYYMMDD')::integer),
        (SELECT to_char((select timestamp :: time), 'SSSS')::integer),
+       fsr.reading_id,
        fsr.reading_value,
        fsr.is_over_max,
        fsr.is_under_min
@@ -301,28 +307,39 @@ JOIN "DW_aPHarma".dim_rooms dr on dr.room_id = fsr.room_id;
 --DROP TEMP TABLE
 DROP TABLE genDate;
 DROP TABLE genTime;
---***************************       INCREMENTAL LOAD / SCHEDULING           *******************************
+
 
 --***************************       TESTING                                 *******************************
 
 --Testing for dim_rooms count
-SELECT count(*) AS CountOnSource_Rooms
+SELECT count(*) AS count_on_source_rooms
     FROM "public".rooms;
 
-SELECT count(*) AS CountOnDW_dim_Rooms
+SELECT count(*) AS count_on_stage_dim_rooms
+    FROM "stage_aPharma".dim_rooms;
+
+SELECT count(*) AS count_on_DW_dim_rooms
     FROM "DW_aPHarma".dim_rooms;
 
+
 --Testing for dim_sensors count
-SELECT count(*) AS CountOnSource_Sensors
+SELECT count(*) AS count_on_source_sensors
     FROM "public".sensors;
 
-SELECT count(*) AS CountOnDW_dim_sensors
+SELECT count(*) AS count_on_stage_dim_sensors
+    FROM "stage_aPharma".dim_sensors;
+
+SELECT count(*) AS count_on_DW_dim_sensors
     FROM "DW_aPHarma".dim_sensors;
 
+
 --Testing for fact count
-SELECT count(*) AS CountOnSource_Readings
+SELECT count(*) AS count_on_source_Readings
     FROM "public".readings;
 
-SELECT count(*) AS CountOnDW_fact_reading
+SELECT count(*) AS count_on_stage_fact_reading
+    FROM "stage_aPharma".fact_sensor_reading;
+
+SELECT count(*) AS count_on_DW_fact_reading
     FROM "DW_aPHarma".fact_sensor_reading;
 
