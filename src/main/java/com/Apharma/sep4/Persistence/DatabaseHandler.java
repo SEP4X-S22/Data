@@ -11,7 +11,6 @@ import com.Apharma.sep4.Run.WebSocketClient;
 import com.Apharma.sep4.WebAPI.Repos.RoomRepo;
 import com.Apharma.sep4.WebAPI.Repos.ReadingRepo;
 import com.Apharma.sep4.WebAPI.Repos.SensorRepo;
-import com.Apharma.sep4.WebAPI.Repos.UserRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -40,7 +39,7 @@ public class DatabaseHandler
   private static final Logger log = LoggerFactory.getLogger(DatabaseHandler.class);
 
   //Args not used currently, might need to be purged before handin
-  @Bean CommandLineRunner initDatabase(RoomRepo roomRepo, SensorRepo sensorRepo, UserRepo userRepo, ReadingRepo readingRepo)
+  @Bean CommandLineRunner initDatabase(RoomRepo roomRepo, SensorRepo sensorRepo, ReadingRepo readingRepo)
   {
     return args -> System.out.println("Database init...");
   }
