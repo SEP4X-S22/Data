@@ -1,5 +1,13 @@
+/*
+Script to test the Data Warehouse
+by comparing number of entries in the src db,
+the stage and the Data Warehouse for each dimension and the fact
+
+
+Written by the Data Team from Group 4X
+*/
+
 --***************************       TESTING                                 *******************************
---Comparing number of entries in the src db and in the stage for each dimension and the fact
 
 
 --Testing for dim_rooms count, comparing number of entries in the src db and in the stage

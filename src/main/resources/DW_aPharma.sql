@@ -1,15 +1,11 @@
---***************************       DDL; Create Tables for Staging      *******************************
-/***    RESET STAGE    ***/
-/*DROP TABLE "stage_aPharma".fact_sensor_reading;
-DROP TABLE "stage_aPharma".dim_rooms;
-DROP TABLE "stage_aPharma".dim_sensors;
+/*
+Script to Extract, Transform and Load data from the aPHARma source database to a data warrehouse
 
-/***    RESET DW    ***/
-DROP TABLE "DW_aPHarma".fact_sensor_reading;
-DROP TABLE "DW_aPHarma".dim_rooms;
-DROP TABLE "DW_aPHarma".dim_sensors;
-/*DROP TABLE genDate;
-DROP TABLE genTime;*/*/
+
+Written by the Data Team from Group 4X
+*/
+
+--***************************       DDL; Create Tables for Staging      *******************************
 
 --Create schema for staging
 CREATE SCHEMA IF NOT EXISTS  stage_aPHarma;

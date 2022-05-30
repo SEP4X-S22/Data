@@ -1,5 +1,15 @@
+/*
+Script to update the Data Warehouse
+by inserting new values into the staging schema,
+cleansing the data and adding the new values to the Data Warehouse
+
+Written by the Data Team from Group 4X
+*/
+
+--Add cron scheduler
 CREATE EXTENSION IF NOT EXISTS pg_cron;
 
+--Create update function
 CREATE OR REPLACE FUNCTION update_DW()
 
 RETURNS VOID
