@@ -1,6 +1,5 @@
 package com.Apharma.sep4;
 
-import com.Apharma.sep4.Model.Reading;
 import com.Apharma.sep4.Model.Room;
 import com.Apharma.sep4.Model.Sensor;
 import org.junit.jupiter.api.BeforeEach;

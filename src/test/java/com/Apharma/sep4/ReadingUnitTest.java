@@ -5,8 +5,6 @@ import com.Apharma.sep4.Model.Sensor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ReadingUnitTest
@@ -14,9 +12,6 @@ public class ReadingUnitTest
 	private Sensor sensor1;
 	private Sensor sensor2;
 	private Reading reading1;
-	private Reading reading2;
-	private Reading reading3;
-	private ArrayList<Reading> readings;
 	
 	@BeforeEach public void setUp()
 	{
@@ -24,9 +19,6 @@ public class ReadingUnitTest
 		sensor2 = new Sensor();
 		
 		reading1 = new Reading();
-		reading2 = new Reading();
-		reading3 = new Reading();
-		readings = new ArrayList<>();
 	}
 	
 	@Test void getConstructorSetValueAndTimestamp()
