@@ -1,3 +1,11 @@
+CREATE EXTENSION IF NOT EXISTS pg_cron;
+
+CREATE OR REPLACE FUNCTION update_DW()
+
+RETURNS VOID
+AS
+$$
+BEGIN
 --***************************       Insert new values into Stage                            *******************************
 
 -- Room; Load to Stage
@@ -114,7 +122,7 @@ SELECT
 FROM "stage_aPharma".dim_rooms
 WHERE room_id IN (SELECT room_id
 FROM "stage_aPharma".dim_rooms EXCEPT SELECT room_id
-FROM "DW_aPHarma".dim_rooms);;
+FROM "DW_aPHarma".dim_rooms);
 
 --Inserting the sensors
 INSERT INTO "DW_aPHarma".dim_sensors
@@ -158,3 +166,14 @@ WHERE fsr.reading_id IN (SELECT reading_id
 FROM "stage_aPharma".fact_sensor_reading EXCEPT SELECT reading_id
 FROM "DW_aPHarma".fact_sensor_reading);
 
+END;
+$$ LANGUAGE plpgsql;
+
+-- Schedule update for 01:00
+SELECT cron.schedule('DW_aPHARma_UPDATES_@0100', '0 1 * * *', $$select update_DWH();$$);
+-- Schedule update for 07:00
+SELECT cron.schedule('DW_aPHARma_UPDATES_@0700', '0 7 * * *', $$select update_DWH();$$);
+-- Schedule update for 13:00
+SELECT cron.schedule('DW_aPHARma_UPDATES_@1300', '0 13 * * *', $$select update_DWH();$$);
+-- Schedule update for 20:00
+SELECT cron.schedule('DW_aPHARma_UPDATES_@2000', '0 20 * * *', $$select update_DWH();$$);
