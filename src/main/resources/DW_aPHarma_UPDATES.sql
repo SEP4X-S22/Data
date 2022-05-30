@@ -180,10 +180,10 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- Schedule update for 01:00
-SELECT cron.schedule('DW_aPHARma_UPDATES_@0100', '0 1 * * *', $$select update_DWH();$$);
+SELECT cron.schedule('DW_aPHARma_UPDATES_@0100', '0 1 * * *', $$select update_DW();$$);
 -- Schedule update for 07:00
-SELECT cron.schedule('DW_aPHARma_UPDATES_@0700', '0 7 * * *', $$select update_DWH();$$);
+SELECT cron.schedule('DW_aPHARma_UPDATES_@0700', '0 7 * * *', $$select update_DW();$$);
 -- Schedule update for 13:00
-SELECT cron.schedule('DW_aPHARma_UPDATES_@1300', '0 13 * * *', $$select update_DWH();$$);
+SELECT cron.schedule('DW_aPHARma_UPDATES_@1300', '0 13 * * *', $$select update_DW();$$);
 -- Schedule update for 20:00
-SELECT cron.schedule('DW_aPHARma_UPDATES_@2000', '0 20 * * *', $$select update_DWH();$$);
+SELECT cron.schedule('DW_aPHARma_UPDATES_@2000', '0 20 * * *', $$select update_DW();$$);
