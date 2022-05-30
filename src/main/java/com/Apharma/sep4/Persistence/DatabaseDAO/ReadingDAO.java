@@ -22,7 +22,6 @@ public class ReadingDAO implements iReadingDAO
 {
 	@Autowired
 	private SensorRepo sensorRepo;
-	
 	@Autowired
 	private RoomRepo roomRepo;
 	

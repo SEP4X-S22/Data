@@ -3,22 +3,12 @@ package com.Apharma.sep4.Persistence;
 import com.Apharma.sep4.Model.Reading;
 import com.Apharma.sep4.Model.Room;
 import com.Apharma.sep4.Model.Sensor;
-import com.Apharma.sep4.Persistence.DAO.DataWarehouse.DataWarehouseDAO;
-import com.Apharma.sep4.Persistence.DAO.DataWarehouse.iDataWarehouseDAO;
-import com.Apharma.sep4.Persistence.DAO.ReadingDAO;
-import com.Apharma.sep4.Persistence.DAO.iReadingDAO;
-import com.Apharma.sep4.Run.WebSocketClient;
-import com.Apharma.sep4.WebAPI.Repos.RoomRepo;
-import com.Apharma.sep4.WebAPI.Repos.ReadingRepo;
-import com.Apharma.sep4.WebAPI.Repos.SensorRepo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.Apharma.sep4.Persistence.Repos.RoomRepo;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Scope;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -28,27 +18,23 @@ import java.util.Date;
  
  @author 4X Data team
  @author Ib Havn
- @version 3.1 - 25.05.2022
- @implNote Added DataWarehouseDAO & getters for application properties. - Claudiu Cordunianu
+ @version 4.0 - 30.05.2022
+ @implNote Extracted Bean configurations into a separate class. - 4X Data team
  */
 @Configuration
 @EnableAutoConfiguration
 @ComponentScan
 public class DatabaseHandler
 {
-  private static final Logger log = LoggerFactory.getLogger(DatabaseHandler.class);
-
-  //Args not used currently, might need to be purged before handin
-  @Bean CommandLineRunner initDatabase(RoomRepo roomRepo, SensorRepo sensorRepo, ReadingRepo readingRepo)
+  /**
+   Method that the app runs automatically upon starting. Was used for seeding the database with dummy data for
+   testing purposes.
+   
+   @param roomRepo Instance of RoomRepo to access the database
+   */
+  @Bean CommandLineRunner initDatabase(RoomRepo roomRepo)
   {
-    return args -> System.out.println("Database init...");
-  }
-
-  @Bean
-  public WebSocketClient getWebSocket()
-  {
-    return new WebSocketClient(
-        "wss://iotnet.teracom.dk/app?token=vnoUcQAAABFpb3RuZXQudGVyYWNvbS5ka-iuwG5H1SHPkGogk2YUH3Y=");
+    return args -> System.out.println("Database initialized.");
   }
   
   /**
@@ -126,42 +112,4 @@ public class DatabaseHandler
       roomRepo.save(room);
     }
 }
-  //-------- Data warehouse DAO config ---------//
-  
-  /**
-   Method for getting a DataWarehouseDAO.
-   
-   @return Instance of DataWarehousDAO singleton
-   */
-  @Bean
-  @Scope("singleton")
-  public iDataWarehouseDAO warehouseDAO()
-  {
-    return new DataWarehouseDAO();
-  }
-
-  @Bean
-  @Scope("singleton")
-  public iReadingDAO readingDAO()
-  {
-    return new ReadingDAO();
-  }
-  
-  @Bean(name = "jdbcUrl")
-  public String jdbcUrl()
-  {
-    return "jdbc:postgresql://aajqdx6jxlql49.cuqtxh0uawoy.eu-central-1.rds.amazonaws.com:5432/postgres?currentSchema=\"DW_aPHarma\"";
-  }
-  
-  @Bean(name = "username")
-  public String username()
-  {
-    return "postgres";
-  }
-  
-  @Bean(name = "password")
-  public String password()
-  {
-    return "password";
-  }
 }

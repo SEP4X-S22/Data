@@ -21,13 +21,10 @@ public class DataWarehouseDAO implements iDataWarehouseDAO
 {
 	private DatabaseHelper<ReadingDTO> helper;
 	private ArrayList<ReadingDTO> readings;
-	
 	@Resource(name = "jdbcUrl")
 	private String jdbcUrl;
-	
 	@Resource(name = "username")
 	private String username;
-	
 	@Resource(name = "password")
 	private String password;
 	

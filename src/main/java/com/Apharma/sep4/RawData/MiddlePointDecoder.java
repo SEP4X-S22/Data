@@ -1,4 +1,4 @@
-package com.Apharma.sep4.Utility;
+package com.Apharma.sep4.RawData;
 
 import com.Apharma.sep4.Model.DownlinkPayload;
 import com.Apharma.sep4.Persistence.DatabaseDAO.iReadingDAO;

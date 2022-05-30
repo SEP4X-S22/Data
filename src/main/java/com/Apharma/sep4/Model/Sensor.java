@@ -54,6 +54,8 @@ public class Sensor
 	/**
 	 Setter for the 'room' field, also gets the Room objects field containing its Sensor objects and adds this Sensor
 	 object to that variable.
+	 
+	 @param room Room object to set the field to
 	 */
 	public void setRoom(Room room)
 	{

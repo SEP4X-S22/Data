@@ -1,4 +1,4 @@
-package com.Apharma.sep4.Utility;
+package com.Apharma.sep4.RawData;
 
 import org.json.JSONException;
 import org.json.JSONObject;
