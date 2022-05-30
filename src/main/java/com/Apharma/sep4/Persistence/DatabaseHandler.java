@@ -22,8 +22,6 @@ import java.util.Date;
  @implNote Extracted Bean configurations into a separate class. - 4X Data team
  */
 @Configuration
-@EnableAutoConfiguration
-@ComponentScan
 public class DatabaseHandler
 {
   /**
