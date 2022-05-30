@@ -1,4 +1,4 @@
-package com.Apharma.sep4.WebAPI.Repos;
+package com.Apharma.sep4.Persistence.Repos;
 
 import com.Apharma.sep4.Persistence.DTO.ReadingDTO;
 import com.Apharma.sep4.Model.Reading;

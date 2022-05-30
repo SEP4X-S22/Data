@@ -1,9 +1,8 @@
-package com.Apharma.sep4.MiddlePoint;
+package com.Apharma.sep4.Utility;
 
 import com.Apharma.sep4.Model.DownlinkPayload;
-import com.Apharma.sep4.Persistence.DAO.iReadingDAO;
-import com.Apharma.sep4.Run.WebSocketClient;
-import com.Apharma.sep4.WebAPI.Repos.SensorRepo;
+import com.Apharma.sep4.Persistence.DatabaseDAO.iReadingDAO;
+import com.Apharma.sep4.Persistence.Repos.SensorRepo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONException;
@@ -234,6 +233,12 @@ public class MiddlePointDecoder
     log = "";
   }
   
+  /**
+   Method to prettify raw data in the log without browser extensions.
+   
+   @param payload String of Json data
+   @return formatted String for the log
+   */
   private String formatter(String payload)
   {
     payload = payload.replace("{", "{<br>&nbsp&nbsp&nbsp&nbsp");

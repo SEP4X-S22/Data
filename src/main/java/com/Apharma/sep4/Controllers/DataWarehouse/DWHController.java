@@ -1,6 +1,6 @@
-package com.Apharma.sep4.WebAPI.Controllers.DataWarehouse;
+package com.Apharma.sep4.Controllers.DataWarehouse;
 
-import com.Apharma.sep4.Persistence.DAO.DataWarehouse.iDataWarehouseDAO;
+import com.Apharma.sep4.Persistence.DataWarehouse.iDataWarehouseDAO;
 import com.Apharma.sep4.Persistence.DTO.ReadingDTO;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;

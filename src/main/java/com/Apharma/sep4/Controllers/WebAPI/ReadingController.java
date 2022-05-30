@@ -1,8 +1,8 @@
-package com.Apharma.sep4.WebAPI.Controllers;
+package com.Apharma.sep4.Controllers.WebAPI;
 
 import com.Apharma.sep4.Model.Sensor;
 import com.Apharma.sep4.Persistence.DTO.ReadingDTO;
-import com.Apharma.sep4.WebAPI.Repos.ReadingRepo;
+import com.Apharma.sep4.Persistence.Repos.ReadingRepo;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
