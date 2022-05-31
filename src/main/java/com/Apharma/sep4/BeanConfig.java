@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Scope;
 @ComponentScan
 public class BeanConfig
 {
-	private final String dataWarehouse = "jdbc:postgresql://aajqdx6jxlql49.cuqtxh0uawoy.eu-central-1.rds.amazonaws.com:5432/postgres?currentSchema=\"DW_aPHarma\"";
+	private final String dataWarehouse = "jdbc:postgresql://aajqdx6jxlql49.cuqtxh0uawoy.eu-central-1.rds.amazonaws.com:5432/postgres?currentSchema=dw_apharma";
 	private final String loriotServer = "wss://iotnet.teracom.dk/app?token=vnoUcQAAABFpb3RuZXQudGVyYWNvbS5ka" +
 																					"-iuwG5H1SHPkGogk2YUH3Y=";
 	@Bean
