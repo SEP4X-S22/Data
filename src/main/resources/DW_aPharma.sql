@@ -1,5 +1,5 @@
 /*
-Script to Extract, Transform and Load data from the aPHARma source database to a data warrehouse
+Script to Extract, Transform and Load data from the aPHARma source database to a data warehouse
 
 
 Written by the Data Team from Group 4X
@@ -8,18 +8,18 @@ Written by the Data Team from Group 4X
 --***************************       DDL; Create Tables for Staging      *******************************
 
 --Create schema for staging
-CREATE SCHEMA IF NOT EXISTS  stage_aPHarma;
+CREATE SCHEMA IF NOT EXISTS  stage_apharma;
 
 --Create schema for DataWarehouse
-CREATE SCHEMA IF NOT EXISTS DW_aPHama;
+CREATE SCHEMA IF NOT EXISTS dw_apharma;
 
 --Create staging for Dim_Room
-CREATE TABLE IF NOT EXISTS "stage_aPharma".dim_rooms (
+CREATE TABLE IF NOT EXISTS stage_apharma.dim_rooms(
  Room_Id VARCHAR(16) PRIMARY KEY
 );
 
 --Create staging for Dim_Sensor
-CREATE TABLE IF NOT EXISTS "stage_aPharma".dim_sensors (
+CREATE TABLE IF NOT EXISTS stage_apharma.dim_sensors (
  Sensor_Id INT PRIMARY KEY,
  sensor_Type INT,
  min_Value INT,
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS "stage_aPharma".dim_sensors (
 );
 
 --Create staging for Fact_SensorReading
-CREATE TABLE IF NOT EXISTS "stage_aPharma".fact_sensor_reading (
+CREATE TABLE IF NOT EXISTS "stage_apharma".fact_sensor_reading (
  Reading_Id INT PRIMARY KEY,
  Room_Id VARCHAR(16) NOT NULL,
  Sensor_Id INT NOT NULL,
@@ -38,21 +38,21 @@ CREATE TABLE IF NOT EXISTS "stage_aPharma".fact_sensor_reading (
 );
 
 --SET FOREIGN KEYS FOR STAGE_fact_sensor_reading
-ALTER TABLE "stage_aPharma".fact_sensor_reading ADD CONSTRAINT FK_Stage_Fact_SensorReading_0 FOREIGN KEY (Room_Id) REFERENCES "stage_aPharma".dim_rooms (Room_Id);
-ALTER TABLE "stage_aPharma".fact_sensor_reading ADD CONSTRAINT FK_Stage_Fact_SensorReading_1 FOREIGN KEY (Sensor_Id) REFERENCES "stage_aPharma".dim_sensors (Sensor_Id);
+ALTER TABLE "stage_apharma".fact_sensor_reading ADD CONSTRAINT FK_Stage_Fact_SensorReading_0 FOREIGN KEY (Room_Id) REFERENCES "stage_apharma".dim_rooms (Room_Id);
+ALTER TABLE "stage_apharma".fact_sensor_reading ADD CONSTRAINT FK_Stage_Fact_SensorReading_1 FOREIGN KEY (Sensor_Id) REFERENCES "stage_apharma".dim_sensors (Sensor_Id);
 
 
 
 --***************************       DML; LOAD TO STAGE                      *******************************
 
 -- Room; Load to Stage
-INSERT INTO "stage_aPharma".dim_rooms
+INSERT INTO "stage_apharma".dim_rooms
     (Room_Id)
     SELECT id
 FROM public.rooms;
 
 --Sensors; Load to Stage
-INSERT INTO "stage_aPharma".dim_sensors
+INSERT INTO "stage_apharma".dim_sensors
     (Sensor_Id,
      sensor_Type,
      min_Value,
@@ -66,7 +66,7 @@ FROM public.sensors;
 
 
 --Readings; Load to Stage
-INSERT INTO "stage_aPharma".fact_sensor_reading
+INSERT INTO "stage_apharma".fact_sensor_reading
     (reading_id,
      room_id,
      sensor_id,
@@ -86,59 +86,59 @@ INNER JOIN public.sensors s ON r.sensor_id = s.id ;
 
 -- set constraint to recommended value if zero for each sensorType
 --Humidity (PERCENTAGE)
-UPDATE "stage_aPharma".dim_sensors
+UPDATE "stage_apharma".dim_sensors
 SET min_Value = 30
 WHERE sensor_type = 0 AND min_Value = 0;
 
-UPDATE "stage_aPharma".dim_sensors
+UPDATE "stage_apharma".dim_sensors
 SET max_Value = 60
 WHERE sensor_type = 0 AND max_Value = 0;
 
 --CO2 (PPM)
-UPDATE "stage_aPharma".dim_sensors
+UPDATE "stage_apharma".dim_sensors
 SET min_Value = 250
 WHERE sensor_type = 1 AND min_Value = 0;
 
-UPDATE "stage_aPharma".dim_sensors
+UPDATE "stage_apharma".dim_sensors
 SET max_Value = 1000
 WHERE sensor_type = 1 AND max_Value = 0;
 
 --Light (LUX)
-UPDATE "stage_aPharma".dim_sensors
+UPDATE "stage_apharma".dim_sensors
 SET min_Value = 300
 WHERE sensor_type = 2 AND min_Value = 0;
 
-UPDATE "stage_aPharma".dim_sensors
+UPDATE "stage_apharma".dim_sensors
 SET max_Value = 500
 WHERE sensor_type = 2 AND max_Value = 0;
 
 --Temperature (CELSIUS)
-UPDATE "stage_aPharma".dim_sensors
+UPDATE "stage_apharma".dim_sensors
 SET min_Value = 15
 WHERE sensor_type = 3 AND min_Value = 0;
 
-UPDATE "stage_aPharma".dim_sensors
+UPDATE "stage_apharma".dim_sensors
 SET max_Value = 30
 WHERE sensor_type = 3 AND max_Value = 0;
 
 
 -- set isOverMax and isUnderMin
-UPDATE "stage_aPharma".fact_sensor_reading
+UPDATE "stage_apharma".fact_sensor_reading
 SET is_over_max = '0'
 WHERE is_over_max IS  NULL;
 
-UPDATE "stage_aPharma".fact_sensor_reading
+UPDATE "stage_apharma".fact_sensor_reading
 SET is_under_min = '0'
 WHERE is_under_min IS NULL;
 
-UPDATE "stage_aPharma".fact_sensor_reading fsr
+UPDATE "stage_apharma".fact_sensor_reading fsr
 SET is_over_max = '1'
-FROM "stage_aPharma".dim_sensors s
+FROM "stage_apharma".dim_sensors s
 WHERE reading_value > s.max_Value AND fsr.sensor_id = s.sensor_id;
 
-UPDATE "stage_aPharma".fact_sensor_reading fsr
+UPDATE "stage_apharma".fact_sensor_reading fsr
 SET is_under_min = '1'
-FROM "stage_aPharma".dim_sensors s
+FROM "stage_apharma".dim_sensors s
 WHERE reading_value < s.min_Value  AND fsr.sensor_id = s.sensor_id;
 
 
@@ -147,13 +147,13 @@ WHERE reading_value < s.min_Value  AND fsr.sensor_id = s.sensor_id;
 
 
 --Create dw for Dim_Room
-CREATE TABLE IF NOT EXISTS "DW_aPHarma".dim_rooms (
+CREATE TABLE IF NOT EXISTS "dw_apharma".dim_rooms (
  R_ID SERIAL PRIMARY KEY,
  Room_Id VARCHAR(16)
 );
 
 --Create dw for Dim_Sensor
-CREATE TABLE IF NOT EXISTS "DW_aPHarma".dim_sensors (
+CREATE TABLE IF NOT EXISTS "dw_apharma".dim_sensors (
  S_ID SERIAL PRIMARY KEY,
  Sensor_Id INT,
  sensor_Type INT,
@@ -162,7 +162,7 @@ CREATE TABLE IF NOT EXISTS "DW_aPHarma".dim_sensors (
 );
 
 --Create dw for Dim_Date
-CREATE TABLE IF NOT EXISTS "DW_aPHarma".dim_date (
+CREATE TABLE IF NOT EXISTS "dw_apharma".dim_date (
  D_ID INT NOT NULL PRIMARY KEY,
  Date DATE,
  Day INT,
@@ -172,7 +172,7 @@ CREATE TABLE IF NOT EXISTS "DW_aPHarma".dim_date (
 );
 
 --Create dw for Dim_Time
-CREATE TABLE IF NOT EXISTS "DW_aPHarma".dim_time (
+CREATE TABLE IF NOT EXISTS "dw_apharma".dim_time (
  T_ID INT NOT NULL PRIMARY KEY,
  Time TIME,
  Second INT,
@@ -181,7 +181,7 @@ CREATE TABLE IF NOT EXISTS "DW_aPHarma".dim_time (
 );
 
 --Create dw for Fact_SensorReading
-CREATE TABLE IF NOT EXISTS "DW_aPHarma".fact_sensor_reading (
+CREATE TABLE IF NOT EXISTS "dw_apharma".fact_sensor_reading (
  FS_ID SERIAL PRIMARY KEY,
  R_ID INT NOT NULL,
  S_ID INT NOT NULL,
@@ -194,10 +194,10 @@ CREATE TABLE IF NOT EXISTS "DW_aPHarma".fact_sensor_reading (
 );
 
 --SET FOREIGN KEYS FOR dw_fact_sensor_reading
-ALTER TABLE "DW_aPHarma".fact_sensor_reading ADD CONSTRAINT FK_dw_Fact_SensorReading_0 FOREIGN KEY (R_ID) REFERENCES "DW_aPHarma".dim_rooms (R_ID);
-ALTER TABLE "DW_aPHarma".fact_sensor_reading ADD CONSTRAINT FK_dw_Fact_SensorReading_1 FOREIGN KEY (S_ID) REFERENCES "DW_aPHarma".dim_sensors (S_ID);
-ALTER TABLE "DW_aPHarma".fact_sensor_reading ADD CONSTRAINT FK_dw_Fact_SensorReading_2 FOREIGN KEY (D_ID) REFERENCES "DW_aPHarma".dim_date (D_ID);
-ALTER TABLE "DW_aPHarma".fact_sensor_reading ADD CONSTRAINT FK_dw_Fact_SensorReading_3 FOREIGN KEY (T_ID) REFERENCES "DW_aPHarma".dim_time (T_ID);
+ALTER TABLE "dw_apharma".fact_sensor_reading ADD CONSTRAINT FK_dw_Fact_SensorReading_0 FOREIGN KEY (R_ID) REFERENCES "dw_apharma".dim_rooms (R_ID);
+ALTER TABLE "dw_apharma".fact_sensor_reading ADD CONSTRAINT FK_dw_Fact_SensorReading_1 FOREIGN KEY (S_ID) REFERENCES "dw_apharma".dim_sensors (S_ID);
+ALTER TABLE "dw_apharma".fact_sensor_reading ADD CONSTRAINT FK_dw_Fact_SensorReading_2 FOREIGN KEY (D_ID) REFERENCES "dw_apharma".dim_date (D_ID);
+ALTER TABLE "dw_apharma".fact_sensor_reading ADD CONSTRAINT FK_dw_Fact_SensorReading_3 FOREIGN KEY (T_ID) REFERENCES "dw_apharma".dim_time (T_ID);
 
 
 
@@ -238,7 +238,7 @@ FROM   generate_series('2020-01-01 00:00:00'::timestamp
 
 
 --Insert into Dim_date
-INSERT INTO "DW_aPHarma".dim_date(D_ID,Date, Day, Week, Month, Year)
+INSERT INTO "dw_apharma".dim_date(D_ID,Date, Day, Week, Month, Year)
 SELECT
        (SELECT to_char((Date), 'YYYYMMDD'))::integer,
        Date,
@@ -249,7 +249,8 @@ SELECT
 FROM genDate;
 
 --Insert into Dim_Time
-INSERT INTO "DW_aPHarma".dim_time(T_ID, Time, Second ,Minute ,Hour)
+
+INSERT INTO "dw_apharma".dim_time(T_ID, Time, Second ,Minute ,Hour)
 SELECT
        (SELECT to_char((Time), 'SSSS'))::integer,
        Time,
@@ -259,14 +260,14 @@ SELECT
 FROM genTime;
 
 --Inserting the rooms
-INSERT INTO "DW_aPHarma".dim_rooms
+INSERT INTO "dw_apharma".dim_rooms
     (room_id)
 SELECT
        room_id
-FROM "stage_aPharma".dim_rooms;
+FROM "stage_apharma".dim_rooms;
 
 --Inserting the sensors
-INSERT INTO "DW_aPHarma".dim_sensors
+INSERT INTO "dw_apharma".dim_sensors
     ( sensor_id,
      sensor_type,
      min_value,
@@ -276,10 +277,10 @@ SELECT
        sensor_type,
        min_value,
        max_value
-FROM "stage_aPharma".dim_sensors;
+FROM "stage_apharma".dim_sensors;
 
 --Inserting into Fact table
-INSERT INTO "DW_aPHarma".fact_sensor_reading
+INSERT INTO "dw_apharma".fact_sensor_reading
     (r_id,
      s_id,
      d_id,
@@ -297,9 +298,9 @@ SELECT
        fsr.reading_value,
        fsr.is_over_max,
        fsr.is_under_min
-FROM "stage_aPharma".fact_sensor_reading fsr
-JOIN "DW_aPHarma".dim_sensors ds on ds.sensor_id = fsr.sensor_id
-JOIN "DW_aPHarma".dim_rooms dr on dr.room_id = fsr.room_id;
+FROM "stage_apharma".fact_sensor_reading fsr
+JOIN "dw_apharma".dim_sensors ds on ds.sensor_id = fsr.sensor_id
+JOIN "dw_apharma".dim_rooms dr on dr.room_id = fsr.room_id;
 
 
 --DROP TEMP TABLE
