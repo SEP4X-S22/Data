@@ -65,7 +65,14 @@ FROM "stage_apharma".fact_sensor_reading);
 
 --***************************       Cleanse Data                            *******************************
 
+--if min value is greater than max value reset to 0
+UPDATE "stage_apharma".dim_sensors
+SET min_Value = 0, max_Value = 0
+WHERE min_Value > max_Value;
+
+
 -- set constraint if null for each sensorType
+
 --Humidity (PERCENTAGE)
 UPDATE "stage_apharma".dim_sensors
 SET min_Value = 30

@@ -84,7 +84,14 @@ INNER JOIN public.sensors s ON r.sensor_id = s.id ;
 
 --***************************       Cleanse Data                            *******************************
 
+--if min value is greater than max value reset to 0
+UPDATE "stage_apharma".dim_sensors
+SET min_Value = 0, max_Value = 0
+WHERE min_Value > max_Value;
+
+
 -- set constraint to recommended value if zero for each sensorType
+
 --Humidity (PERCENTAGE)
 UPDATE "stage_apharma".dim_sensors
 SET min_Value = 30
