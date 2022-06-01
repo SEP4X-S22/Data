@@ -5,6 +5,9 @@ Written as part of a 4<sup>th</sup> semester project in spring of 2022 for softw
 ## a*PHAR*ma<sup>TM</sup>
 The project idea is a climate monitoring system for pharmaceutical storage from afar.
 
+## Video demonstration:
+https://www.youtube.com/watch?v=IkOqduIiaHc
+
 ## Development Team
 The semester project group consisted of 12 people, listed below by subgroups:
 
