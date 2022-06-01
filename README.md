@@ -1,14 +1,9 @@
 # Data
 
-Written as part of a 4<sup>th</sup> semester project in spring of 2022 for software engineering at [VIA university college](https://via.dk), campus Horsens, DK.  
-The project idea is a climate monitoring system for pharmaceutical storage from afar.
+Written as part of a 4<sup>th</sup> semester project in spring of 2022 for software engineering at [VIA university college](https://via.dk), campus Horsens, DK.
 
 ## a*PHAR*ma<sup>TM</sup>
-
-[overview of project]
-
-## Development
-[methodology, processes, languages, technologies, IDEs]
+The project idea is a climate monitoring system for pharmaceutical storage from afar.
 
 ## Development Team
 The semester project group consisted of 12 people, listed below by subgroups:
@@ -22,7 +17,7 @@ The semester project group consisted of 12 people, listed below by subgroups:
 #### Data
 - [Aldís Eir Hansen](https://github.com/AlleyCatRacer) - AlleyCatRacer  
 - [Alexandru Malai](https://github.com/StapanulLumii) - StapanulLimii  
-- [Claudiu Emmanuel Cordunianu](https://github.com/143473) - 143473  
+- [Claudiu Emanuel Cordunianu](https://github.com/143473) - 143473  
 - [Joseph Carroll](https://github.com/carrolljody) - carrolljody  
 
 #### IoT
@@ -32,5 +27,6 @@ The semester project group consisted of 12 people, listed below by subgroups:
 - [Yoana Kostadinova Miteva](https://github.com/YoyoMy) - YoyoMy  
 
 
-### Author Reference
-[references]
+### Author References
+- [Ib Havn](https://github.com/ihavn)  
+- [Ole Ildsgaard Hougaard](https://github.com/olehougaard)
