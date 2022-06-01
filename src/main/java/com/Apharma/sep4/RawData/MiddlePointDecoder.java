@@ -160,7 +160,8 @@ public class MiddlePointDecoder
     this.telegram = telegram;
   }
   
-  private void convertObjectToJson(DownlinkPayload downLinkPayload){
+  private void convertObjectToJson(DownlinkPayload downLinkPayload)
+  {
     String json = null;
     try
     {
